@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SmoothProgressBar">
+        <attr name="spbStyle" format="reference"/>
+        <attr name="spb__color" format="color"/>
+        <attr name="spb__stroke_width" format="dimension"/>
+        <attr name="spb__stroke_separator_length" format="dimension"/>
+        <attr name="spb__sections_count" format="integer"/>
+        <attr name="spb__speed" format="float"/>
+        <attr name="spb__interpolator" format="enum">
+            <enum name="spb__interpolator_accelerate" value="0"/>
+            <enum name="spb__interpolator_linear" value="1"/>
+            <enum name="spb__interpolator_acceleratedecelerate" value="2"/>
+            <enum name="spb__interpolator_decelerate" value="3"/>
+        </attr>
+    </declare-styleable>
+</resources>

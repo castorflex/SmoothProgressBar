@@ -1,0 +1,11 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.SmoothProgressBarDefaults">
+
+    </style>
+
+    <style name="ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal">
+
+    </style>
+
+</resources>
