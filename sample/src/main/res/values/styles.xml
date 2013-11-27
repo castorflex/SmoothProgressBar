@@ -1,7 +1,7 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.SmoothProgressBarDefaults">
-
+    <style name="AppTheme">
+        <item name="spbStyle">@style/SmoothProgressBar</item>
     </style>
 
     <style name="ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal">
