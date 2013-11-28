@@ -2,6 +2,12 @@
 
 Small library allowing you to make a smooth indeterminate progress bar. You can either user your progress bars and set this drawable or use directly the `SmoothProgressBarView`.
 
+Sample app available on the [Play Store]
+
+##How does it work
+
+I made a [blog post] about that.
+
 ##Usage
 
 -	Use directly SmoothProgressBar:
@@ -42,3 +48,8 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
 You can do whatever you want with this stuff.
 If we meet some day, and you think this stuff is worth it, you can buy me a beer in return.
 ```
+
+
+[blog post]: http://antoine-merle.com/blog/2013/11/12/make-your-progressbar-more-smooth/
+
+[Play Store]: https://play.google.com/store/apps/details?id=fr.castorflex.android.smoothprogressbar.sample
