@@ -108,7 +108,6 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     @Override
     public void start() {
         if (isRunning()) return;
-        mRunning = true;
         scheduleSelf(mUpdater, SystemClock.uptimeMillis() + FRAME_DURATION);
         invalidateSelf();
     }
@@ -116,8 +115,14 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     @Override
     public void stop() {
         if (!isRunning()) return;
-        unscheduleSelf(mUpdater);
         mRunning = false;
+        unscheduleSelf(mUpdater);
+    }
+
+    @Override
+    public void scheduleSelf(Runnable what, long when) {
+        mRunning = true;
+        super.scheduleSelf(what, when);
     }
 
     @Override
