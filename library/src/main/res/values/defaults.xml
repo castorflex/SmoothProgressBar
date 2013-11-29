@@ -6,4 +6,5 @@
     <integer name="spb_default_sections_count">4</integer>
     <integer name="spb_default_interpolator">0</integer>
     <item name="spb_default_speed" format="float" type="string">1.0</item>
+    <bool name="spb_default_reversed">false</bool>
 </resources>

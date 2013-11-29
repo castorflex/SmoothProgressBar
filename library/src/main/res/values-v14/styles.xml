@@ -6,5 +6,6 @@
         <item name="spb_speed">@string/spb_default_speed</item>
         <item name="spb_stroke_width">@dimen/spb_default_stroke_width</item>
         <item name="spb_stroke_separator_length">@dimen/spb_default_stroke_separator_length</item>
+        <item name="spb_reversed">@bool/spb_default_reversed</item>
     </style>
 </resources>

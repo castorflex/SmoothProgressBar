@@ -13,5 +13,6 @@
             <enum name="spb_interpolator_acceleratedecelerate" value="2"/>
             <enum name="spb_interpolator_decelerate" value="3"/>
         </attr>
+        <attr name="spb_reversed" format="boolean"/>
     </declare-styleable>
 </resources>

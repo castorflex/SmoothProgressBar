@@ -42,6 +42,7 @@ public class SmoothProgressBar extends ProgressBar {
         int width = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb_stroke_width, res.getDimensionPixelSize(R.dimen.spb_default_stroke_width));
         String strSpeed = a.getString(R.styleable.SmoothProgressBar_spb_speed);
         int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, res.getInteger(R.integer.spb_default_interpolator));
+        boolean reversed = a.getBoolean(R.styleable.SmoothProgressBar_spb_reversed, res.getBoolean(R.bool.spb_default_reversed));
         a.recycle();
 
         Interpolator interpolator;
@@ -66,7 +67,8 @@ public class SmoothProgressBar extends ProgressBar {
                 .interpolator(interpolator)
                 .sectionsCount(sectionsCount)
                 .separatorLength(separatorLength)
-                .width(width);
+                .width(width)
+                .reversed(reversed);
 
         if (strSpeed != null) builder.speed(Float.parseFloat(strSpeed));
 

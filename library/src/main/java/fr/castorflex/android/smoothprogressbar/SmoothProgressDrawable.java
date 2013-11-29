@@ -29,13 +29,15 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private int mSeparatorLength;
     private int mSectionsCount;
     private float mSpeed;
+    private boolean mReversed;
 
-    private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int color, int width, float speed) {
+    private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int color, int width, float speed, boolean reversed) {
         mRunning = false;
         mInterpolator = interpolator;
         mSectionsCount = sectionsCount;
         mSeparatorLength = separatorLength;
         mSpeed = speed;
+        mReversed = reversed;
 
         mPaint = new Paint();
         mPaint.setColor(color);
@@ -51,8 +53,12 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         mBounds = getBounds();
         canvas.clipRect(mBounds);
 
-        drawStrokes(canvas);
+        if(mReversed){
+            canvas.translate(mBounds.width(), 0);
+            canvas.scale(-1, 1);
+        }
 
+        drawStrokes(canvas);
     }
 
     private void drawStrokes(Canvas canvas) {
@@ -153,6 +159,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         private int mSectionsCount;
         private int mColor;
         private float mSpeed;
+        private boolean mReversed;
 
         private int mStrokeSeparatorLength;
         private int mStrokeWidth;
@@ -162,7 +169,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         }
 
         public SmoothProgressDrawable build() {
-            SmoothProgressDrawable ret = new SmoothProgressDrawable(mInterpolator, mSectionsCount, mStrokeSeparatorLength, mColor, mStrokeWidth, mSpeed);
+            SmoothProgressDrawable ret = new SmoothProgressDrawable(mInterpolator, mSectionsCount, mStrokeSeparatorLength, mColor, mStrokeWidth, mSpeed, mReversed);
             return ret;
         }
 
@@ -172,6 +179,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
             mSectionsCount = res.getInteger(R.integer.spb_default_sections_count);
             mColor = res.getColor(R.color.spb_default_color);
             mSpeed = Float.parseFloat(res.getString(R.string.spb_default_speed));
+            mReversed = res.getBoolean(R.bool.spb_default_reversed);
 
             mStrokeSeparatorLength = res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length);
             mStrokeWidth = res.getDimensionPixelOffset(R.dimen.spb_default_stroke_width);
@@ -211,6 +219,11 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         public Builder speed(float speed) {
             if (speed < 0) throw new IllegalArgumentException("Speed must be >= 0");
             mSpeed = speed;
+            return this;
+        }
+
+        public Builder reversed(boolean reversed){
+            mReversed = reversed;
             return this;
         }
     }
