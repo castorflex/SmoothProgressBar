@@ -84,7 +84,7 @@
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:spb__color="#FF4444"
+            app:spb_color="#FF4444"
             android:indeterminate="true"/>
 
         <TextView
@@ -95,7 +95,7 @@
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:spb__speed="0.2"
+            app:spb_speed="0.2"
             android:indeterminate="true"/>
 
         <TextView
@@ -106,7 +106,7 @@
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:spb__stroke_separator_length="12dp"
+            app:spb_stroke_separator_length="12dp"
             android:indeterminate="true"/>
 
         <TextView
@@ -117,7 +117,7 @@
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:spb__sections_count="12"
+            app:spb_sections_count="12"
             android:indeterminate="true"/>
 
     </LinearLayout>

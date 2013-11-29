@@ -36,12 +36,12 @@ public class SmoothProgressBar extends ProgressBar {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SmoothProgressBar, defStyle, 0);
 
 
-        int color = a.getColor(R.styleable.SmoothProgressBar_spb__color, res.getColor(R.color.spb_default_color));
-        int sectionsCount = a.getInteger(R.styleable.SmoothProgressBar_spb__sections_count, res.getInteger(R.integer.spb_default_sections_count));
-        int separatorLength = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb__stroke_separator_length, res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length));
-        int width = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb__stroke_width, res.getDimensionPixelSize(R.dimen.spb_default_stroke_width));
-        String strSpeed = a.getString(R.styleable.SmoothProgressBar_spb__speed);
-        int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb__interpolator, res.getInteger(R.integer.spb_default_interpolator));
+        int color = a.getColor(R.styleable.SmoothProgressBar_spb_color, res.getColor(R.color.spb_default_color));
+        int sectionsCount = a.getInteger(R.styleable.SmoothProgressBar_spb_sections_count, res.getInteger(R.integer.spb_default_sections_count));
+        int separatorLength = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb_stroke_separator_length, res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length));
+        int width = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb_stroke_width, res.getDimensionPixelSize(R.dimen.spb_default_stroke_width));
+        String strSpeed = a.getString(R.styleable.SmoothProgressBar_spb_speed);
+        int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, res.getInteger(R.integer.spb_default_interpolator));
         a.recycle();
 
         Interpolator interpolator;
