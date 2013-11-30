@@ -24,23 +24,27 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private Interpolator mInterpolator;
     private Rect mBounds;
     private Paint mPaint;
+    private int[] mColors;
+    private int mColorsIndex;
     private boolean mRunning;
     private float mCurrentOffset;
     private int mSeparatorLength;
     private int mSectionsCount;
     private float mSpeed;
     private boolean mReversed;
+    private boolean mNewTurn;
 
-    private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int color, int width, float speed, boolean reversed) {
+    private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int[] colors, int width, float speed, boolean reversed) {
         mRunning = false;
         mInterpolator = interpolator;
         mSectionsCount = sectionsCount;
         mSeparatorLength = separatorLength;
         mSpeed = speed;
         mReversed = reversed;
+        mColors = colors;
+        mColorsIndex = 0;
 
         mPaint = new Paint();
-        mPaint.setColor(color);
         mPaint.setStrokeWidth(width);
         mPaint.setStyle(Paint.Style.STROKE);
     }
@@ -53,7 +57,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         mBounds = getBounds();
         canvas.clipRect(mBounds);
 
-        if(mReversed){
+        if (mReversed) {
             canvas.translate(mBounds.width(), 0);
             canvas.scale(-1, 1);
         }
@@ -66,12 +70,18 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         int centerY = mBounds.centerY();
         float xSectionWidth = 1f / mSectionsCount;
 
-        int offset = (int) (Math.abs(mInterpolator.getInterpolation(mCurrentOffset) - mInterpolator.getInterpolation(0)) * width);
-        if (offset > 0) {
-            if (offset > mSeparatorLength) {
-                canvas.drawLine(0, centerY, offset - mSeparatorLength, centerY, mPaint);
-            }
+        //new turn
+        if (mNewTurn) {
+            mColorsIndex = decrementColor(mColorsIndex);
+            mNewTurn = false;
         }
+
+        int currentIndexColor = mColorsIndex;
+        int offset = (int) (Math.abs(mInterpolator.getInterpolation(mCurrentOffset) - mInterpolator.getInterpolation(0)) * width);
+        if (offset > mSeparatorLength) {
+            drawLine(canvas, 0, centerY, offset - mSeparatorLength, centerY, currentIndexColor);
+        }
+        currentIndexColor = incrementColor(currentIndexColor);
 
         int prev;
         int end;
@@ -79,8 +89,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         for (int i = 0; i < mSectionsCount; ++i) {
             float xOffset = xSectionWidth * i + mCurrentOffset;
             prev = (int) (mInterpolator.getInterpolation(xOffset) * width);
-            float ratioSectionWidth =
-                    Math.abs(mInterpolator.getInterpolation(xOffset) -
+            float ratioSectionWidth = Math.abs(mInterpolator.getInterpolation(xOffset) -
                             mInterpolator.getInterpolation(Math.min(xOffset + xSectionWidth, 1f)));
             int sectionWidth = (int) (width * ratioSectionWidth);
             if (sectionWidth + prev < width)
@@ -89,9 +98,27 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
             int drawLength = sectionWidth > spaceLength ? sectionWidth - spaceLength : 0;
             end = prev + drawLength;
             if (end > prev) {
-                canvas.drawLine(prev, centerY, end, centerY, mPaint);
+                drawLine(canvas, prev, centerY, end, centerY, currentIndexColor);
             }
+            currentIndexColor = incrementColor(currentIndexColor);
         }
+    }
+
+    private void drawLine(Canvas canvas, float startX, float startY, float stopX, float stopY, int currentIndexColor) {
+        mPaint.setColor(mColors[currentIndexColor]);
+        canvas.drawLine(startX, startY, stopX, stopY, mPaint);
+    }
+
+    private int incrementColor(int colorIndex) {
+        ++colorIndex;
+        if (colorIndex >= mColors.length) colorIndex = 0;
+        return colorIndex;
+    }
+
+    private int decrementColor(int colorIndex) {
+        --colorIndex;
+        if (colorIndex < 0) colorIndex = mColors.length - 1;
+        return colorIndex;
     }
 
     @Override
@@ -141,7 +168,10 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         @Override
         public void run() {
             mCurrentOffset += (OFFSET_PER_FRAME * mSpeed);
-            if (mCurrentOffset >= (1f / mSectionsCount)) mCurrentOffset = 0f;
+            if (mCurrentOffset >= (1f / mSectionsCount)) {
+                mNewTurn = true;
+                mCurrentOffset = 0f;
+            }
             scheduleSelf(mUpdater, SystemClock.uptimeMillis() + FRAME_DURATION);
             invalidateSelf();
         }
@@ -157,7 +187,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     public static class Builder {
         private Interpolator mInterpolator;
         private int mSectionsCount;
-        private int mColor;
+        private int[] mColors;
         private float mSpeed;
         private boolean mReversed;
 
@@ -169,7 +199,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         }
 
         public SmoothProgressDrawable build() {
-            SmoothProgressDrawable ret = new SmoothProgressDrawable(mInterpolator, mSectionsCount, mStrokeSeparatorLength, mColor, mStrokeWidth, mSpeed, mReversed);
+            SmoothProgressDrawable ret = new SmoothProgressDrawable(mInterpolator, mSectionsCount, mStrokeSeparatorLength, mColors, mStrokeWidth, mSpeed, mReversed);
             return ret;
         }
 
@@ -177,7 +207,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
             Resources res = context.getResources();
             mInterpolator = new AccelerateInterpolator();
             mSectionsCount = res.getInteger(R.integer.spb_default_sections_count);
-            mColor = res.getColor(R.color.spb_default_color);
+            mColors = new int[]{res.getColor(R.color.spb_default_color)};
             mSpeed = Float.parseFloat(res.getString(R.string.spb_default_speed));
             mReversed = res.getBoolean(R.bool.spb_default_reversed);
 
@@ -206,7 +236,14 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         }
 
         public Builder color(int color) {
-            mColor = color;
+            mColors = new int[]{color};
+            return this;
+        }
+
+        public Builder colors(int[] colors) {
+            if (colors == null || colors.length == 0)
+                throw new IllegalArgumentException("Your color array must not be empty");
+            mColors = colors;
             return this;
         }
 
@@ -222,7 +259,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
             return this;
         }
 
-        public Builder reversed(boolean reversed){
+        public Builder reversed(boolean reversed) {
             mReversed = reversed;
             return this;
         }

@@ -131,5 +131,17 @@
             app:spb_reversed="true"
             android:indeterminate="true"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Multiple colors"/>
+
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:spb_colors="@array/colors"
+            app:spb_sections_count="12"
+            android:indeterminate="true"/>
+
     </LinearLayout>
 </ScrollView>
