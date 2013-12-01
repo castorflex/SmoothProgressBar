@@ -1,6 +1,7 @@
 package fr.castorflex.android.smoothprogressbar.sample;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -32,5 +33,13 @@ public class MainActivity extends Activity {
         mProgressBar2.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateInterpolator()).build());
         mProgressBar3.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new DecelerateInterpolator()).build());
         mProgressBar4.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateDecelerateInterpolator()).build());
+
+        findViewById(R.id.button_make).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MakeCustomActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

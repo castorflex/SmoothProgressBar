@@ -3,4 +3,11 @@
 
     <string name="app_name">SmoothProgressBar</string>
 
+    <string-array name="interpolators">
+        <item>Accelerate</item>
+        <item>Linear</item>
+        <item>AccelerateDecelerate</item>
+        <item>Decelerate</item>
+    </string-array>
+
 </resources>
