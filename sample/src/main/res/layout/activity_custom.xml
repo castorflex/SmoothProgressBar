@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminateOnly="false"
+            style="@style/ProgressBar.Horizontal"
+            android:indeterminate="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <CheckBox
+                android:id="@+id/checkbox_reversed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Reversed"/>
+
+            <CheckBox
+                android:id="@+id/checkbox_mirror"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mirror Mode"/>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/textview_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Speed: "/>
+
+        <SeekBar
+            android:id="@+id/seekbar_speed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="31"/>
+
+        <TextView
+            android:id="@+id/textview_stroke_width"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stroke width: "/>
+
+        <SeekBar
+            android:id="@+id/seekbar_stroke_width"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="12"/>
+
+        <TextView
+            android:id="@+id/textview_separator_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Separator length"/>
+
+        <SeekBar
+            android:id="@+id/seekbar_separator_length"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="48"/>
+
+        <TextView
+            android:id="@+id/textview_sections_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sections Count"/>
+
+        <SeekBar
+            android:id="@+id/seekbar_sections_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="12"/>
+
+        <Spinner
+            android:id="@+id/spinner_interpolator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="YOLO"/>
+
+    </LinearLayout>
+</ScrollView>
