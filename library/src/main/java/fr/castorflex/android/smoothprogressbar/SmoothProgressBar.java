@@ -77,7 +77,10 @@ public class SmoothProgressBar extends ProgressBar {
                 .reversed(reversed);
 
         if (strSpeed != null) builder.speed(Float.parseFloat(strSpeed));
-        if(colors != null && colors.length > 0) builder.colors(colors);
+        if(colors != null && colors.length > 0)
+            builder.colors(colors);
+        else
+            builder.color(color);
 
         setIndeterminateDrawable(builder.build());
     }
