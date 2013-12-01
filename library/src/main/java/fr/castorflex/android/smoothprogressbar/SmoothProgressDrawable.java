@@ -100,7 +100,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
             prev = Math.max(0f, xOffset - xSectionWidth);
             ratioSectionWidth = Math.abs(
                     mInterpolator.getInterpolation(prev) -
-                    mInterpolator.getInterpolation(xOffset));
+                    mInterpolator.getInterpolation(Math.min(xOffset, 1f)));
             sectionWidth = (int) (width * ratioSectionWidth);
 
             if (sectionWidth + prev < width)
