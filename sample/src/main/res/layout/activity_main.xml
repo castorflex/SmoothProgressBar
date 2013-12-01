@@ -143,5 +143,21 @@
             app:spb_sections_count="12"
             android:indeterminate="true"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mirrored"/>
+
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:spb_colors="@array/colors"
+            app:spb_sections_count="2"
+            app:spb_mirror_mode="true"
+            app:spb_stroke_separator_length="0dp"
+            app:spb_speed="1.8"
+            app:spb_reversed="true"
+            android:indeterminate="true"/>
+
     </LinearLayout>
 </ScrollView>

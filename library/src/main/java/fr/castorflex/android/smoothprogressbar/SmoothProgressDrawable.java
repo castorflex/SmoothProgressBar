@@ -33,8 +33,9 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private float mSpeed;
     private boolean mReversed;
     private boolean mNewTurn;
+    private boolean mMirrorMode;
 
-    private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int[] colors, int width, float speed, boolean reversed) {
+    private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int[] colors, int width, float speed, boolean reversed, boolean mirrorMode) {
         mRunning = false;
         mInterpolator = interpolator;
         mSectionsCount = sectionsCount;
@@ -43,6 +44,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         mReversed = reversed;
         mColors = colors;
         mColorsIndex = 0;
+        mMirrorMode = mirrorMode;
 
         mPaint = new Paint();
         mPaint.setStrokeWidth(width);
@@ -57,8 +59,10 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         mBounds = getBounds();
         canvas.clipRect(mBounds);
 
+        int boundsWidth = mBounds.width();
+
         if (mReversed) {
-            canvas.translate(mBounds.width(), 0);
+            canvas.translate(boundsWidth, 0);
             canvas.scale(-1, 1);
         }
 
@@ -66,7 +70,10 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     }
 
     private void drawStrokes(Canvas canvas) {
-        int width = mBounds.width() + mSeparatorLength;
+        float prevValue = 0f;
+        int boundsWidth = mBounds.width();
+        if (mMirrorMode) boundsWidth /= 2;
+        int width = boundsWidth + mSeparatorLength + 1;
         int centerY = mBounds.centerY();
         float xSectionWidth = 1f / mSectionsCount;
 
@@ -79,34 +86,57 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         int currentIndexColor = mColorsIndex;
         int offset = (int) (Math.abs(mInterpolator.getInterpolation(mCurrentOffset) - mInterpolator.getInterpolation(0)) * width);
         if (offset > mSeparatorLength) {
-            drawLine(canvas, 0, centerY, offset - mSeparatorLength, centerY, currentIndexColor);
+            drawLine(canvas, boundsWidth, 0, centerY, offset - mSeparatorLength, centerY, currentIndexColor);
+            prevValue = offset;
         }
         currentIndexColor = incrementColor(currentIndexColor);
 
         int prev;
         int end;
         int spaceLength;
+        float xOffset;
+        float ratioSectionWidth;
+        int sectionWidth;
+        int drawLength;
+
         for (int i = 0; i < mSectionsCount; ++i) {
-            float xOffset = xSectionWidth * i + mCurrentOffset;
+            xOffset = xSectionWidth * i + mCurrentOffset;
             prev = (int) (mInterpolator.getInterpolation(xOffset) * width);
-            float ratioSectionWidth = Math.abs(mInterpolator.getInterpolation(xOffset) -
-                            mInterpolator.getInterpolation(Math.min(xOffset + xSectionWidth, 1f)));
-            int sectionWidth = (int) (width * ratioSectionWidth);
+            ratioSectionWidth = Math.abs(mInterpolator.getInterpolation(xOffset) -
+                    mInterpolator.getInterpolation(Math.min(xOffset + xSectionWidth, 1f)));
+            sectionWidth = (int) (width * ratioSectionWidth);
+
             if (sectionWidth + prev < width)
                 spaceLength = Math.min(sectionWidth, mSeparatorLength);
-            else spaceLength = 0;
-            int drawLength = sectionWidth > spaceLength ? sectionWidth - spaceLength : 0;
+            else
+                spaceLength = 0;
+
+            drawLength = sectionWidth > spaceLength ? sectionWidth - spaceLength : 0;
             end = prev + drawLength;
             if (end > prev) {
-                drawLine(canvas, prev, centerY, end, centerY, currentIndexColor);
+                drawLine(canvas, boundsWidth, prevValue, centerY, end, centerY, currentIndexColor);
+                prevValue = end + spaceLength;
             }
             currentIndexColor = incrementColor(currentIndexColor);
         }
     }
 
-    private void drawLine(Canvas canvas, float startX, float startY, float stopX, float stopY, int currentIndexColor) {
+    private void drawLine(Canvas canvas, int canvasWidth, float startX, float startY, float stopX, float stopY, int currentIndexColor) {
         mPaint.setColor(mColors[currentIndexColor]);
-        canvas.drawLine(startX, startY, stopX, stopY, mPaint);
+
+        if (!mMirrorMode) {
+            canvas.drawLine(startX, startY, stopX, stopY, mPaint);
+        } else {
+            if (mReversed) {
+                canvas.drawLine(canvasWidth + startX, startY, canvasWidth + stopX, stopY, mPaint);
+                canvas.drawLine(canvasWidth - startX, startY, canvasWidth - stopX, stopY, mPaint);
+            } else {
+                canvas.drawLine(startX, startY, stopX, stopY, mPaint);
+                canvas.drawLine(canvasWidth * 2 - startX, startY, canvasWidth * 2 - stopX, stopY, mPaint);
+            }
+        }
+
+        canvas.save();
     }
 
     private int incrementColor(int colorIndex) {
@@ -190,6 +220,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         private int[] mColors;
         private float mSpeed;
         private boolean mReversed;
+        private boolean mMirrorMode;
 
         private int mStrokeSeparatorLength;
         private int mStrokeWidth;
@@ -199,7 +230,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         }
 
         public SmoothProgressDrawable build() {
-            SmoothProgressDrawable ret = new SmoothProgressDrawable(mInterpolator, mSectionsCount, mStrokeSeparatorLength, mColors, mStrokeWidth, mSpeed, mReversed);
+            SmoothProgressDrawable ret = new SmoothProgressDrawable(mInterpolator, mSectionsCount, mStrokeSeparatorLength, mColors, mStrokeWidth, mSpeed, mReversed, mMirrorMode);
             return ret;
         }
 
@@ -261,6 +292,11 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
 
         public Builder reversed(boolean reversed) {
             mReversed = reversed;
+            return this;
+        }
+
+        public Builder mirrorMode(boolean mirrorMode) {
+            mMirrorMode = mirrorMode;
             return this;
         }
     }

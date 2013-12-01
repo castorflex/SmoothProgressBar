@@ -43,6 +43,7 @@ public class SmoothProgressBar extends ProgressBar {
         final String strSpeed = a.getString(R.styleable.SmoothProgressBar_spb_speed);
         final int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, res.getInteger(R.integer.spb_default_interpolator));
         final boolean reversed = a.getBoolean(R.styleable.SmoothProgressBar_spb_reversed, res.getBoolean(R.bool.spb_default_reversed));
+        final boolean mirrorMode = a.getBoolean(R.styleable.SmoothProgressBar_spb_mirror_mode, res.getBoolean(R.bool.spb_default_mirror_mode));
         final int colorsId = a.getResourceId(R.styleable.SmoothProgressBar_spb_colors, 0);
         a.recycle();
 
@@ -74,7 +75,8 @@ public class SmoothProgressBar extends ProgressBar {
                 .sectionsCount(sectionsCount)
                 .separatorLength(separatorLength)
                 .width(width)
-                .reversed(reversed);
+                .reversed(reversed)
+                .mirrorMode(mirrorMode);
 
         if (strSpeed != null) builder.speed(Float.parseFloat(strSpeed));
         if(colors != null && colors.length > 0)

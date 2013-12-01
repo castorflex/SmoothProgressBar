@@ -25,6 +25,7 @@ I made a [blog post] about that.
     app:spb_stroke_width="4dp"
     app:spb_stroke_separator_length="4dp"
     app:spb_reversed="false"
+    app:spb_mirror_mode="false"
     />
 ```
 
@@ -39,6 +40,7 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
     .width(8)               //You should use Resources#getDimensionPixelSize
     .speed(2.0)             //2 times faster
     .reversed(false)
+    .mirrorMode(false)
     .build());
 ```
 
