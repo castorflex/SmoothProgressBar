@@ -180,6 +180,7 @@ public class MakeCustomActivity extends Activity {
         }
 
         builder.interpolator(interpolator);
+        builder.colors(getResources().getIntArray(R.array.colors));
 
         SmoothProgressDrawable d = builder.build();
         d.setBounds(mProgressBar.getIndeterminateDrawable().getBounds());
