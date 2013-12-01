@@ -3,6 +3,7 @@ package fr.castorflex.android.smoothprogressbar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -49,6 +50,8 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         mPaint = new Paint();
         mPaint.setStrokeWidth(width);
         mPaint.setStyle(Paint.Style.STROKE);
+        mPaint.setDither(false);
+        mPaint.setAntiAlias(false);
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -73,7 +76,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         float prevValue = 0f;
         int boundsWidth = mBounds.width();
         if (mMirrorMode) boundsWidth /= 2;
-        int width = boundsWidth + mSeparatorLength + 1;
+        int width = boundsWidth + mSeparatorLength + mSectionsCount;
         int centerY = mBounds.centerY();
         float xSectionWidth = 1f / mSectionsCount;
 
@@ -83,40 +86,36 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
             mNewTurn = false;
         }
 
-        int currentIndexColor = mColorsIndex;
-        int offset = (int) (Math.abs(mInterpolator.getInterpolation(mCurrentOffset) - mInterpolator.getInterpolation(0)) * width);
-        if (offset > mSeparatorLength) {
-            drawLine(canvas, boundsWidth, 0, centerY, offset - mSeparatorLength, centerY, currentIndexColor);
-            prevValue = offset;
-        }
-        currentIndexColor = incrementColor(currentIndexColor);
-
-        int prev;
-        int end;
-        int spaceLength;
+        float prev;
+        float end;
+        float spaceLength;
         float xOffset;
         float ratioSectionWidth;
-        int sectionWidth;
-        int drawLength;
+        float sectionWidth;
+        float drawLength;
+        int currentIndexColor = mColorsIndex;
 
-        for (int i = 0; i < mSectionsCount; ++i) {
+        for (int i = 0; i <= mSectionsCount; ++i) {
             xOffset = xSectionWidth * i + mCurrentOffset;
-            prev = (int) (mInterpolator.getInterpolation(xOffset) * width);
-            ratioSectionWidth = Math.abs(mInterpolator.getInterpolation(xOffset) -
-                    mInterpolator.getInterpolation(Math.min(xOffset + xSectionWidth, 1f)));
+            prev = Math.max(0f, xOffset - xSectionWidth);
+            ratioSectionWidth = Math.abs(
+                    mInterpolator.getInterpolation(prev) -
+                    mInterpolator.getInterpolation(xOffset));
             sectionWidth = (int) (width * ratioSectionWidth);
 
             if (sectionWidth + prev < width)
                 spaceLength = Math.min(sectionWidth, mSeparatorLength);
             else
-                spaceLength = 0;
+                spaceLength = 0f;
 
             drawLength = sectionWidth > spaceLength ? sectionWidth - spaceLength : 0;
-            end = prev + drawLength;
-            if (end > prev) {
-                drawLine(canvas, boundsWidth, prevValue, centerY, end, centerY, currentIndexColor);
-                prevValue = end + spaceLength;
+            end = prevValue + drawLength;
+            if (end > prevValue) {
+                drawLine(canvas, boundsWidth,
+                        Math.min(boundsWidth, prevValue), centerY, Math.min(boundsWidth, end), centerY,
+                        currentIndexColor);
             }
+            prevValue = end + spaceLength;
             currentIndexColor = incrementColor(currentIndexColor);
         }
     }
