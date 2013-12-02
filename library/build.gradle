@@ -15,3 +15,5 @@ android {
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
 }
+
+apply from: '../maven_push.gradle'
