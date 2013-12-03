@@ -8,6 +8,16 @@ Sample app available on the [Play Store]
 
 I made a [blog post] about that.
 
+##Integration
+
+The lib is now on Maven Central. All you have to do is add it on your gradle build:
+
+```xml
+dependencies {
+    compile 'com.github.castorflex.smoothprogressbar:library:0.2.0'
+}
+```
+
 ##Usage
 
 -	Use directly SmoothProgressBar:
