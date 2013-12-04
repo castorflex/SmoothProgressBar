@@ -86,7 +86,7 @@ public class MakeCustomActivity extends Activity {
         mSeekBarSectionsCount.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mSectionsCount = progress;
+                mSectionsCount = progress + 1;
                 mTextViewSectionsCount.setText("Sections count: " + mSectionsCount);
             }
 
