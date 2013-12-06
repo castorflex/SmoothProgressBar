@@ -37,3 +37,4 @@ com_crashlytics_export_strings.xml
 out/
 .DS_Store
 tmp
+sample/mirror

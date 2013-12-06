@@ -3,6 +3,7 @@
 
     <string name="app_name">SmoothProgressBar</string>
 
+
     <string-array name="interpolators">
         <item>Accelerate</item>
         <item>Linear</item>
@@ -10,4 +11,34 @@
         <item>Decelerate</item>
     </string-array>
 
+    <string-array name="colors_array">
+        <item>Default</item>
+        <item>Red</item>
+        <item>Google colors</item>
+    </string-array>
+
+    <!-- Styles -->
+    <string name="base_indeterminate_drawable">Base indeterminate drawable</string>
+    <string name="linear_interpolator">LinearInterpolator</string>
+    <string name="accellerate_interpolator">AccelerateInterpolator</string>
+    <string name="decelerate_interpolator">DecelerateInterpolator</string>
+    <string name="accelerate_decelerate_interpolator">AccelerateDecelerateInterpolator</string>
+    <string name="red">Red</string>
+    <string name="slow">Slow</string>
+    <string name="big_separator_lenght">Big separator length</string>
+    <string name="sections_12">12 sections</string>
+    <string name="reversed">Reversed</string>
+    <string name="multiple_colors">Multiple colors</string>
+    <string name="google_now">Google Now</string>
+    <string name="google_plus">Google Plus</string>
+    <string name="customize">Customize</string>
+    <string name="mirror_mode">Mirror Mode</string>
+    <string name="speed">Speed: </string>
+    <string name="stroke_width">Stroke width: </string>
+    <string name="separator_lenght">Separator length:</string>
+    <string name="sections_count">Sections count:</string>
+    <string name="interpolator">Interpolator:</string>
+    <string name="result">Result:</string>
+    <string name="defaults">defaults</string>
+    <string name="color">Colors:</string>
 </resources>

@@ -1,175 +1,168 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  xmlns:tools="http://schemas.android.com/tools"
-                  android:id="@+id/container"
-                  android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  tools:context=".MainActivity"
-                  tools:ignore="MergeRootFrame"
-                  android:paddingTop="16dp">
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:context=".MainActivity"
+        tools:ignore="MergeRootFrame"
+        android:paddingTop="16dp">
 
-        <Button
-            android:id="@+id/button_make"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Make your own!"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Base indeterminate drawable"/>
+            android:text="@string/base_indeterminate_drawable" />
 
         <ProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminateOnly="false"
             style="@style/ProgressBar.Horizontal"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="LinearInterpolator"/>
+            android:text="@string/linear_interpolator" />
 
         <ProgressBar
             android:id="@+id/progressbar1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ProgressBar.Horizontal"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AccelerateInterpolator"/>
+            android:text="@string/accellerate_interpolator" />
 
         <ProgressBar
             android:id="@+id/progressbar2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ProgressBar.Horizontal"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DecelerateInterpolator"/>
+            android:text="@string/decelerate_interpolator" />
 
         <ProgressBar
             android:id="@+id/progressbar3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ProgressBar.Horizontal"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="AccelerateDecelerateInterpolator"/>
+            android:text="@string/accelerate_decelerate_interpolator" />
 
         <ProgressBar
             android:id="@+id/progressbar4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ProgressBar.Horizontal"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
 
         <!--SMOOTH-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Red"/>
+            android:text="@string/red" />
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:spb_color="#FF4444"
-            android:indeterminate="true"/>
+            app:spb_color="@color/holo_red_dark"
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="slow"/>
+            android:text="@string/slow" />
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:spb_speed="0.2"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Big separator length"/>
+            android:text="@string/big_separator_lenght" />
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:spb_stroke_separator_length="12dp"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="12 sections"/>
+            android:text="@string/sections_12" />
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:spb_sections_count="12"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Reversed"/>
+            android:text="@string/reversed" />
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:spb_reversed="true"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Multiple colors"/>
+            android:text="@string/multiple_colors" />
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:spb_colors="@array/colors"
             app:spb_sections_count="12"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Google now"/>
+            android:text="@string/google_now" />
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/GNowProgressBar"
-            android:indeterminate="true"/>
+            android:indeterminate="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GPlus"/>
+            android:text="@string/google_plus" />
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminate="true"
-            style="@style/GPlusProgressBar"/>
-
+            style="@style/GPlusProgressBar" />
     </LinearLayout>
 </ScrollView>

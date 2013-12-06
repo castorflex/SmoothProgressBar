@@ -1,107 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:indeterminateOnly="false"
-            style="@style/ProgressBar.Horizontal"
-            android:indeterminate="true"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <CheckBox
-                android:id="@+id/checkbox_reversed"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Reversed"/>
-
-            <CheckBox
-                android:id="@+id/checkbox_mirror"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Mirror Mode"/>
-        </LinearLayout>
-
+        android:layout_height="wrap_content"
+        android:padding="8dp">
 
         <TextView
             android:id="@+id/textview_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Speed: "/>
+            android:text="@string/speed"
+            android:textSize="@dimen/text_size_custom_activity" />
 
         <SeekBar
             android:id="@+id/seekbar_speed"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="31"/>
+            android:max="31" />
 
         <TextView
             android:id="@+id/textview_stroke_width"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Stroke width: "/>
+            android:text="@string/stroke_width"
+            android:textSize="@dimen/text_size_custom_activity" />
 
         <SeekBar
             android:id="@+id/seekbar_stroke_width"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="12"/>
+            android:max="12" />
 
         <TextView
             android:id="@+id/textview_separator_length"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Separator length"/>
+            android:text="@string/separator_lenght"
+            android:textSize="@dimen/text_size_custom_activity" />
 
         <SeekBar
             android:id="@+id/seekbar_separator_length"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="48"/>
+            android:max="48" />
 
         <TextView
             android:id="@+id/textview_sections_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sections Count"/>
+            android:text="@string/sections_count"
+            android:textSize="@dimen/text_size_custom_activity" />
 
         <SeekBar
             android:id="@+id/seekbar_sections_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:max="12"/>
+            android:max="12" />
+
+        <CheckBox
+            android:id="@+id/checkbox_reversed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reversed" />
+
+        <CheckBox
+            android:id="@+id/checkbox_mirror"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/mirror_mode" />
+
+        <TextView
+            android:id="@+id/textview_sections_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/interpolator"
+            android:textSize="@dimen/text_size_custom_activity" />
 
         <Spinner
             android:id="@+id/spinner_interpolator"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
-        <Button
-            android:id="@+id/button"
+        <TextView
+            android:id="@+id/textview_sections_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="YOLO"/>
+            android:text="@string/color"
+            android:textSize="@dimen/text_size_custom_activity" />
+
+        <Spinner
+            android:id="@+id/spinner_colors"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textview_sections_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/result"
+            android:textSize="@dimen/text_size_custom_activity" />
+
+        <LinearLayout
+            android:background="#ff000000"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp">
+
+            <ProgressBar
+                android:background="#ffffffff"
+                android:id="@+id/progressbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminateOnly="false"
+                style="@style/ProgressBar.Horizontal"
+                android:indeterminate="true" />
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

@@ -21,6 +21,15 @@ public class SmoothProgressBar extends ProgressBar {
     private static final int INTERPOLATOR_ACCELERATEDECELERATE = 2;
     private static final int INTERPOLATOR_DECELERATE = 3;
 
+    public static final float SPEED_DEFAULT = 0.9f + 1f;
+    public static final float SPEED_MAX = 3.1f + 1f;
+    public static final int STROKE_WIDTH_DEFAULT = 4;
+    public static final int STROKE_WIDTH_MAX = 12;
+    public static final int SEPARATOR_LENGHT_DEFAULT = 4;
+    public static final int SEPARATOR_LENGHT_MAX = 48;
+    public static final int SECTIONS_COUNT_DEFAULT = 4;
+    public static final int SECTIONS_COUNT_MAX = 12;
+
     public SmoothProgressBar(Context context) {
         this(context, null);
     }

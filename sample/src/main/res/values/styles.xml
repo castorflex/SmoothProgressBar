@@ -1,11 +1,12 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppTheme">
+    <style name="AppTheme" parent="android:Theme.Holo.Light">
         <item name="spbStyle">@style/SmoothProgressBar</item>
     </style>
 
     <style name="ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal">
     </style>
+
 
     <style name="GPlusProgressBar" parent="ProgressBar.Horizontal">
         <item name="spb_stroke_separator_length">12dp</item>
