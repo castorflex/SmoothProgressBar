@@ -69,6 +69,8 @@ You can do whatever you want with this stuff.
 If we meet some day, and you think this stuff is worth it, you can buy me a beer in return.
 ```
 
+####Badges
+Bitdeli: [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/castorflex/smoothprogressbar/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 [blog post]: http://antoine-merle.com/blog/2013/11/12/make-your-progressbar-more-smooth/
 
