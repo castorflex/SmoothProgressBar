@@ -77,3 +77,7 @@ Bitdeli: [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/castorflex/smoo
 [blog post]: http://antoine-merle.com/blog/2013/11/12/make-your-progressbar-more-smooth/
 
 [Play Store]: https://play.google.com/store/apps/details?id=fr.castorflex.android.smoothprogressbar.sample
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/castorflex/smoothprogressbar/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
