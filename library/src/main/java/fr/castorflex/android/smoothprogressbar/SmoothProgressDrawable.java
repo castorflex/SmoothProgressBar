@@ -35,6 +35,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private boolean mReversed;
     private boolean mNewTurn;
     private boolean mMirrorMode;
+    private float mMaxOffset;
 
     private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int[] colors, int width, float speed, boolean reversed, boolean mirrorMode) {
         mRunning = false;
@@ -46,6 +47,8 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         mColors = colors;
         mColorsIndex = 0;
         mMirrorMode = mirrorMode;
+
+        mMaxOffset = 1f / mSectionsCount;
 
         mPaint = new Paint();
         mPaint.setStrokeWidth(width);
@@ -197,9 +200,9 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         @Override
         public void run() {
             mCurrentOffset += (OFFSET_PER_FRAME * mSpeed);
-            if (mCurrentOffset >= (1f / mSectionsCount)) {
+            if (mCurrentOffset >= mMaxOffset) {
                 mNewTurn = true;
-                mCurrentOffset = 0f;
+                mCurrentOffset -= mMaxOffset;
             }
             scheduleSelf(mUpdater, SystemClock.uptimeMillis() + FRAME_DURATION);
             invalidateSelf();

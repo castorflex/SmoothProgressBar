@@ -40,7 +40,7 @@ public class SmoothProgressBar extends ProgressBar {
         final int sectionsCount = a.getInteger(R.styleable.SmoothProgressBar_spb_sections_count, res.getInteger(R.integer.spb_default_sections_count));
         final int separatorLength = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb_stroke_separator_length, res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length));
         final int width = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb_stroke_width, res.getDimensionPixelSize(R.dimen.spb_default_stroke_width));
-        final String strSpeed = a.getString(R.styleable.SmoothProgressBar_spb_speed);
+        final float speed = a.getFloat(R.styleable.SmoothProgressBar_spb_speed, Float.parseFloat(res.getString(R.string.spb_default_speed)));
         final int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, res.getInteger(R.integer.spb_default_interpolator));
         final boolean reversed = a.getBoolean(R.styleable.SmoothProgressBar_spb_reversed, res.getBoolean(R.bool.spb_default_reversed));
         final boolean mirrorMode = a.getBoolean(R.styleable.SmoothProgressBar_spb_mirror_mode, res.getBoolean(R.bool.spb_default_mirror_mode));
@@ -71,6 +71,7 @@ public class SmoothProgressBar extends ProgressBar {
         }
 
         SmoothProgressDrawable.Builder builder = new SmoothProgressDrawable.Builder(context)
+                .speed(speed)
                 .interpolator(interpolator)
                 .sectionsCount(sectionsCount)
                 .separatorLength(separatorLength)
@@ -78,7 +79,6 @@ public class SmoothProgressBar extends ProgressBar {
                 .reversed(reversed)
                 .mirrorMode(mirrorMode);
 
-        if (strSpeed != null) builder.speed(Float.parseFloat(strSpeed));
         if(colors != null && colors.length > 0)
             builder.colors(colors);
         else
