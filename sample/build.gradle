@@ -24,7 +24,7 @@ android {
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+            signingConfig project.hasProperty('storeFile') ? signingConfigs.release : signingConfigs.debug
         }
     }
 }
