@@ -18,6 +18,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
 
 /**
@@ -25,7 +26,7 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
  */
 public class MakeCustomActivity extends Activity {
 
-    private ProgressBar mProgressBar;
+    private SmoothProgressBar mProgressBar;
     private CheckBox mCheckBoxMirror;
     private CheckBox mCheckBoxReversed;
     private Spinner mSpinnerInterpolators;
@@ -50,7 +51,7 @@ public class MakeCustomActivity extends Activity {
 
         setContentView(R.layout.activity_custom);
 
-        mProgressBar = (ProgressBar) findViewById(R.id.progressbar);
+        mProgressBar = (SmoothProgressBar) findViewById(R.id.progressbar);
         mCheckBoxMirror = (CheckBox) findViewById(R.id.checkbox_mirror);
         mCheckBoxReversed = (CheckBox) findViewById(R.id.checkbox_reversed);
         mSpinnerInterpolators = (Spinner) findViewById(R.id.spinner_interpolator);
@@ -153,14 +154,13 @@ public class MakeCustomActivity extends Activity {
     }
 
     private void setValues() {
-        SmoothProgressDrawable.Builder builder = new SmoothProgressDrawable.Builder(this);
 
-        builder.speed(mSpeed)
-                .sectionsCount(mSectionsCount)
-                .separatorLength(dpToPx(mSeparatorLength))
-                .width(dpToPx(mStrokeWidth))
-                .mirrorMode(mCheckBoxMirror.isChecked())
-                .reversed(mCheckBoxReversed.isChecked());
+        mProgressBar.setSmoothProgressDrawableSpeed(mSpeed);
+        mProgressBar.setSmoothProgressDrawableSectionsCount(mSectionsCount);
+        mProgressBar.setSmoothProgressDrawableSeparatorLength(dpToPx(mSeparatorLength));
+        mProgressBar.setSmoothProgressDrawableStrokeWidth(dpToPx(mStrokeWidth));
+        mProgressBar.setSmoothProgressDrawableReversed(mCheckBoxReversed.isChecked());
+        mProgressBar.setSmoothProgressDrawableMirrorMode(mCheckBoxMirror.isChecked());
 
         Interpolator interpolator;
         switch (mSpinnerInterpolators.getSelectedItemPosition()) {
@@ -179,13 +179,8 @@ public class MakeCustomActivity extends Activity {
                 break;
         }
 
-        builder.interpolator(interpolator);
-        builder.colors(getResources().getIntArray(R.array.colors));
-
-        SmoothProgressDrawable d = builder.build();
-        d.setBounds(mProgressBar.getIndeterminateDrawable().getBounds());
-        mProgressBar.setIndeterminateDrawable(d);
-        d.start();
+        mProgressBar.setSmoothProgressDrawableInterpolator(interpolator);
+        mProgressBar.setSmoothProgressDrawableColors(getResources().getIntArray(R.array.colors));
     }
 
     public int dpToPx(int dp) {

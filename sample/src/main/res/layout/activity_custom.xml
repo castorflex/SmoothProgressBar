@@ -11,12 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <ProgressBar
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
             android:id="@+id/progressbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:indeterminateOnly="false"
-            style="@style/ProgressBar.Horizontal"
             android:indeterminate="true"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"/>

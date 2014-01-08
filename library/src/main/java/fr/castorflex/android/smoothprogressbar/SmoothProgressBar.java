@@ -3,6 +3,7 @@ package fr.castorflex.android.smoothprogressbar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
@@ -85,5 +86,56 @@ public class SmoothProgressBar extends ProgressBar {
             builder.color(color);
 
         setIndeterminateDrawable(builder.build());
+    }
+
+    private SmoothProgressDrawable checkIndeterminateDrawable(){
+        Drawable ret = getIndeterminateDrawable();
+        if(ret == null || !(ret instanceof SmoothProgressDrawable))
+            throw new RuntimeException("The drawable is not a SmoothProgressDrawable");
+        return (SmoothProgressDrawable) ret;
+    }
+
+    @Override
+    public void setInterpolator(Interpolator interpolator) {
+        super.setInterpolator(interpolator);
+        Drawable ret = getIndeterminateDrawable();
+        if(ret != null && (ret instanceof SmoothProgressDrawable))
+            ((SmoothProgressDrawable) ret).setInterpolator(interpolator);
+    }
+
+    public void setSmoothProgressDrawableInterpolator(Interpolator interpolator) {
+        checkIndeterminateDrawable().setInterpolator(interpolator);
+    }
+
+    public void setSmoothProgressDrawableColors(int[] colors) {
+        checkIndeterminateDrawable().setColors(colors);
+    }
+
+    public void setSmoothProgressDrawableColor(int color) {
+        checkIndeterminateDrawable().setColor(color);
+    }
+
+    public void setSmoothProgressDrawableSpeed(float speed){
+        checkIndeterminateDrawable().setSpeed(speed);
+    }
+
+    public void setSmoothProgressDrawableSectionsCount(int sectionsCount){
+        checkIndeterminateDrawable().setSectionsCount(sectionsCount);
+    }
+
+    public void setSmoothProgressDrawableSeparatorLength(int separatorLength){
+        checkIndeterminateDrawable().setSeparatorLength(separatorLength);
+    }
+
+    public void setSmoothProgressDrawableStrokeWidth(int strokeWidth){
+        checkIndeterminateDrawable().setStrokeWidth(strokeWidth);
+    }
+
+    public void setSmoothProgressDrawableReversed(boolean reversed){
+        checkIndeterminateDrawable().setReversed(reversed);
+    }
+
+    public void setSmoothProgressDrawableMirrorMode(boolean mirrorMode){
+        checkIndeterminateDrawable().setMirrorMode(mirrorMode);
     }
 }
