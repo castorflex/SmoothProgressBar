@@ -36,7 +36,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private boolean mMirrorMode;
     private float mMaxOffset;
 
-    private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int[] colors, int width, float speed, boolean reversed, boolean mirrorMode) {
+    private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int[] colors, float strokeWidth, float speed, boolean reversed, boolean mirrorMode) {
         mRunning = false;
         mInterpolator = interpolator;
         mSectionsCount = sectionsCount;
@@ -50,7 +50,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         mMaxOffset = 1f / mSectionsCount;
 
         mPaint = new Paint();
-        mPaint.setStrokeWidth(width);
+        mPaint.setStrokeWidth(strokeWidth);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setDither(false);
         mPaint.setAntiAlias(false);
@@ -97,7 +97,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         invalidateSelf();
     }
 
-    public void setStrokeWidth(int strokeWidth){
+    public void setStrokeWidth(float strokeWidth){
         if (strokeWidth < 0) throw new IllegalArgumentException("The strokeWidth must be >= 0");
         mPaint.setStrokeWidth(strokeWidth);
         invalidateSelf();
@@ -283,7 +283,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         private boolean mMirrorMode;
 
         private int mStrokeSeparatorLength;
-        private int mStrokeWidth;
+        private float mStrokeWidth;
 
         public Builder(Context context) {
             initValues(context);
@@ -338,7 +338,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
             return this;
         }
 
-        public Builder width(int width) {
+        public Builder strokeWidth(float width) {
             if (width < 0) throw new IllegalArgumentException("The width must be >= 0");
             mStrokeWidth = width;
             return this;
