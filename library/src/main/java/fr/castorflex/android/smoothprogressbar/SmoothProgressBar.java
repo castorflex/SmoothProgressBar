@@ -88,6 +88,64 @@ public class SmoothProgressBar extends ProgressBar {
         setIndeterminateDrawable(builder.build());
     }
 
+    public void applyStyle(int styleResId){
+        TypedArray a = getContext().obtainStyledAttributes(null, R.styleable.SmoothProgressBar, 0, styleResId);
+
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_color)){
+            setSmoothProgressDrawableColor(a.getColor(R.styleable.SmoothProgressBar_spb_color, 0));
+        }
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_colors)){
+            int colorsId = a.getResourceId(R.styleable.SmoothProgressBar_spb_colors, 0);
+            if(colorsId != 0){
+                int[] colors = getResources().getIntArray(colorsId);
+                if(colors != null && colors.length > 0)
+                    setSmoothProgressDrawableColors(colors);
+            }
+        }
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_sections_count)){
+            setSmoothProgressDrawableSectionsCount(a.getInteger(R.styleable.SmoothProgressBar_spb_sections_count, 0));
+        }
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_stroke_separator_length)){
+            setSmoothProgressDrawableSeparatorLength(a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb_stroke_separator_length, 0));
+        }
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_stroke_width)){
+            setSmoothProgressDrawableStrokeWidth(a.getDimension(R.styleable.SmoothProgressBar_spb_stroke_width, 0));
+        }
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_speed)){
+            setSmoothProgressDrawableSpeed(a.getFloat(R.styleable.SmoothProgressBar_spb_speed, 0));
+        }
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_reversed)){
+            setSmoothProgressDrawableReversed(a.getBoolean(R.styleable.SmoothProgressBar_spb_reversed, false));
+        }
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_mirror_mode)){
+            setSmoothProgressDrawableMirrorMode(a.getBoolean(R.styleable.SmoothProgressBar_spb_mirror_mode, false));
+        }
+        if(a.hasValue(R.styleable.SmoothProgressBar_spb_interpolator)){
+            int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, -1);
+            Interpolator interpolator;
+            switch (iInterpolator) {
+                case INTERPOLATOR_ACCELERATEDECELERATE:
+                    interpolator = new AccelerateDecelerateInterpolator();
+                    break;
+                case INTERPOLATOR_DECELERATE:
+                    interpolator = new DecelerateInterpolator();
+                    break;
+                case INTERPOLATOR_LINEAR:
+                    interpolator = new LinearInterpolator();
+                    break;
+                case INTERPOLATOR_ACCELERATE:
+                    interpolator = new AccelerateInterpolator();
+                    break;
+                default:
+                    interpolator = null;
+            }
+            if(interpolator != null){
+                setInterpolator(interpolator);
+            }
+        }
+        a.recycle();
+    }
+
     private SmoothProgressDrawable checkIndeterminateDrawable(){
         Drawable ret = getIndeterminateDrawable();
         if(ret == null || !(ret instanceof SmoothProgressDrawable))

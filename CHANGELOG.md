@@ -1,3 +1,7 @@
+##0.3.1
+
+-   Added a `applyStyle(int styleResId)` method
+
 ##0.3.0
 
 -   `SmoothProgressDrawable.Builder#width` is now `setStrokeWidth`
