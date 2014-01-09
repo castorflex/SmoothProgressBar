@@ -14,7 +14,7 @@ The lib is now on Maven Central. All you have to do is add it on your gradle bui
 
 ```xml
 dependencies {
-    compile 'com.github.castorflex.smoothprogressbar:library:0.3.1'
+    compile 'com.github.castorflex.smoothprogressbar:library:0.3.X'
 }
 ```
 

@@ -1,3 +1,7 @@
+##0.3.2
+
+-   targetSdkVersion is now 14. We just need holo style.
+
 ##0.3.1
 
 -   Added a `applyStyle(int styleResId)` method
