@@ -14,7 +14,7 @@ The lib is now on Maven Central. All you have to do is add it on your gradle bui
 
 ```xml
 dependencies {
-    compile 'com.github.castorflex.smoothprogressbar:library:0.2.2'
+    compile 'com.github.castorflex.smoothprogressbar:library:0.3.1'
 }
 ```
 
@@ -47,7 +47,7 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
     .interpolator(new DecelerateInterpolator())
     .sectionsCount(4)
     .separatorLength(8)     //You should use Resources#getDimensionPixelSize
-    .width(8)               //You should use Resources#getDimensionPixelSize
+    .strokeWidth(8f)         //You should use Resources#getDimension
     .speed(2.0)             //2 times faster
     .reversed(false)
     .mirrorMode(false)
