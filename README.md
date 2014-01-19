@@ -14,9 +14,12 @@ The lib is now on Maven Central. All you have to do is add it on your gradle bui
 
 ```xml
 dependencies {
-    compile 'com.github.castorflex.smoothprogressbar:library:0.3.X'
+    // of course, do not write x.x.x but the version number
+    compile 'com.github.castorflex.smoothprogressbar:library:x.x.x'
 }
 ```
+
+You can find the last version on [Gradle Please]
 
 ##Usage
 
@@ -79,3 +82,5 @@ Bitdeli: [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/castorflex/smoo
 [blog post]: http://antoine-merle.com/blog/2013/11/12/make-your-progressbar-more-smooth/
 
 [Play Store]: https://play.google.com/store/apps/details?id=fr.castorflex.android.smoothprogressbar.sample
+
+[Gradle Please]: http://gradleplease.appspot.com/
