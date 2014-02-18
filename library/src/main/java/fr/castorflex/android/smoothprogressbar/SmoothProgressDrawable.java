@@ -29,23 +29,27 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private boolean mRunning;
     private float mCurrentOffset;
     private int mSeparatorLength;
-    private int mSectionsCount;
+    private int mSectionsCount, mStartSection, mCurrentSections;
     private float mSpeed;
     private boolean mReversed;
     private boolean mNewTurn;
     private boolean mMirrorMode;
     private float mMaxOffset;
+    private boolean finishing;
 
     private SmoothProgressDrawable(Interpolator interpolator, int sectionsCount, int separatorLength, int[] colors, float strokeWidth, float speed, boolean reversed, boolean mirrorMode) {
         mRunning = false;
         mInterpolator = interpolator;
         mSectionsCount = sectionsCount;
+        mStartSection = 0;
+        mCurrentSections = 0;
         mSeparatorLength = separatorLength;
         mSpeed = speed;
         mReversed = reversed;
         mColors = colors;
         mColorsIndex = 0;
         mMirrorMode = mirrorMode;
+        finishing = false;
 
         mMaxOffset = 1f / mSectionsCount;
 
@@ -145,6 +149,17 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         if (mNewTurn) {
             mColorsIndex = decrementColor(mColorsIndex);
             mNewTurn = false;
+
+            if (finishing) {
+                mStartSection++;
+
+                if (mStartSection > mCurrentSections) {
+                    stop();
+                    return;
+                }
+            } else if (mCurrentSections < mSectionsCount) {
+                mCurrentSections++;
+            }
         }
 
         float prev;
@@ -156,7 +171,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         float drawLength;
         int currentIndexColor = mColorsIndex;
 
-        for (int i = 0; i <= mSectionsCount; ++i) {
+        for (int i = 0; i <= mCurrentSections; ++i) {
             xOffset = xSectionWidth * i + mCurrentOffset;
             prev = Math.max(0f, xOffset - xSectionWidth);
             ratioSectionWidth = Math.abs(
@@ -171,7 +186,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
 
             drawLength = sectionWidth > spaceLength ? sectionWidth - spaceLength : 0;
             end = prevValue + drawLength;
-            if (end > prevValue) {
+            if (end > prevValue && i >= mStartSection) {
                 drawLine(canvas, boundsWidth,
                         Math.min(boundsWidth, prevValue), centerY, Math.min(boundsWidth, end), centerY,
                         currentIndexColor);
@@ -209,6 +224,31 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         --colorIndex;
         if (colorIndex < 0) colorIndex = mColors.length - 1;
         return colorIndex;
+    }
+
+    /**
+     * Start the animation from a given color.
+     *
+     * @param index
+     */
+    public void begin(int index) {
+        finishing = false;
+        mStartSection = 0;
+        mCurrentSections = 0;
+        mColorsIndex = index;
+
+        start();
+    }
+
+    /**
+     * Finish the animation by animating the remaining sections.
+     */
+    public void finish() {
+        finishing = true;
+        mStartSection = 0;
+        if (mCurrentSections < mSectionsCount) {
+            mCurrentSections++;
+        }
     }
 
     @Override
@@ -257,7 +297,12 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
 
         @Override
         public void run() {
-            mCurrentOffset += (OFFSET_PER_FRAME * mSpeed);
+            if (finishing) {
+                mCurrentOffset += (OFFSET_PER_FRAME * 2 * mSpeed);
+            } else {
+                mCurrentOffset += (OFFSET_PER_FRAME * mSpeed);
+            }
+
             if (mCurrentOffset >= mMaxOffset) {
                 mNewTurn = true;
                 mCurrentOffset -= mMaxOffset;

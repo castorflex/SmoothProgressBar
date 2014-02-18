@@ -152,17 +152,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Google now"/>
-
-        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/GNowProgressBar"
-            android:indeterminate="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="GPlus"/>
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
@@ -170,6 +159,41 @@
             android:layout_height="wrap_content"
             android:indeterminate="true"
             style="@style/GPlusProgressBar"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Google now"/>
+
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+            android:id="@+id/google_now"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/GNowProgressBar"
+            android:indeterminate="true"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Begin"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Finish"
+                android:layout_weight="1" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </ScrollView>

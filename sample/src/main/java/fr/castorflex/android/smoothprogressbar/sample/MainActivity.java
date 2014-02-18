@@ -2,6 +2,7 @@ package fr.castorflex.android.smoothprogressbar.sample;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -18,6 +19,7 @@ public class MainActivity extends Activity {
     private ProgressBar mProgressBar2;
     private ProgressBar mProgressBar3;
     private ProgressBar mProgressBar4;
+    private ProgressBar mGoogleNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,35 @@ public class MainActivity extends Activity {
         mProgressBar3.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new DecelerateInterpolator()).build());
         mProgressBar4.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateDecelerateInterpolator()).build());
 
+        mGoogleNow = (ProgressBar) findViewById(R.id.google_now);
+
         findViewById(R.id.button_make).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MakeCustomActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable drawable = mGoogleNow.getIndeterminateDrawable();
+
+                if (drawable instanceof SmoothProgressDrawable) {
+                    ((SmoothProgressDrawable) drawable).begin(0);
+                }
+            }
+        });
+
+        findViewById(R.id.finish).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable drawable = mGoogleNow.getIndeterminateDrawable();
+
+                if (drawable instanceof SmoothProgressDrawable) {
+                    ((SmoothProgressDrawable) drawable).finish();
+                }
             }
         });
     }
