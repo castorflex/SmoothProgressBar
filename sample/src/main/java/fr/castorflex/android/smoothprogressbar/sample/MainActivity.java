@@ -19,7 +19,7 @@ public class MainActivity extends Activity {
     private ProgressBar mProgressBar2;
     private ProgressBar mProgressBar3;
     private ProgressBar mProgressBar4;
-	private ProgressBar mGoogleNow;
+    private ProgressBar mGoogleNow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,36 +36,36 @@ public class MainActivity extends Activity {
         mProgressBar3.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new DecelerateInterpolator()).build());
         mProgressBar4.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateDecelerateInterpolator()).build());
 
-	    mGoogleNow = (ProgressBar) findViewById(R.id.google_now);
+        mGoogleNow = (ProgressBar) findViewById(R.id.google_now);
 
-	    findViewById(R.id.button_make).setOnClickListener(new View.OnClickListener() {
-		    @Override
-		    public void onClick(View v) {
-			    Intent intent = new Intent(MainActivity.this, MakeCustomActivity.class);
-			    startActivity(intent);
-		    }
-	    });
+        findViewById(R.id.button_make).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, MakeCustomActivity.class);
+                startActivity(intent);
+            }
+        });
 
-	    findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
-		    @Override
-		    public void onClick(View v) {
-			    Drawable drawable = mGoogleNow.getIndeterminateDrawable();
+        findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable drawable = mGoogleNow.getIndeterminateDrawable();
 
-			    if (drawable instanceof SmoothProgressDrawable) {
-				    ((SmoothProgressDrawable) drawable).begin(0);
-			    }
-		    }
-	    });
+                if (drawable instanceof SmoothProgressDrawable) {
+                    ((SmoothProgressDrawable) drawable).begin(0);
+                }
+            }
+        });
 
-	    findViewById(R.id.finish).setOnClickListener(new View.OnClickListener() {
-		    @Override
-		    public void onClick(View v) {
-			    Drawable drawable = mGoogleNow.getIndeterminateDrawable();
+        findViewById(R.id.finish).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable drawable = mGoogleNow.getIndeterminateDrawable();
 
-			    if (drawable instanceof SmoothProgressDrawable) {
-				    ((SmoothProgressDrawable) drawable).finish();
-			    }
-		    }
-	    });
+                if (drawable instanceof SmoothProgressDrawable) {
+                    ((SmoothProgressDrawable) drawable).finish();
+                }
+            }
+        });
     }
 }
