@@ -15,6 +15,7 @@
         </attr>
         <attr name="spb_reversed" format="boolean"/>
         <attr name="spb_mirror_mode" format="boolean"/>
-        <attr name="spb_colors" format="reference" />
+        <attr name="spb_colors" format="reference"/>
+        <attr name="spb_progressiveStartActivated" format="boolean"/>
     </declare-styleable>
 </resources>

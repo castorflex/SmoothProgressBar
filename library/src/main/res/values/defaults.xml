@@ -8,4 +8,5 @@
     <item name="spb_default_speed" format="float" type="string">1.0</item>
     <bool name="spb_default_reversed">false</bool>
     <bool name="spb_default_mirror_mode">false</bool>
+    <bool name="spb_default_progressiveStartActivated">false</bool>
 </resources>

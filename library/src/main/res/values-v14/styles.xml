@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="SmoothProgressBar" parent="android:Widget.Holo.ProgressBar.Horizontal">
         <item name="spb_color">@color/spb_default_color</item>
         <item name="spb_sections_count">@integer/spb_default_sections_count</item>

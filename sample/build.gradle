@@ -5,7 +5,7 @@ repositories {
 }
 
 dependencies {
-	compile project(':library')
+    compile project(':library')
 }
 
 android {

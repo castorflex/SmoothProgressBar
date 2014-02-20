@@ -23,6 +23,7 @@
         <item name="spb_mirror_mode">true</item>
         <item name="spb_reversed">true</item>
         <item name="spb_colors">@array/gplus_colors</item>
+        <item name="spb_progressiveStartActivated">true</item>
     </style>
 
 </resources>
