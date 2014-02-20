@@ -288,13 +288,13 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
    */
   public void progressiveStart(int index) {
     resetProgressiveStart(index);
-
     start();
   }
 
   private void resetProgressiveStart(int index) {
     checkColorIndex(index);
 
+    mCurrentOffset = 0;
     mFinishing = false;
     mStartSection = 0;
     mCurrentSections = 0;
