@@ -196,14 +196,15 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
       if (isFinishing()) {
         mStartSection++;
 
-        if (mStartSection > mCurrentSections) {
+        if (mStartSection > mSectionsCount) {
           if (mOnProgressiveStopEndedListener != null) {
             mOnProgressiveStopEndedListener.onProgressiveStopEnded();
           }
           stop();
           return;
         }
-      } else if (mCurrentSections < mSectionsCount) {
+      }
+      if (mCurrentSections < mSectionsCount) {
         mCurrentSections++;
       }
     }
@@ -306,9 +307,6 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   public void progressiveStop() {
     mFinishing = true;
     mStartSection = 0;
-    if (mCurrentSections < mSectionsCount) {
-      mCurrentSections++;
-    }
   }
 
   @Override
@@ -357,7 +355,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   }
 
   public boolean isStarting() {
-    return !mFinishing && mCurrentSections < mSectionsCount;
+    return mCurrentSections < mSectionsCount;
   }
 
   public boolean isFinishing() {
