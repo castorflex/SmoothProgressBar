@@ -42,7 +42,7 @@ public class SmoothProgressBar extends ProgressBar {
     final int separatorLength = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb_stroke_separator_length, res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length));
     final float strokeWidth = a.getDimension(R.styleable.SmoothProgressBar_spb_stroke_width, res.getDimension(R.dimen.spb_default_stroke_width));
     final float speed = a.getFloat(R.styleable.SmoothProgressBar_spb_speed, Float.parseFloat(res.getString(R.string.spb_default_speed)));
-    final int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, res.getInteger(R.integer.spb_default_interpolator));
+    final int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, -1);
     final boolean reversed = a.getBoolean(R.styleable.SmoothProgressBar_spb_reversed, res.getBoolean(R.bool.spb_default_reversed));
     final boolean mirrorMode = a.getBoolean(R.styleable.SmoothProgressBar_spb_mirror_mode, res.getBoolean(R.bool.spb_default_mirror_mode));
     final int colorsId = a.getResourceId(R.styleable.SmoothProgressBar_spb_colors, 0);
@@ -51,20 +51,25 @@ public class SmoothProgressBar extends ProgressBar {
     a.recycle();
 
     //interpolator
-    Interpolator interpolator;
-    switch (iInterpolator) {
-      case INTERPOLATOR_ACCELERATEDECELERATE:
-        interpolator = new AccelerateDecelerateInterpolator();
-        break;
-      case INTERPOLATOR_DECELERATE:
-        interpolator = new DecelerateInterpolator();
-        break;
-      case INTERPOLATOR_LINEAR:
-        interpolator = new LinearInterpolator();
-        break;
-      case INTERPOLATOR_ACCELERATE:
-      default:
-        interpolator = new AccelerateInterpolator();
+    Interpolator interpolator = null;
+    if (iInterpolator == -1) {
+      interpolator = getInterpolator();
+    }
+    if (interpolator == null) {
+      switch (iInterpolator) {
+        case INTERPOLATOR_ACCELERATEDECELERATE:
+          interpolator = new AccelerateDecelerateInterpolator();
+          break;
+        case INTERPOLATOR_DECELERATE:
+          interpolator = new DecelerateInterpolator();
+          break;
+        case INTERPOLATOR_LINEAR:
+          interpolator = new LinearInterpolator();
+          break;
+        case INTERPOLATOR_ACCELERATE:
+        default:
+          interpolator = new AccelerateInterpolator();
+      }
     }
 
     int[] colors = null;
