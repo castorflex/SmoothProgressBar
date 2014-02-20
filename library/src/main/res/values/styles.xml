@@ -13,7 +13,7 @@
         <item name="spb_stroke_separator_length">@dimen/spb_default_stroke_separator_length</item>
         <item name="spb_reversed">@bool/spb_default_reversed</item>
         <item name="spb_mirror_mode">@bool/spb_default_mirror_mode</item>
-        <item name="spb_progressiveStartActivated">@bool/spb_default_progressiveStartActivated</item>
+        <item name="spb_progressiveStart_activated">@bool/spb_default_progressiveStart_activated</item>
     </style>
 
 </resources>

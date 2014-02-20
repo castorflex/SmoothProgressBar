@@ -37,11 +37,13 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   private int mSeparatorLength;
   private int mSectionsCount;
   private float mSpeed;
+  private float mProgressiveStartSpeed;
+  private float mProgressiveStopSpeed;
   private boolean mReversed;
   private boolean mNewTurn;
   private boolean mMirrorMode;
   private float mMaxOffset;
-  private boolean mProgressiveFinishing;
+  private boolean mFinishing;
   private boolean mProgressiveStartActivated;
   private int mStartSection;
   private int mCurrentSections;
@@ -52,6 +54,8 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
                                  int[] colors,
                                  float strokeWidth,
                                  float speed,
+                                 float progressiveStartSpeed,
+                                 float progressiveStopSpeed,
                                  boolean reversed,
                                  boolean mirrorMode,
                                  OnProgressiveStopEndedListener onProgressiveStopEndedListener,
@@ -63,11 +67,13 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     mCurrentSections = mSectionsCount;
     mSeparatorLength = separatorLength;
     mSpeed = speed;
+    mProgressiveStartSpeed = progressiveStartSpeed;
+    mProgressiveStopSpeed = progressiveStopSpeed;
     mReversed = reversed;
     mColors = colors;
     mColorsIndex = 0;
     mMirrorMode = mirrorMode;
-    mProgressiveFinishing = false;
+    mFinishing = false;
 
     mMaxOffset = 1f / mSectionsCount;
 
@@ -107,6 +113,18 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     invalidateSelf();
   }
 
+  public void setProgressiveStartSpeed(float speed) {
+    if (speed < 0) throw new IllegalArgumentException("SpeedProgressiveStart must be >= 0");
+    mProgressiveStartSpeed = speed;
+    invalidateSelf();
+  }
+
+  public void setProgressiveStopSpeed(float speed) {
+    if (speed < 0) throw new IllegalArgumentException("SpeedProgressiveStop must be >= 0");
+    mProgressiveStopSpeed = speed;
+    invalidateSelf();
+  }
+
   public void setSectionsCount(int sectionsCount) {
     if (sectionsCount <= 0) throw new IllegalArgumentException("SectionsCount must be > 0");
     mSectionsCount = sectionsCount;
@@ -140,7 +158,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     invalidateSelf();
   }
 
-  public void setProgressiveStartActivated(boolean progressiveStartActivated){
+  public void setProgressiveStartActivated(boolean progressiveStartActivated) {
     mProgressiveStartActivated = progressiveStartActivated;
   }
 
@@ -175,7 +193,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
       mColorsIndex = decrementColor(mColorsIndex);
       mNewTurn = false;
 
-      if (mProgressiveFinishing) {
+      if (isFinishing()) {
         mStartSection++;
 
         if (mStartSection > mCurrentSections) {
@@ -276,7 +294,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   private void resetProgressiveStart(int index) {
     checkColorIndex(index);
 
-    mProgressiveFinishing = false;
+    mFinishing = false;
     mStartSection = 0;
     mCurrentSections = 0;
     mColorsIndex = index;
@@ -286,7 +304,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
    * Finish the animation by animating the remaining sections.
    */
   public void progressiveStop() {
-    mProgressiveFinishing = true;
+    mFinishing = true;
     mStartSection = 0;
     if (mCurrentSections < mSectionsCount) {
       mCurrentSections++;
@@ -338,12 +356,22 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     return mRunning;
   }
 
+  public boolean isStarting() {
+    return !mFinishing && mCurrentSections < mSectionsCount;
+  }
+
+  public boolean isFinishing() {
+    return mFinishing;
+  }
+
   private final Runnable mUpdater = new Runnable() {
 
     @Override
     public void run() {
-      if (mProgressiveFinishing) {
-        mCurrentOffset += (OFFSET_PER_FRAME * 2 * mSpeed);
+      if (isFinishing()) {
+        mCurrentOffset += (OFFSET_PER_FRAME * mProgressiveStopSpeed);
+      } else if (isStarting()) {
+        mCurrentOffset += (OFFSET_PER_FRAME * mProgressiveStartSpeed);
       } else {
         mCurrentOffset += (OFFSET_PER_FRAME * mSpeed);
       }
@@ -384,6 +412,8 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private int mSectionsCount;
     private int[] mColors;
     private float mSpeed;
+    private float mProgressiveStartSpeed;
+    private float mProgressiveStopSpeed;
     private boolean mReversed;
     private boolean mMirrorMode;
     private float mStrokeWidth;
@@ -404,6 +434,8 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
           mColors,
           mStrokeWidth,
           mSpeed,
+          mProgressiveStartSpeed,
+          mProgressiveStopSpeed,
           mReversed,
           mMirrorMode,
           mOnProgressiveStopEndedListener,
@@ -417,10 +449,12 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
       mSectionsCount = res.getInteger(R.integer.spb_default_sections_count);
       mColors = new int[]{res.getColor(R.color.spb_default_color)};
       mSpeed = Float.parseFloat(res.getString(R.string.spb_default_speed));
+      mProgressiveStartSpeed = mSpeed;
+      mProgressiveStopSpeed = mSpeed;
       mReversed = res.getBoolean(R.bool.spb_default_reversed);
       mStrokeSeparatorLength = res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length);
       mStrokeWidth = res.getDimensionPixelOffset(R.dimen.spb_default_stroke_width);
-      mProgressiveStartActivated = res.getBoolean(R.bool.spb_default_progressiveStartActivated);
+      mProgressiveStartActivated = res.getBoolean(R.bool.spb_default_progressiveStart_activated);
     }
 
     public Builder interpolator(Interpolator interpolator) {
@@ -464,6 +498,20 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     public Builder speed(float speed) {
       if (speed < 0) throw new IllegalArgumentException("Speed must be >= 0");
       mSpeed = speed;
+      return this;
+    }
+
+    public Builder progressiveStartSpeed(float progressiveStartSpeed) {
+      if (progressiveStartSpeed < 0)
+        throw new IllegalArgumentException("progressiveStartSpeed must be >= 0");
+      mProgressiveStartSpeed = progressiveStartSpeed;
+      return this;
+    }
+
+    public Builder progressiveStopSpeed(float progressiveStopSpeed) {
+      if (progressiveStopSpeed < 0)
+        throw new IllegalArgumentException("progressiveStopSpeed must be >= 0");
+      mProgressiveStopSpeed = progressiveStopSpeed;
       return this;
     }
 

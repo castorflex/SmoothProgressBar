@@ -42,11 +42,13 @@ public class SmoothProgressBar extends ProgressBar {
     final int separatorLength = a.getDimensionPixelSize(R.styleable.SmoothProgressBar_spb_stroke_separator_length, res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length));
     final float strokeWidth = a.getDimension(R.styleable.SmoothProgressBar_spb_stroke_width, res.getDimension(R.dimen.spb_default_stroke_width));
     final float speed = a.getFloat(R.styleable.SmoothProgressBar_spb_speed, Float.parseFloat(res.getString(R.string.spb_default_speed)));
+    final float speedProgressiveStart = a.getFloat(R.styleable.SmoothProgressBar_spb_progressiveStart_speed, speed);
+    final float speedProgressiveStop = a.getFloat(R.styleable.SmoothProgressBar_spb_progressiveStop_speed, speed);
     final int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, -1);
     final boolean reversed = a.getBoolean(R.styleable.SmoothProgressBar_spb_reversed, res.getBoolean(R.bool.spb_default_reversed));
     final boolean mirrorMode = a.getBoolean(R.styleable.SmoothProgressBar_spb_mirror_mode, res.getBoolean(R.bool.spb_default_mirror_mode));
     final int colorsId = a.getResourceId(R.styleable.SmoothProgressBar_spb_colors, 0);
-    final boolean progressiveStartActivated = a.getBoolean(R.styleable.SmoothProgressBar_spb_progressiveStartActivated, res.getBoolean(R.bool.spb_default_progressiveStartActivated));
+    final boolean progressiveStartActivated = a.getBoolean(R.styleable.SmoothProgressBar_spb_progressiveStart_activated, res.getBoolean(R.bool.spb_default_progressiveStart_activated));
 
     a.recycle();
 
@@ -80,6 +82,8 @@ public class SmoothProgressBar extends ProgressBar {
 
     SmoothProgressDrawable.Builder builder = new SmoothProgressDrawable.Builder(context)
         .speed(speed)
+        .progressiveStartSpeed(speedProgressiveStart)
+        .progressiveStopSpeed(speedProgressiveStop)
         .interpolator(interpolator)
         .sectionsCount(sectionsCount)
         .separatorLength(separatorLength)
@@ -122,14 +126,20 @@ public class SmoothProgressBar extends ProgressBar {
     if (a.hasValue(R.styleable.SmoothProgressBar_spb_speed)) {
       setSmoothProgressDrawableSpeed(a.getFloat(R.styleable.SmoothProgressBar_spb_speed, 0));
     }
+    if (a.hasValue(R.styleable.SmoothProgressBar_spb_progressiveStart_speed)) {
+      setSmoothProgressDrawableProgressiveStartSpeed(a.getFloat(R.styleable.SmoothProgressBar_spb_progressiveStart_speed, 0));
+    }
+    if (a.hasValue(R.styleable.SmoothProgressBar_spb_progressiveStop_speed)) {
+      setSmoothProgressDrawableProgressiveStopSpeed(a.getFloat(R.styleable.SmoothProgressBar_spb_progressiveStop_speed, 0));
+    }
     if (a.hasValue(R.styleable.SmoothProgressBar_spb_reversed)) {
       setSmoothProgressDrawableReversed(a.getBoolean(R.styleable.SmoothProgressBar_spb_reversed, false));
     }
     if (a.hasValue(R.styleable.SmoothProgressBar_spb_mirror_mode)) {
       setSmoothProgressDrawableMirrorMode(a.getBoolean(R.styleable.SmoothProgressBar_spb_mirror_mode, false));
     }
-    if (a.hasValue(R.styleable.SmoothProgressBar_spb_progressiveStartActivated)) {
-      setProgressiveStartActivated(a.getBoolean(R.styleable.SmoothProgressBar_spb_progressiveStartActivated, false));
+    if (a.hasValue(R.styleable.SmoothProgressBar_spb_progressiveStart_activated)) {
+      setProgressiveStartActivated(a.getBoolean(R.styleable.SmoothProgressBar_spb_progressiveStart_activated, false));
     }
     if (a.hasValue(R.styleable.SmoothProgressBar_spb_interpolator)) {
       int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, -1);
@@ -186,6 +196,14 @@ public class SmoothProgressBar extends ProgressBar {
 
   public void setSmoothProgressDrawableSpeed(float speed) {
     checkIndeterminateDrawable().setSpeed(speed);
+  }
+
+  public void setSmoothProgressDrawableProgressiveStartSpeed(float speed) {
+    checkIndeterminateDrawable().setProgressiveStartSpeed(speed);
+  }
+
+  public void setSmoothProgressDrawableProgressiveStopSpeed(float speed) {
+    checkIndeterminateDrawable().setProgressiveStopSpeed(speed);
   }
 
   public void setSmoothProgressDrawableSectionsCount(int sectionsCount) {
