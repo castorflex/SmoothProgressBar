@@ -32,14 +32,38 @@ You can find the last version on [Gradle Please]
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:indeterminate="true"
-    app:spb_sections_count="12"
+    app:spb_sections_count="4"
     app:spb_color="#FF0000"
     app:spb_speed="2.0"
     app:spb_stroke_width="4dp"
     app:spb_stroke_separator_length="4dp"
     app:spb_reversed="false"
     app:spb_mirror_mode="false"
+    app:spb_progressiveStart_activated="true"
+    app:spb_progressiveStart_speed="1.5"
+    app:spb_progressiveStop_speed="3.4"
     />
+```
+
+Or use styles:
+
+```xml
+<style name="AppTheme">
+    <item name="spbStyle">@style/GNowProgressBar</item>
+</style>
+
+<style name="GNowProgressBar" parent="SmoothProgressBar">
+    <item name="spb_stroke_separator_length">0dp</item>
+    <item name="spb_sections_count">2</item>
+    <item name="spb_speed">1.7</item>
+    <item name="spb_progressiveStart_speed">2</item>
+    <item name="spb_progressiveStop_speed">3.4</item>
+    <item name="spb_interpolator">spb_interpolator_acceleratedecelerate</item>
+    <item name="spb_mirror_mode">true</item>
+    <item name="spb_reversed">true</item>
+    <item name="spb_colors">@array/gplus_colors</item>
+    <item name="spb_progressiveStart_activated">true</item>
+</style>
 ```
 
 -   Or instantiate a `SmoothProgressDrawable` and set it to your ProgressBar (do not forget to set the Horizontal Style)
@@ -49,11 +73,15 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
     .color(0xff0000)
     .interpolator(new DecelerateInterpolator())
     .sectionsCount(4)
-    .separatorLength(8)     //You should use Resources#getDimensionPixelSize
-    .strokeWidth(8f)         //You should use Resources#getDimension
-    .speed(2.0)             //2 times faster
+    .separatorLength(8)         //You should use Resources#getDimensionPixelSize
+    .strokeWidth(8f)            //You should use Resources#getDimension
+    .speed(2.0)                 //2 times faster
+    .progressiveStartSpeed(2)
+    .progressiveStopSpeed(3.4)
     .reversed(false)
     .mirrorMode(false)
+    .progressiveStart(true)
+    .progressiveStopEndedListener(mListener) //called when the animation is over
     .build());
 ```
 
