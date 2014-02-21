@@ -1,9 +1,9 @@
 ##0.4.0
 
--   Added a progressStart() and progressStop() methods
--   Added parameter progressStart_activated which makes the drawable to animate progressively at each start
+-   Added a `progressStart()` and `progressStop()` methods
+-   Added parameter `progressStart_activated` which makes the drawable to animate progressively at each start
 -   Added speed parameters for progressStart and progressStop
--   Added a listener progressiveStopEndedListener: called when the progressiveStop animation is over
+-   Added a listener `progressiveStopEndedListener`: called when the progressiveStop animation is over
 
 ##0.3.3
 
