@@ -3,6 +3,7 @@ package fr.castorflex.android.smoothprogressbar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -25,6 +26,23 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   private static final long FRAME_DURATION = 1000 / 60;
   private final static float OFFSET_PER_FRAME = 0.01f;
 
+  /**
+   * Transitioning to the indeterminate state.
+   */
+  private static final int STATE_BEGIN = -1;
+  /**
+   * The usual indeterminate state.
+   */
+  private static final int STATE_SMOOTH = 0;
+  /**
+   * Handles the transition from begin to finish, without going through {@link #STATE_SMOOTH}
+   */
+  private static final int STATE_HALFFINISH = 2;
+  /**
+   * Transition out of the indeterminate state.
+   */
+  private static final int STATE_FINISH = 1;
+
 
   private OnProgressiveStopEndedListener mOnProgressiveStopEndedListener;
   private Interpolator mInterpolator;
@@ -43,10 +61,11 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   private boolean mNewTurn;
   private boolean mMirrorMode;
   private float mMaxOffset;
-  private boolean mFinishing;
   private boolean mProgressiveStartActivated;
   private int mStartSection;
   private int mCurrentSections;
+  private int mState;
+  private int mInitialColor;
 
   private SmoothProgressDrawable(Interpolator interpolator,
                                  int sectionsCount,
@@ -73,7 +92,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     mColors = colors;
     mColorsIndex = 0;
     mMirrorMode = mirrorMode;
-    mFinishing = false;
+    mState = STATE_BEGIN;
 
     mMaxOffset = 1f / mSectionsCount;
 
@@ -196,16 +215,19 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
       if (isFinishing()) {
         mStartSection++;
 
-        if (mStartSection > mSectionsCount) {
+        if (mStartSection > mSectionsCount + 1) {
           if (mOnProgressiveStopEndedListener != null) {
             mOnProgressiveStopEndedListener.onProgressiveStopEnded();
           }
           stop();
           return;
         }
-      }
-      if (mCurrentSections < mSectionsCount) {
-        mCurrentSections++;
+      } else if (mState == STATE_BEGIN) {
+        if (mCurrentSections == mSectionsCount) {
+          mState = STATE_SMOOTH;
+        } else if (mCurrentSections < mSectionsCount) {
+          mCurrentSections++;
+        }
       }
     }
 
@@ -218,7 +240,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     float drawLength;
     int currentIndexColor = mColorsIndex;
 
-    for (int i = 0; i <= mCurrentSections; ++i) {
+    for (int i = 0; i <= mSectionsCount; ++i) {
       xOffset = xSectionWidth * i + mCurrentOffset;
       prev = Math.max(0f, xOffset - xSectionWidth);
       ratioSectionWidth = Math.abs(
@@ -233,18 +255,47 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
 
       drawLength = sectionWidth > spaceLength ? sectionWidth - spaceLength : 0;
       end = prevValue + drawLength;
-      if (end > prevValue && i >= mStartSection) {
+
+      /**
+       * This is not pretty. In fact, it's absurdly ugly.
+       *
+       * Can it be simplified? Probably.
+       *
+       * But it works.
+       *
+       * It covers two main cases:
+       *  - the normal flow of begin -> smooth -> finish
+       *  - the flow of begin -> finish, which has many edge cases depending on
+       *    how far into the "begin" state we are. This is mostly determined by
+       *    mCurrentSections. This then needs to work with mStartSection to transition
+       *    from that state into the finish state.
+       */
+      if ((i > mCurrentSections && (mState == STATE_BEGIN)) ||
+          (mState == STATE_FINISH &&
+              ((i >= mStartSection && i > mCurrentSections) ||
+                  (i > mStartSection && i <= mCurrentSections && mStartSection == mCurrentSections))) ||
+          (mState == STATE_HALFFINISH &&
+              (i > mStartSection && mStartSection < mSectionsCount &&
+                  (i > mCurrentSections ||
+                      (mStartSection > 0 && i < mCurrentSections) ||
+                      mCurrentSections == 1 ||
+                      (mStartSection == 0 && i >= mCurrentSections)))
+          )) {
         drawLine(canvas, boundsWidth,
             Math.min(boundsWidth, prevValue), centerY, Math.min(boundsWidth, end), centerY,
-            currentIndexColor);
+            mInitialColor);
+      } else if (i >= mStartSection) {
+        drawLine(canvas, boundsWidth,
+            Math.min(boundsWidth, prevValue), centerY, Math.min(boundsWidth, end), centerY,
+            mColors[currentIndexColor]);
       }
       prevValue = end + spaceLength;
       currentIndexColor = incrementColor(currentIndexColor);
     }
   }
 
-  private void drawLine(Canvas canvas, int canvasWidth, float startX, float startY, float stopX, float stopY, int currentIndexColor) {
-    mPaint.setColor(mColors[currentIndexColor]);
+  private void drawLine(Canvas canvas, int canvasWidth, float startX, float startY, float stopX, float stopY, int color) {
+    mPaint.setColor(color);
 
     if (!mMirrorMode) {
       canvas.drawLine(startX, startY, stopX, stopY, mPaint);
@@ -275,27 +326,45 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
 
   /**
    * Start the animation with the first color.
-   * Calls progressiveStart(0)
+   * Calls progressiveStart(0) with a transparent initial color.
    */
   public void progressiveStart() {
     progressiveStart(0);
   }
 
   /**
-   * Start the animation from a given color.
-   *
-   * @param index
+   * Start the animation from the given index.
+   * Calls progressiveStart(index) with a transparent initial color.
    */
   public void progressiveStart(int index) {
-    resetProgressiveStart(index);
+    progressiveStart(index, Color.TRANSPARENT);
+  }
+
+  /**
+   * Start the animation from a given color.
+   *
+   * @param index the index of the color to start with
+   * @param initialColor the "background" color
+   */
+  public void progressiveStart(int index, int initialColor) {
+    resetProgressiveStart(index, initialColor);
     start();
   }
 
   private void resetProgressiveStart(int index) {
+    resetProgressiveStart(index, mInitialColor);
+  }
+
+  private void resetProgressiveStart(int index, int initialColor) {
     checkColorIndex(index);
 
+    mState = STATE_BEGIN;
+    mStartSection = 0;
+    mCurrentSections = 0;
+    mColorsIndex = index;
+    mInitialColor = initialColor;
+
     mCurrentOffset = 0;
-    mFinishing = false;
     mStartSection = 0;
     mCurrentSections = 0;
     mColorsIndex = index;
@@ -305,8 +374,14 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
    * Finish the animation by animating the remaining sections.
    */
   public void progressiveStop() {
-    mFinishing = true;
-    mStartSection = 0;
+    if (mState == STATE_BEGIN && mCurrentSections < mSectionsCount) {
+      mCurrentSections++;
+      mState = STATE_HALFFINISH;
+      mStartSection = 0;
+    } else if (!isFinishing()) {
+      mState = STATE_FINISH;
+      mStartSection = 0;
+    }
   }
 
   @Override
@@ -359,7 +434,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   }
 
   public boolean isFinishing() {
-    return mFinishing;
+    return mState == STATE_FINISH || mState == STATE_HALFFINISH;
   }
 
   private final Runnable mUpdater = new Runnable() {
