@@ -19,5 +19,7 @@
         <attr name="spb_mirror_mode" format="boolean"/>
         <attr name="spb_colors" format="reference"/>
         <attr name="spb_progressiveStart_activated" format="boolean"/>
+        <attr name="spb_background" format="reference"/>
+        <attr name="spb_generate_background_with_colors" format="boolean"/>
     </declare-styleable>
 </resources>

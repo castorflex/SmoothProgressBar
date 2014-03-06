@@ -14,6 +14,8 @@
         <item name="spb_reversed">@bool/spb_default_reversed</item>
         <item name="spb_mirror_mode">@bool/spb_default_mirror_mode</item>
         <item name="spb_progressiveStart_activated">@bool/spb_default_progressiveStart_activated</item>
+        <item name="spb_background">@null</item>
+        <item name="spb_generate_background_with_colors">false</item>
     </style>
 
 </resources>

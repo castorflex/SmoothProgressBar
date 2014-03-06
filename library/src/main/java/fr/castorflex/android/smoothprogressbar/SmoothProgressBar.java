@@ -3,6 +3,7 @@ package fr.castorflex.android.smoothprogressbar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -49,7 +50,8 @@ public class SmoothProgressBar extends ProgressBar {
     final boolean mirrorMode = a.getBoolean(R.styleable.SmoothProgressBar_spb_mirror_mode, res.getBoolean(R.bool.spb_default_mirror_mode));
     final int colorsId = a.getResourceId(R.styleable.SmoothProgressBar_spb_colors, 0);
     final boolean progressiveStartActivated = a.getBoolean(R.styleable.SmoothProgressBar_spb_progressiveStart_activated, res.getBoolean(R.bool.spb_default_progressiveStart_activated));
-
+    final Drawable backgroundDrawable = a.getDrawable(R.styleable.SmoothProgressBar_spb_background);
+    final boolean generateBackgroundWithColors = a.getBoolean(R.styleable.SmoothProgressBar_spb_generate_background_with_colors, false);
     a.recycle();
 
     //interpolator
@@ -92,12 +94,21 @@ public class SmoothProgressBar extends ProgressBar {
         .mirrorMode(mirrorMode)
         .progressiveStart(progressiveStartActivated);
 
+    if (backgroundDrawable != null) {
+      builder.backgroundDrawable(backgroundDrawable);
+    }
+
+    if (generateBackgroundWithColors) {
+      builder.generateBackgroundUsingColors();
+    }
+
     if (colors != null && colors.length > 0)
       builder.colors(colors);
     else
       builder.color(color);
 
-    setIndeterminateDrawable(builder.build());
+    SmoothProgressDrawable d = builder.build();
+    setIndeterminateDrawable(d);
   }
 
   public void applyStyle(int styleResId) {
@@ -141,6 +152,15 @@ public class SmoothProgressBar extends ProgressBar {
     if (a.hasValue(R.styleable.SmoothProgressBar_spb_progressiveStart_activated)) {
       setProgressiveStartActivated(a.getBoolean(R.styleable.SmoothProgressBar_spb_progressiveStart_activated, false));
     }
+    if (a.hasValue(R.styleable.SmoothProgressBar_spb_background)) {
+      setSmoothProgressDrawableBackgroundDrawable(a.getDrawable(R.styleable.SmoothProgressBar_spb_background));
+    }
+    if (a.hasValue(R.styleable.SmoothProgressBar_spb_generate_background_with_colors)) {
+      if (a.getBoolean(R.styleable.SmoothProgressBar_spb_generate_background_with_colors, false)) {
+        setSmoothProgressDrawableBackgroundDrawable(
+            Utils.generateDrawableWithColors(checkIndeterminateDrawable().getColors(), checkIndeterminateDrawable().getStrokeWidth()));
+      }
+    }
     if (a.hasValue(R.styleable.SmoothProgressBar_spb_interpolator)) {
       int iInterpolator = a.getInteger(R.styleable.SmoothProgressBar_spb_interpolator, -1);
       Interpolator interpolator;
@@ -165,6 +185,15 @@ public class SmoothProgressBar extends ProgressBar {
       }
     }
     a.recycle();
+  }
+
+  @Override
+  protected synchronized void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
+    if (isIndeterminate() && getIndeterminateDrawable() instanceof SmoothProgressDrawable &&
+        !((SmoothProgressDrawable) getIndeterminateDrawable()).isRunning()) {
+      getIndeterminateDrawable().draw(canvas);
+    }
   }
 
   private SmoothProgressDrawable checkIndeterminateDrawable() {
@@ -230,8 +259,12 @@ public class SmoothProgressBar extends ProgressBar {
     checkIndeterminateDrawable().setProgressiveStartActivated(progressiveStartActivated);
   }
 
-  public void setOnProgressiveStopEndedListener(SmoothProgressDrawable.OnProgressiveStopEndedListener listener) {
-    checkIndeterminateDrawable().setOnProgressiveStopEndedListener(listener);
+  public void setSmoothProgressDrawableCallbacks(SmoothProgressDrawable.Callbacks listener) {
+    checkIndeterminateDrawable().setCallbacks(listener);
+  }
+
+  public void setSmoothProgressDrawableBackgroundDrawable(Drawable drawable) {
+    checkIndeterminateDrawable().setBackgroundDrawable(drawable);
   }
 
   public void progressiveStart() {
