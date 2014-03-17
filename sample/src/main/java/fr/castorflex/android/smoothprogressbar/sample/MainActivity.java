@@ -10,12 +10,13 @@ import android.widget.ProgressBar;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
+import fr.castorflex.android.smoothprogressbar.Utils;
 
 public class MainActivity extends Activity {
 
   private ProgressBar mProgressBar1;
-  private ProgressBar mProgressBar2;
   private SmoothProgressBar mGoogleNow;
+  private SmoothProgressBar mPocketBar;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +24,15 @@ public class MainActivity extends Activity {
     setContentView(R.layout.activity_main);
 
     mProgressBar1 = (ProgressBar) findViewById(R.id.progressbar2);
-    mProgressBar2 = (ProgressBar) findViewById(R.id.progressbar3);
+    mPocketBar = (SmoothProgressBar) findViewById(R.id.pocket);
 
     mProgressBar1.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateInterpolator()).build());
-    mProgressBar2.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new DecelerateInterpolator()).build());
 
     mGoogleNow = (SmoothProgressBar) findViewById(R.id.google_now);
+    mPocketBar.setSmoothProgressDrawableBackgroundDrawable(
+        Utils.generateDrawableWithColors(
+            getResources().getIntArray(R.array.pocket_background_colors),
+            ((SmoothProgressDrawable) mPocketBar.getIndeterminateDrawable()).getStrokeWidth()));
 
     findViewById(R.id.button_make).setOnClickListener(new View.OnClickListener() {
       @Override
@@ -41,14 +45,14 @@ public class MainActivity extends Activity {
     findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        mGoogleNow.progressiveStart();
+        mPocketBar.progressiveStart();
       }
     });
 
     findViewById(R.id.finish).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        mGoogleNow.progressiveStop();
+        mPocketBar.progressiveStop();
       }
     });
   }

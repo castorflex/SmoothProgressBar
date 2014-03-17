@@ -47,29 +47,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="DecelerateInterpolator"/>
-
-        <ProgressBar
-            android:id="@+id/progressbar3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/ProgressBar.Horizontal"
-            android:indeterminate="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reversed"/>
-
-        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:spb_reversed="true"
-            android:indeterminate="true"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="GPlus"/>
 
         <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
@@ -88,6 +65,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/GNowProgressBar"
+            android:indeterminate="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Google now"/>
+
+        <fr.castorflex.android.smoothprogressbar.SmoothProgressBar
+            android:id="@+id/pocket"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/PocketProgressBar"
             android:indeterminate="true"/>
 
         <LinearLayout
