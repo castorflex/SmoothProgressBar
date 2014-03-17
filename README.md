@@ -21,6 +21,8 @@ dependencies {
 
 You can find the last version on [Gradle Please]
 
+If you really want (or have) to use Eclipse, please look at the forks.
+
 ##Usage
 
 -	Use directly SmoothProgressBar:
