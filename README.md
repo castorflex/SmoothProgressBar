@@ -68,6 +68,8 @@ Or use styles:
 </style>
 ```
 
+*You can find more styles [in the sample app][Sample Themes]*
+
 -   Or instantiate a `SmoothProgressDrawable` and set it to your ProgressBar (do not forget to set the Horizontal Style)
 
 ```java
@@ -83,7 +85,7 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
     .reversed(false)
     .mirrorMode(false)
     .progressiveStart(true)
-    .progressiveStopEndedListener(mListener) //called when the animation is over
+    .progressiveStopEndedListener(mListener) //called when the stop animation is over
     .build());
 ```
 
@@ -114,3 +116,5 @@ Bitdeli: [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/castorflex/smoo
 [Play Store]: https://play.google.com/store/apps/details?id=fr.castorflex.android.smoothprogressbar.sample
 
 [Gradle Please]: http://gradleplease.appspot.com/
+
+[Sample Themes]: https://github.com/castorflex/SmoothProgressBar/blob/master/sample/src/main/res/values/styles.xml
