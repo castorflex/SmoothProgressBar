@@ -158,7 +158,7 @@ public class SmoothProgressBar extends ProgressBar {
     if (a.hasValue(R.styleable.SmoothProgressBar_spb_generate_background_with_colors)) {
       if (a.getBoolean(R.styleable.SmoothProgressBar_spb_generate_background_with_colors, false)) {
         setSmoothProgressDrawableBackgroundDrawable(
-            Utils.generateDrawableWithColors(checkIndeterminateDrawable().getColors(), checkIndeterminateDrawable().getStrokeWidth()));
+            SmoothProgressBarUtils.generateDrawableWithColors(checkIndeterminateDrawable().getColors(), checkIndeterminateDrawable().getStrokeWidth()));
       }
     }
     if (a.hasValue(R.styleable.SmoothProgressBar_spb_interpolator)) {

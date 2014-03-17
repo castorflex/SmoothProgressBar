@@ -549,7 +549,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
 
     public SmoothProgressDrawable build() {
       if (mGenerateBackgroundUsingColors) {
-        mBackgroundDrawableWhenHidden = Utils.generateDrawableWithColors(mColors, mStrokeWidth);
+        mBackgroundDrawableWhenHidden = SmoothProgressBarUtils.generateDrawableWithColors(mColors, mStrokeWidth);
       }
       SmoothProgressDrawable ret = new SmoothProgressDrawable(
           mInterpolator,

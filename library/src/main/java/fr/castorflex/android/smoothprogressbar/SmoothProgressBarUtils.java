@@ -6,8 +6,8 @@ import android.graphics.drawable.ShapeDrawable;
 /**
  * Created by castorflex on 3/5/14.
  */
-public final class Utils {
-  private Utils() {
+public final class SmoothProgressBarUtils {
+  private SmoothProgressBarUtils() {
   }
 
   public static Drawable generateDrawableWithColors(int[] colors, float strokeWidth) {

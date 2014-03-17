@@ -5,12 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
-import fr.castorflex.android.smoothprogressbar.Utils;
 
 public class MainActivity extends Activity {
 
@@ -30,7 +29,7 @@ public class MainActivity extends Activity {
 
     mGoogleNow = (SmoothProgressBar) findViewById(R.id.google_now);
     mPocketBar.setSmoothProgressDrawableBackgroundDrawable(
-        Utils.generateDrawableWithColors(
+        SmoothProgressBarUtils.generateDrawableWithColors(
             getResources().getIntArray(R.array.pocket_background_colors),
             ((SmoothProgressDrawable) mPocketBar.getIndeterminateDrawable()).getStrokeWidth()));
 
