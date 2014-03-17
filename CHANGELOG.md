@@ -3,6 +3,8 @@
 -   Added a `progressStart()` and `progressStop()` methods
 -   Added parameter `progressStart_activated` which makes the drawable to animate progressively at each start
 -   Added speed parameters for progressStart and progressStop
+-   Added possibility to set a background for the progressiveStart/Stop (See Pocket example)
+-   Added possibility to set a generated background according to the bar's colors
 -   Added a listener `progressiveStopEndedListener`: called when the progressiveStop animation is over
 
 ##0.3.3
