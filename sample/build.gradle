@@ -1,3 +1,4 @@
+apply plugin: 'android-sdk-manager'
 apply plugin: 'android'
 
 repositories {
@@ -9,8 +10,8 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
+    buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
         minSdkVersion 7
