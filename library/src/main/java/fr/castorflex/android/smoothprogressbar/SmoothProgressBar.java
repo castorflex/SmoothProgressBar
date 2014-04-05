@@ -34,6 +34,11 @@ public class SmoothProgressBar extends ProgressBar {
   public SmoothProgressBar(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
 
+    if (isInEditMode()) {
+      setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context).build());
+      return;
+    }
+
     Resources res = context.getResources();
     TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SmoothProgressBar, defStyle, 0);
 
