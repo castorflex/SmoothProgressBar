@@ -36,6 +36,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   private int mColorsIndex;
   private boolean mRunning;
   private float mCurrentOffset;
+  private float mFinishingOffset;
   private int mSeparatorLength;
   private int mSectionsCount;
   private float mSpeed;
@@ -51,6 +52,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
   private int mCurrentSections;
   private float mStrokeWidth;
   private Drawable mBackgroundDrawable;
+
 
   private SmoothProgressDrawable(Interpolator interpolator,
                                  int sectionsCount,
@@ -263,11 +265,12 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
       drawLength = sectionWidth > spaceLength ? sectionWidth - spaceLength : 0;
       end = prevValue + drawLength;
       if (end > prevValue && i >= mStartSection) {
-        startX = Math.min(boundsWidth, prevValue);
+        float xFinishingOffset = mInterpolator.getInterpolation(Math.min(mFinishingOffset, 1f));
+        startX = Math.max(xFinishingOffset * width, Math.min(boundsWidth, prevValue));
         endX = Math.min(boundsWidth, end);
         drawLine(canvas, boundsWidth, startX, centerY, endX, centerY, currentIndexColor);
         if (i == mStartSection) { // first loop
-          firstX = startX;
+          firstX = startX - mSeparatorLength;
         }
       }
       if (i == mCurrentSections) {
@@ -411,6 +414,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
 
     mCurrentOffset = 0;
     mFinishing = false;
+    mFinishingOffset = 0f;
     mStartSection = 0;
     mCurrentSections = 0;
     mColorsIndex = index;
@@ -488,7 +492,11 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     @Override
     public void run() {
       if (isFinishing()) {
+        mFinishingOffset += (OFFSET_PER_FRAME * mProgressiveStopSpeed);
         mCurrentOffset += (OFFSET_PER_FRAME * mProgressiveStopSpeed);
+        if (mFinishingOffset >= 1f) {
+          stop();
+        }
       } else if (isStarting()) {
         mCurrentOffset += (OFFSET_PER_FRAME * mProgressiveStartSpeed);
       } else {
