@@ -117,7 +117,6 @@ limitations under the License.
 ####Badges
 Travis master: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.png?branch=master)](https://travis-ci.org/castorflex/SmoothProgressBar)
 Travis dev: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.png?branch=dev)](https://travis-ci.org/castorflex/SmoothProgressBar)
-Bitdeli: [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/castorflex/smoothprogressbar/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
 [![Analytics](https://ga-beacon.appspot.com/UA-32954204-2/SmoothProgressBar/readme)](https://github.com/igrigorik/ga-beacon)
 
