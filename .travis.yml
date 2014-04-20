@@ -1,41 +1,13 @@
-branches:
-  only:
-    - dev
-    - master
-language:
-  - java
-jdk:
-  - openjdk6
+language: java
+
 before_install:
-  # environment info
-  - gradle -v
-  - uname -a
-  # required libs for android build tools
-  - if [ `uname -m` = x86_64 ]; then sudo apt-get update; fi
-  - if [ `uname -m` = x86_64 ]; then sudo apt-get install -qq --force-yes libgd2-xpm ia32-libs ia32-libs-multiarch; fi
-  # for gradle output style
   - export TERM=dumb
-  # newer version of gradle
-  - wget http://services.gradle.org/distributions/gradle-1.10-bin.zip
-  - unzip -qq gradle-1.10-bin.zip
-  - export GRADLE_HOME=$PWD/gradle-1.10
-  - export PATH=$GRADLE_HOME/bin:$PATH
-  # just to test gradle version, against our provided one
-  - gradle -v
-  # newest android SDK 22.0.5
-  - wget http://dl.google.com/android/android-sdk_r22.3-linux.tgz
-  - tar -zxf android-sdk_r22.3-linux.tgz
-  - export ANDROID_HOME=`pwd`/android-sdk-linux
-  - export PATH=${PATH}:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools
-  # manually set sdk.dir variable, according to local paths
-  - echo "sdk.dir=$ANDROID_HOME" > local.properties
-  - echo yes | android update sdk -t tools,platform-tools,extra-android-support,extra-android-m2repository,android-19 --force --no-ui
-  # build tools cannot be installed through "android update sdk" as of now
-  - wget http://dl.google.com/android/repository/build-tools_r19-linux.zip
-  - mkdir -p $ANDROID_HOME/build-tools
-  - unzip -qq build-tools_r19-linux.zip -d $ANDROID_HOME/build-tools/
-  - mv $ANDROID_HOME/build-tools/android-4.4 $ANDROID_HOME/build-tools/19
-  # verify files exist in right paths
-  - find $ANDROID_HOME/build-tools
-  - file $ANDROID_HOME/build-tools/19/aapt
-  - gradle clean build
+  # we need the following because of https://github.com/JakeWharton/sdk-manager-plugin/issues/13
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq libstdc++6:i386 lib32z1 expect
+
+install:
+  - ./gradlew clean build
+
+notifications:
+  email: false
