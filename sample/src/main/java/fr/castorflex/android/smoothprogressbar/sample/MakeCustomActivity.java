@@ -27,6 +27,7 @@ public class MakeCustomActivity extends Activity {
   private SmoothProgressBar mProgressBar;
   private CheckBox mCheckBoxMirror;
   private CheckBox mCheckBoxReversed;
+  private CheckBox mCheckBoxGradients;
   private Spinner mSpinnerInterpolators;
   private SeekBar mSeekBarSectionsCount;
   private SeekBar mSeekBarStrokeWidth;
@@ -52,6 +53,7 @@ public class MakeCustomActivity extends Activity {
     mProgressBar = (SmoothProgressBar) findViewById(R.id.progressbar);
     mCheckBoxMirror = (CheckBox) findViewById(R.id.checkbox_mirror);
     mCheckBoxReversed = (CheckBox) findViewById(R.id.checkbox_reversed);
+    mCheckBoxGradients = (CheckBox) findViewById(R.id.checkbox_gradients);
     mSpinnerInterpolators = (Spinner) findViewById(R.id.spinner_interpolator);
     mSeekBarSectionsCount = (SeekBar) findViewById(R.id.seekbar_sections_count);
     mSeekBarStrokeWidth = (SeekBar) findViewById(R.id.seekbar_stroke_width);
@@ -159,6 +161,7 @@ public class MakeCustomActivity extends Activity {
     mProgressBar.setSmoothProgressDrawableStrokeWidth(dpToPx(mStrokeWidth));
     mProgressBar.setSmoothProgressDrawableReversed(mCheckBoxReversed.isChecked());
     mProgressBar.setSmoothProgressDrawableMirrorMode(mCheckBoxMirror.isChecked());
+    mProgressBar.setSmoothProgressDrawableUseGradients(mCheckBoxGradients.isChecked());
 
     Interpolator interpolator;
     switch (mSpinnerInterpolators.getSelectedItemPosition()) {

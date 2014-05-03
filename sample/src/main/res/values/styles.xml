@@ -29,6 +29,15 @@
         <item name="spb_generate_background_with_colors">false</item>
     </style>
 
+    <style name="GradientProgressBar" parent="SmoothProgressBar">
+        <item name="spb_stroke_separator_length">0dp</item>
+        <item name="spb_sections_count">3</item>
+        <item name="spb_speed">1.7</item>
+        <item name="android:interpolator">@android:anim/decelerate_interpolator</item>
+        <item name="spb_colors">@array/gplus_colors</item>
+        <item name="spb_gradients">true</item>
+    </style>
+
     <style name="PocketProgressBar" parent="SmoothProgressBar">
         <item name="spb_stroke_separator_length">4dp</item>
         <item name="spb_sections_count">4</item>
