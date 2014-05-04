@@ -272,9 +272,9 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     }
     mLinearGradientColors[mLinearGradientColors.length - 1] = mColors[currentIndexColor];
 
-    float left = mReversed ? (mMirrorMode ? Math.abs(mBounds.left - mBounds.right) / 2 : mBounds.right) : mBounds.left;
+    float left = mReversed ? (mMirrorMode ? Math.abs(mBounds.left - mBounds.right) / 2 : mBounds.left) : mBounds.left;
     float right = mMirrorMode ? (mReversed ? mBounds.left : Math.abs(mBounds.left - mBounds.right) / 2) :
-        (mReversed ? mBounds.left : mBounds.right);
+        mBounds.right;
     float top = mBounds.centerY() - mStrokeWidth / 2;
     float bottom = mBounds.centerY() + mStrokeWidth / 2;
     LinearGradient linearGradient = new LinearGradient(left, top, right, bottom,
