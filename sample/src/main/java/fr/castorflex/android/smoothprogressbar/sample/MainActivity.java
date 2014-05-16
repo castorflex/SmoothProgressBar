@@ -13,7 +13,7 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
 
 public class MainActivity extends Activity {
 
-  private ProgressBar mProgressBar1;
+  private ProgressBar       mProgressBar1;
   private SmoothProgressBar mGoogleNow;
   private SmoothProgressBar mPocketBar;
 
@@ -25,19 +25,34 @@ public class MainActivity extends Activity {
     mProgressBar1 = (ProgressBar) findViewById(R.id.progressbar2);
     mPocketBar = (SmoothProgressBar) findViewById(R.id.pocket);
 
-    mProgressBar1.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateInterpolator()).build());
+    mProgressBar1.setIndeterminateDrawable(
+        new SmoothProgressDrawable.Builder(this).interpolator(new AccelerateInterpolator())
+            .build());
 
     mGoogleNow = (SmoothProgressBar) findViewById(R.id.google_now);
     mPocketBar.setSmoothProgressDrawableBackgroundDrawable(
         SmoothProgressBarUtils.generateDrawableWithColors(
             getResources().getIntArray(R.array.pocket_background_colors),
-            ((SmoothProgressDrawable) mPocketBar.getIndeterminateDrawable()).getStrokeWidth()));
+            ((SmoothProgressDrawable) mPocketBar.getIndeterminateDrawable()).getStrokeWidth())
+    );
 
     findViewById(R.id.button_make).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         Intent intent = new Intent(MainActivity.this, MakeCustomActivity.class);
         startActivity(intent);
+      }
+    });
+
+    mPocketBar.setSmoothProgressDrawableCallbacks(new SmoothProgressDrawable.Callbacks() {
+      @Override
+      public void onStop() {
+        mPocketBar.setVisibility(View.GONE);
+      }
+
+      @Override
+      public void onStart() {
+        mPocketBar.setVisibility(View.VISIBLE);
       }
     });
 
