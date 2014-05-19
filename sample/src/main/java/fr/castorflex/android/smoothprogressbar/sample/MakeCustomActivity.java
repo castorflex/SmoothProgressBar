@@ -18,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
+import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
 
 /**
  * Created by castorflex on 12/1/13.
@@ -44,6 +45,10 @@ public class MakeCustomActivity extends Activity {
   private int mSeparatorLength;
   private int mSectionsCount;
 
+  // Temp testing vars
+  // ProgressBar starts visible and active
+  Boolean mProgressBarIsActive = true;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -51,6 +56,20 @@ public class MakeCustomActivity extends Activity {
     setContentView(R.layout.activity_custom);
 
     mProgressBar = (SmoothProgressBar) findViewById(R.id.progressbar);
+    // Add CallbackListener for onStart & onStop
+    mProgressBar.setSmoothProgressDrawableCallbacks(new SmoothProgressDrawable.Callbacks() {
+        @Override
+        public void onStop() {
+            mProgressBar.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onStart() {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    });
+    mProgressBar.progressiveStart();
+
     mCheckBoxMirror = (CheckBox) findViewById(R.id.checkbox_mirror);
     mCheckBoxReversed = (CheckBox) findViewById(R.id.checkbox_reversed);
     mCheckBoxGradients = (CheckBox) findViewById(R.id.checkbox_gradients);
@@ -148,7 +167,14 @@ public class MakeCustomActivity extends Activity {
     mButton.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        setValues();
+        //setValues();
+        // Temp override onClick to stop/start the progressBar
+        if (mProgressBarIsActive)
+            mProgressBar.progressiveStop();
+        else
+            mProgressBar.progressiveStart();
+
+        mProgressBarIsActive = !mProgressBarIsActive;
       }
     });
   }

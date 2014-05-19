@@ -55,6 +55,7 @@ public class MainActivity extends Activity {
         mPocketBar.setVisibility(View.VISIBLE);
       }
     });
+    mPocketBar.progressiveStart();
 
     findViewById(R.id.start).setOnClickListener(new View.OnClickListener() {
       @Override
