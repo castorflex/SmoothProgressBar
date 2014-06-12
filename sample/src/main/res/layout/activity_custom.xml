@@ -102,12 +102,39 @@
             android:layout_height="wrap_content"
             />
 
-        <Button
-            android:id="@+id/button"
+        <TextView
+            android:id="@+id/textview_factor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="YOLO"/>
+            android:text="Speed: "/>
 
+        <SeekBar
+            android:id="@+id/seekbar_factor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="31"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button_start"
+                android:text="START"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"/>
+
+            <Button
+                android:id="@+id/button_stop"
+                android:text="STOP"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_margin="4dp"/>
+        </LinearLayout>
     </LinearLayout>
+
 </ScrollView>

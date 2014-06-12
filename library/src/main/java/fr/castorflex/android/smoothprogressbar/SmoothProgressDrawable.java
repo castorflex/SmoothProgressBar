@@ -571,7 +571,10 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
         mNewTurn = true;
         mCurrentOffset -= mMaxOffset;
       }
-      scheduleSelf(mUpdater, SystemClock.uptimeMillis() + FRAME_DURATION);
+
+      if (isRunning())
+        scheduleSelf(mUpdater, SystemClock.uptimeMillis() + FRAME_DURATION);
+
       invalidateSelf();
     }
   };
