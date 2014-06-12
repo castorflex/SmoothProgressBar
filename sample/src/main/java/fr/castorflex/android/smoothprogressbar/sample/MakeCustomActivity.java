@@ -10,9 +10,10 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,7 +34,8 @@ public class MakeCustomActivity extends Activity {
   private SeekBar mSeekBarStrokeWidth;
   private SeekBar mSeekBarSeparatorLength;
   private SeekBar mSeekBarSpeed;
-  private Button mButton;
+  private SeekBar mSeekBarFactor;
+  private TextView mTextViewFactor;
   private TextView mTextViewSpeed;
   private TextView mTextViewStrokeWidth;
   private TextView mTextViewSeparatorLength;
@@ -43,6 +45,7 @@ public class MakeCustomActivity extends Activity {
   private int mStrokeWidth;
   private int mSeparatorLength;
   private int mSectionsCount;
+  private float mFactor = 1f;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -59,18 +62,54 @@ public class MakeCustomActivity extends Activity {
     mSeekBarStrokeWidth = (SeekBar) findViewById(R.id.seekbar_stroke_width);
     mSeekBarSeparatorLength = (SeekBar) findViewById(R.id.seekbar_separator_length);
     mSeekBarSpeed = (SeekBar) findViewById(R.id.seekbar_speed);
-    mButton = (Button) findViewById(R.id.button);
+    mSeekBarFactor = (SeekBar) findViewById(R.id.seekbar_factor);
     mTextViewSpeed = (TextView) findViewById(R.id.textview_speed);
     mTextViewSectionsCount = (TextView) findViewById(R.id.textview_sections_count);
     mTextViewSeparatorLength = (TextView) findViewById(R.id.textview_separator_length);
     mTextViewStrokeWidth = (TextView) findViewById(R.id.textview_stroke_width);
+    mTextViewFactor = (TextView) findViewById(R.id.textview_factor);
 
+    findViewById(R.id.button_start).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mProgressBar.progressiveStart();
+      }
+    });
+
+    findViewById(R.id.button_stop).setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mProgressBar.progressiveStop();
+      }
+    });
+
+    mSeekBarFactor.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+      @Override
+      public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+        mFactor = (progress + 1) / 10f;
+        mTextViewFactor.setText("Factor: " + mFactor);
+        setInterpolator(mSpinnerInterpolators.getSelectedItemPosition());
+      }
+
+      @Override
+      public void onStartTrackingTouch(SeekBar seekBar) {
+
+      }
+
+      @Override
+      public void onStopTrackingTouch(SeekBar seekBar) {
+
+      }
+    });
 
     mSeekBarSpeed.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mSpeed = ((float) progress + 1) / 10;
         mTextViewSpeed.setText("Speed: " + mSpeed);
+        mProgressBar.setSmoothProgressDrawableSpeed(mSpeed);
+        mProgressBar.setSmoothProgressDrawableProgressiveStartSpeed(mSpeed);
+        mProgressBar.setSmoothProgressDrawableProgressiveStopSpeed(mSpeed);
       }
 
       @Override
@@ -89,6 +128,7 @@ public class MakeCustomActivity extends Activity {
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mSectionsCount = progress + 1;
         mTextViewSectionsCount.setText("Sections count: " + mSectionsCount);
+        mProgressBar.setSmoothProgressDrawableSectionsCount(mSectionsCount);
       }
 
       @Override
@@ -107,6 +147,7 @@ public class MakeCustomActivity extends Activity {
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mSeparatorLength = progress;
         mTextViewSeparatorLength.setText(String.format("Separator length: %ddp", mSeparatorLength));
+        mProgressBar.setSmoothProgressDrawableSeparatorLength(dpToPx(mSeparatorLength));
       }
 
       @Override
@@ -125,6 +166,7 @@ public class MakeCustomActivity extends Activity {
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mStrokeWidth = progress;
         mTextViewStrokeWidth.setText(String.format("Stroke width: %ddp", mStrokeWidth));
+        mProgressBar.setSmoothProgressDrawableStrokeWidth(dpToPx(mStrokeWidth));
       }
 
       @Override
@@ -138,50 +180,73 @@ public class MakeCustomActivity extends Activity {
       }
     });
 
+    mCheckBoxGradients.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        mProgressBar.setSmoothProgressDrawableUseGradients(isChecked);
+      }
+    });
+
+    mCheckBoxMirror.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        mProgressBar.setSmoothProgressDrawableMirrorMode(isChecked);
+      }
+    });
+
+    mCheckBoxReversed.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+      @Override
+      public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        mProgressBar.setSmoothProgressDrawableReversed(isChecked);
+      }
+    });
+
     mSeekBarSeparatorLength.setProgress(4);
     mSeekBarSectionsCount.setProgress(4);
     mSeekBarStrokeWidth.setProgress(4);
     mSeekBarSpeed.setProgress(9);
+    mSeekBarFactor.setProgress(9);
 
     mSpinnerInterpolators.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, getResources().getStringArray(R.array.interpolators)));
+    mSpinnerInterpolators.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-    mButton.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void onClick(View v) {
-        setValues();
+      public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        setInterpolator(position);
+      }
+
+      @Override
+      public void onNothingSelected(AdapterView<?> parent) {
+
       }
     });
+    mSpinnerInterpolators.setSelection(0);
   }
 
-  private void setValues() {
-
-    mProgressBar.setSmoothProgressDrawableSpeed(mSpeed);
-    mProgressBar.setSmoothProgressDrawableSectionsCount(mSectionsCount);
-    mProgressBar.setSmoothProgressDrawableSeparatorLength(dpToPx(mSeparatorLength));
-    mProgressBar.setSmoothProgressDrawableStrokeWidth(dpToPx(mStrokeWidth));
-    mProgressBar.setSmoothProgressDrawableReversed(mCheckBoxReversed.isChecked());
-    mProgressBar.setSmoothProgressDrawableMirrorMode(mCheckBoxMirror.isChecked());
-    mProgressBar.setSmoothProgressDrawableUseGradients(mCheckBoxGradients.isChecked());
-
+  private void setInterpolator(int position) {
     Interpolator interpolator;
-    switch (mSpinnerInterpolators.getSelectedItemPosition()) {
+    switch (position) {
       case 1:
         interpolator = new LinearInterpolator();
+        mSeekBarFactor.setEnabled(false);
         break;
       case 2:
         interpolator = new AccelerateDecelerateInterpolator();
+        mSeekBarFactor.setEnabled(false);
         break;
       case 3:
-        interpolator = new DecelerateInterpolator();
+        interpolator = new DecelerateInterpolator(mFactor);
+        mSeekBarFactor.setEnabled(true);
         break;
       case 0:
       default:
-        interpolator = new AccelerateInterpolator();
+        interpolator = new AccelerateInterpolator(mFactor);
+        mSeekBarFactor.setEnabled(true);
         break;
     }
 
     mProgressBar.setSmoothProgressDrawableInterpolator(interpolator);
-    mProgressBar.setSmoothProgressDrawableColors(getResources().getIntArray(R.array.colors));
+    mProgressBar.setSmoothProgressDrawableColors(getResources().getIntArray(R.array.gplus_colors));
   }
 
   public int dpToPx(int dp) {
