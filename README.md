@@ -6,7 +6,7 @@ Small library allowing you to make a smooth indeterminate progress bar. You can 
 ##Demo:
 Sample app available on the [Play Store]
 
-![SmoothProgressBar](http://www.appance.com/wp-content/uploads/2014/01/smoothprogressbar.jpg)
+![SmoothProgressBar](screenshots/sample1.gif)
 
 
 ##How does it work
