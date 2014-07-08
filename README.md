@@ -129,6 +129,6 @@ Travis dev: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.
 
 [Play Store]: https://play.google.com/store/apps/details?id=fr.castorflex.android.smoothprogressbar.sample
 
-[Gradle Please]: http://gradleplease.appspot.com/
+[Gradle Please]: http://gradleplease.appspot.com/#smoothprogressbar
 
 [Sample Themes]: https://github.com/castorflex/SmoothProgressBar/blob/master/sample/src/main/res/values/styles.xml
