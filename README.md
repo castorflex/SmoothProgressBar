@@ -8,6 +8,8 @@ Sample app available on the [Play Store]
 
 ![SmoothProgressBar](screenshots/sample1.gif)
 
+![SmoothProgressBar](screenshots/sample2.gif)
+
 
 ##How does it work
 
@@ -50,6 +52,20 @@ If you really want (or have) to use Eclipse, please look at the forks.
     app:spb_progressiveStart_speed="1.5"
     app:spb_progressiveStop_speed="3.4"
     />
+
+<fr.castorflex.android.smoothprogressbar.CircularProgressBar
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:indeterminate="true"
+    app:cpb_color="4"
+    app:cpb_colors="@array/mycolors"
+    app:spb_speed="1.0"
+    app:cpb_stroke_width="4dp"
+    app:cpb_min_sweep_angle="10"
+    app:cpb_max_sweep_angle="300"
+    />
 ```
 
 Or use styles:
@@ -57,6 +73,7 @@ Or use styles:
 ```xml
 <style name="AppTheme">
     <item name="spbStyle">@style/GNowProgressBar</item>
+    <item name="cpbStyle">@style/CircularThemeProgressBar</item>
 </style>
 
 <style name="GNowProgressBar" parent="SmoothProgressBar">
@@ -71,11 +88,19 @@ Or use styles:
     <item name="spb_colors">@array/gplus_colors</item>
     <item name="spb_progressiveStart_activated">true</item>
 </style>
+
+<style name="CircularThemeProgressBar" parent="android:Widget.Holo.ProgressBar">
+        <item name="cpb_color">@color/cpb_default_color</item>
+        <item name="cpb_stroke_width">@dimen/cpb_default_stroke_width</item>
+        <item name="cpb_min_sweep_angle">@integer/cpb_default_min_sweep_angle</item>
+        <item name="cpb_max_sweep_angle">@integer/cpb_default_max_sweep_angle</item>
+        <item name="cpb_speed">@string/cpb_default_speed</item>
+</style>
 ```
 
 *You can find more styles [in the sample app][Sample Themes]*
 
--   Or instantiate a `SmoothProgressDrawable` and set it to your ProgressBar (do not forget to set the Horizontal Style)
+-   Or instantiate a `SmoothProgressDrawable`/`CircularProgressDrawable` and set it to your ProgressBar
 
 ```java
 mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context)

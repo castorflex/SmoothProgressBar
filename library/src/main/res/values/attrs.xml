@@ -23,4 +23,13 @@
         <attr name="spb_generate_background_with_colors" format="boolean"/>
         <attr name="spb_gradients" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="CircularProgressBar">
+        <attr name="cpbStyle" format="reference"/>
+        <attr name="cpb_color" format="color"/>
+        <attr name="cpb_colors" format="reference"/>
+        <attr name="cpb_stroke_width" format="dimension"/>
+        <attr name="cpb_min_sweep_angle" format="integer"/>
+        <attr name="cpb_max_sweep_angle" format="integer"/>
+        <attr name="cpb_speed" format="float"/>
+    </declare-styleable>
 </resources>

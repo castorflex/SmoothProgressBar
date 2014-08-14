@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.SmoothProgressBarDefaults" parent="android:Theme">
+    <style name="Theme.SmoothProgressBarDefaults" parent="android:Theme.Holo">
         <item name="spbStyle">@style/SmoothProgressBar</item>
+        <item name="cpbStyle">@style/CircularProgressBar</item>
     </style>
 
-    <style name="SmoothProgressBar" parent="android:Widget.ProgressBar.Horizontal">
+    <style name="SmoothProgressBar" parent="android:Widget.Holo.ProgressBar.Horizontal">
         <item name="spb_color">@color/spb_default_color</item>
         <item name="spb_sections_count">@integer/spb_default_sections_count</item>
         <item name="spb_speed">@string/spb_default_speed</item>
@@ -13,10 +14,16 @@
         <item name="spb_stroke_separator_length">@dimen/spb_default_stroke_separator_length</item>
         <item name="spb_reversed">@bool/spb_default_reversed</item>
         <item name="spb_mirror_mode">@bool/spb_default_mirror_mode</item>
-        <item name="spb_progressiveStart_activated">@bool/spb_default_progressiveStart_activated</item>
-        <item name="spb_background">@null</item>
-        <item name="spb_generate_background_with_colors">false</item>
-        <item name="spb_gradients">false</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:maxHeight">48dp</item>
+    </style>
+
+    <style name="CircularProgressBar" parent="android:Widget.Holo.ProgressBar">
+        <item name="cpb_color">@color/cpb_default_color</item>
+        <item name="cpb_stroke_width">@dimen/cpb_default_stroke_width</item>
+        <item name="cpb_min_sweep_angle">@integer/cpb_default_min_sweep_angle</item>
+        <item name="cpb_max_sweep_angle">@integer/cpb_default_max_sweep_angle</item>
+        <item name="cpb_speed">@string/cpb_default_speed</item>
     </style>
 
 </resources>
