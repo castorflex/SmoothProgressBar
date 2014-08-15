@@ -25,8 +25,22 @@ dependencies {
     compile 'com.github.castorflex.smoothprogressbar:library:x.x.x'
 }
 ```
+You can find the last stable version on [Gradle Please]
 
-You can find the last version on [Gradle Please]
+
+Or you can try the latest snapshots:
+
+```xml
+repositories {
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+}
+
+dependencies {
+    compile 'com.github.castorflex.smoothprogressbar:library:1.0.0-SNAPSHOT@aar'
+}
+
+```
+
 
 If you really want (or have) to use Eclipse, please look at the forks.
 
