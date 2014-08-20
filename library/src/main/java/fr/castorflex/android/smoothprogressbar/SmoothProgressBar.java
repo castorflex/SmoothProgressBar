@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AccelerateInterpolator;
@@ -17,6 +18,8 @@ import android.widget.ProgressBar;
  * Created by castorflex on 11/10/13.
  */
 public class SmoothProgressBar extends ProgressBar {
+
+  private static final long DELAY_DEFAULT = 500;
 
   private static final int INTERPOLATOR_ACCELERATE = 0;
   private static final int INTERPOLATOR_LINEAR = 1;
@@ -287,5 +290,27 @@ public class SmoothProgressBar extends ProgressBar {
 
   public void progressiveStop() {
     checkIndeterminateDrawable().progressiveStop();
+  }
+
+  /** Calls progressiveStop() after the defined time, to avoid an issue when calling start() and stop() too fast
+  * @author Roc Boronat (roc@fewlaps.com)
+  * @date 20140820
+  **/
+  public void progressiveStopDelayed(long delayMillis) {
+    Handler handler = new Handler();
+    handler.postDelayed(new Runnable() {
+    @Override
+      public void run() {
+        checkIndeterminateDrawable().progressiveStop();
+      }
+    }, delayMillis);
+  }
+
+  /** Calls progressiveStop() after 500 delay millis, to avoid an issue when calling start() and stop() too fast
+   * @author Roc Boronat (roc@fewlaps.com)
+   * @date 20140820
+   **/
+  public void progressiveStopDelayed() {
+      progressiveStopDelayed(DELAY_DEFAULT);
   }
 }
