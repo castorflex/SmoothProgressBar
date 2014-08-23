@@ -2,20 +2,18 @@
 
 Small library allowing you to make a smooth indeterminate progress bar. You can either user your progress bars and set this drawable or use directly the `SmoothProgressBarView`.
 
-
 ##Demo:
 Sample app available on the [Play Store]
 
-![SmoothProgressBar](screenshots/sample1.gif)
+![SmoothProgressBar](screenshots/sample1.gif)    
 
 ![SmoothProgressBar](screenshots/sample2.gif)
-
 
 ##How does it work
 
 I wrote a [blog post] about that.
 
-##Integration
+##Integration     [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library)
 
 The lib is now on Maven Central. All you have to do is add it on your gradle build:
 
@@ -38,7 +36,6 @@ repositories {
 dependencies {
     compile 'com.github.castorflex.smoothprogressbar:library:1.0.0-SNAPSHOT@aar'
 }
-
 ```
 
 
@@ -159,10 +156,11 @@ limitations under the License.
 ```
 
 ####Badges
-Travis master: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.png?branch=master)](https://travis-ci.org/castorflex/SmoothProgressBar)
-Travis dev: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.png?branch=dev)](https://travis-ci.org/castorflex/SmoothProgressBar)
 
-[![Analytics](https://ga-beacon.appspot.com/UA-32954204-2/SmoothProgressBar/readme)](https://github.com/igrigorik/ga-beacon)
+Travis master: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.svg?branch=master)](https://travis-ci.org/castorflex/SmoothProgressBar)
+
+Travis dev: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.svg?branch=dev)](https://travis-ci.org/castorflex/SmoothProgressBar?branch=dev)
+
 
 [blog post]: http://antoine-merle.com/blog/2013/11/12/make-your-progressbar-more-smooth/
 
