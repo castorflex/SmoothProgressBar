@@ -18,8 +18,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import fr.castorflex.android.smoothprogressbar.CircularProgressBar;
-import fr.castorflex.android.smoothprogressbar.CircularProgressDrawable;
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 /**

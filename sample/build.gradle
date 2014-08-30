@@ -1,5 +1,5 @@
 apply plugin: 'android-sdk-manager'
-apply plugin: 'android'
+apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
@@ -7,6 +7,7 @@ repositories {
 
 dependencies {
     compile project(':library')
+    compile project(':library-circular')
 }
 
 android {
@@ -15,7 +16,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 19
+        targetSdkVersion 20
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
@@ -28,7 +29,7 @@ android {
 
         }
         release {
-            signingConfig project.hasProperty('storeFile') ? signingConfigs.release : signingConfigs.debug
+            signingConfig project.hasProperty('KEYSTORE_STORE_FILE') ? signingConfigs.release : signingConfigs.debug
         }
     }
 
@@ -37,15 +38,15 @@ android {
     }
 
 }
-if (project.hasProperty('storeFile')) {
-    android.signingConfigs.release.storeFile = file(storeFile)
+if (project.hasProperty('KEYSTORE_STORE_FILE')) {
+    android.signingConfigs.release.storeFile = file(KEYSTORE_STORE_FILE)
 }
-if (project.hasProperty('keyAlias')) {
-    android.signingConfigs.release.keyAlias = keyAlias
+if (project.hasProperty('KEYSTORE_KEY_ALIAS')) {
+    android.signingConfigs.release.keyAlias = KEYSTORE_KEY_ALIAS
 }
-if (project.hasProperty('storePassword')) {
-    android.signingConfigs.release.storePassword = storePassword
+if (project.hasProperty('KEYSTORE_STORE_PASSWORD')) {
+    android.signingConfigs.release.storePassword = KEYSTORE_STORE_PASSWORD
 }
-if (project.hasProperty('keyPassword')) {
-    android.signingConfigs.release.keyPassword = keyPassword
+if (project.hasProperty('KEYSTORE_KEY_PASSWORD')) {
+    android.signingConfigs.release.keyPassword = KEYSTORE_KEY_PASSWORD
 }

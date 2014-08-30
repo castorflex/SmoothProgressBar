@@ -1,10 +1,10 @@
-package fr.castorflex.android.smoothprogressbar;
+package fr.castorflex.android.circularprogressbar;
 
 /**
  * Created by castorflex on 8/14/14.
  */
-public class Utils {
-  private Utils() {
+class CircularProgressBarUtils {
+  private CircularProgressBarUtils() {
   }
 
   static void checkSpeed(float speed) {

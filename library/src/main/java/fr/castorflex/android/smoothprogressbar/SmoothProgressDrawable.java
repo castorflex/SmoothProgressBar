@@ -15,11 +15,11 @@ import android.os.SystemClock;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
-import static fr.castorflex.android.smoothprogressbar.Utils.checkColors;
-import static fr.castorflex.android.smoothprogressbar.Utils.checkNotNull;
-import static fr.castorflex.android.smoothprogressbar.Utils.checkPositive;
-import static fr.castorflex.android.smoothprogressbar.Utils.checkPositiveOrZero;
-import static fr.castorflex.android.smoothprogressbar.Utils.checkSpeed;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkColors;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkNotNull;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkPositive;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkPositiveOrZero;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkSpeed;
 
 /**
  * Created by castorflex on 11/10/13.

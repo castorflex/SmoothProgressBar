@@ -23,7 +23,7 @@
             android:indeterminate="true"
             android:indeterminateOnly="false"/>
 
-        <fr.castorflex.android.smoothprogressbar.CircularProgressBar
+        <fr.castorflex.android.circularprogressbar.CircularProgressBar
             android:id="@+id/progressbar_circular"
             android:layout_width="42dp"
             android:layout_height="42dp"

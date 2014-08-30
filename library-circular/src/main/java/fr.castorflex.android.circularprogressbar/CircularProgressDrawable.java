@@ -1,4 +1,4 @@
-package fr.castorflex.android.smoothprogressbar;
+package fr.castorflex.android.circularprogressbar;
 
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
@@ -16,11 +16,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import static fr.castorflex.android.smoothprogressbar.Utils.checkAngle;
-import static fr.castorflex.android.smoothprogressbar.Utils.checkColors;
-import static fr.castorflex.android.smoothprogressbar.Utils.checkNotNull;
-import static fr.castorflex.android.smoothprogressbar.Utils.checkPositiveOrZero;
-import static fr.castorflex.android.smoothprogressbar.Utils.checkSpeed;
+import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkAngle;
+import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkColors;
+import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkNotNull;
+import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkPositiveOrZero;
+import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkSpeed;
 
 public class CircularProgressDrawable extends Drawable
     implements Animatable {
@@ -200,8 +200,8 @@ public class CircularProgressDrawable extends Drawable
         if (mColors.length > 1 && fraction > .7f) { //because
           int prevColor = mCurrentColor;
           int nextColor = mColors[(mCurrentIndexColor + 1) % mColors.length];
-          mCurrentColor = (Integer) COLOR_EVALUATOR.evaluate((fraction - .7f) / (1 - .7f), prevColor, nextColor);
-          mPaint.setColor(mCurrentColor);
+          int newColor = (Integer) COLOR_EVALUATOR.evaluate((fraction - .7f) / (1 - .7f), prevColor, nextColor);
+          mPaint.setColor(newColor);
         }
       }
     });

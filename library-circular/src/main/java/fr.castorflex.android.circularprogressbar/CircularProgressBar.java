@@ -1,4 +1,4 @@
-package fr.castorflex.android.smoothprogressbar;
+package fr.castorflex.android.circularprogressbar;
 
 import android.content.Context;
 import android.content.res.Resources;

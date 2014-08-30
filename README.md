@@ -13,7 +13,11 @@ Sample app available on the [Play Store]
 
 I wrote a [blog post] about that.
 
-##Integration     [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library)
+##Integration     
+
+**SmoothProgressBar** (min API 7): [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library)
+
+**CircularProgressBar** (min API 14): [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library-circular/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library-circular)
 
 The lib is now on Maven Central. All you have to do is add it on your gradle build:
 
@@ -21,6 +25,8 @@ The lib is now on Maven Central. All you have to do is add it on your gradle bui
 dependencies {
     // of course, do not write x.x.x but the version number
     compile 'com.github.castorflex.smoothprogressbar:library:x.x.x'
+    // or
+    compile 'com.github.castorflex.smoothprogressbar:library-circular:x.x.x'
 }
 ```
 You can find the last stable version on [Gradle Please]
@@ -34,7 +40,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.castorflex.smoothprogressbar:library:1.0.0-SNAPSHOT@aar'
+    compile 'com.github.castorflex.smoothprogressbar:library:1.0.1-SNAPSHOT@aar'
+    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.0.1-SNAPSHOT@aar'
 }
 ```
 
@@ -120,7 +127,7 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
     .sectionsCount(4)
     .separatorLength(8)         //You should use Resources#getDimensionPixelSize
     .strokeWidth(8f)            //You should use Resources#getDimension
-    .speed(2.0)                 //2 times faster
+    .speed(2f)                 //2 times faster
     .progressiveStartSpeed(2)
     .progressiveStopSpeed(3.4)
     .reversed(false)
@@ -128,6 +135,15 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
     .progressiveStart(true)
     .progressiveStopEndedListener(mListener) //called when the stop animation is over
     .build());
+    
+mProgressBar.setIndeterminateDrawable(new CircularProgressDrawable
+    .Builder(this)
+    .colors(getResources().getIntArray(R.array.gplus_colors))
+    .sweepSpeed(1f)
+    .strokeWidth(mStrokeWidth)
+    .style(CircularProgressDrawable.Style.ROUNDED)
+    [ ... ]
+    .build();
 ```
 
 You can also set many colors for one bar (see G+ app)
