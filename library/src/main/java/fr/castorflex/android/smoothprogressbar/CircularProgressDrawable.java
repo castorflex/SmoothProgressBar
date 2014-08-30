@@ -27,43 +27,52 @@ public class CircularProgressDrawable extends Drawable
 
   public enum Style {NORMAL, ROUNDED}
 
-  private static final ArgbEvaluator COLOR_EVALUATOR         = new ArgbEvaluator();
-  private static final Interpolator  ANGLE_INTERPOLATOR      = new LinearInterpolator();
-  private static final Interpolator  SWEEP_INTERPOLATOR      = new DecelerateInterpolator();
-  private static final int           ANGLE_ANIMATOR_DURATION = 2000;
-  private static final int           SWEEP_ANIMATOR_DURATION = 600;
-  private final        RectF         fBounds                 = new RectF();
+  private static final ArgbEvaluator COLOR_EVALUATOR               = new ArgbEvaluator();
+  private static final Interpolator  DEFAULT_ROTATION_INTERPOLATOR = new LinearInterpolator();
+  private static final Interpolator  DEFAULT_SWEEP_INTERPOLATOR    = new DecelerateInterpolator();
+  private static final int           ROTATION_ANIMATOR_DURATION    = 2000;
+  private static final int           SWEEP_ANIMATOR_DURATION       = 600;
+  private final        RectF         fBounds                       = new RectF();
 
-  private ValueAnimator mObjectAnimatorSweepAppearing;
-  private ValueAnimator mObjectAnimatorSweepDisappearing;
-  private ValueAnimator mObjectAnimatorAngle;
+  private ValueAnimator mSweepAppearingAnimator;
+  private ValueAnimator mSweepDisappearingAnimator;
+  private ValueAnimator mRotationAnimator;
   private boolean       mModeAppearing;
   private Paint         mPaint;
-  private float mCurrentGlobalAngleOffset = 0;
-  private float mCurrentGlobalAngle       = 0;
-  private float   mCurrentSweepAngle;
-  private boolean mRunning;
-  private int     mCurrentIndexColor;
-  private int     mCurrentColor;
+  private boolean       mRunning;
+  private int           mCurrentColor;
+  private int           mCurrentIndexColor;
+  private float         mCurrentSweepAngle;
+  private float mCurrentRotationAngleOffset = 0;
+  private float mCurrentRotationAngle       = 0;
 
   //params
-  private float mBorderWidth;
-  private int[] mColors;
-  private float mSpeed;
-  private int   mMinSweepAngle;
-  private int   mMaxSweepAngle;
+  private Interpolator mAngleInterpolator;
+  private Interpolator mSweepInterpolator;
+  private float        mBorderWidth;
+  private int[]        mColors;
+  private float        mSweepSpeed;
+  private float        mRotationSpeed;
+  private int          mMinSweepAngle;
+  private int          mMaxSweepAngle;
 
   private CircularProgressDrawable(int[] colors,
                                    float borderWidth,
-                                   float speed,
+                                   float sweepSpeed,
+                                   float rotationSpeed,
                                    int minSweepAngle,
                                    int maxSweepAngle,
-                                   Style style) {
+                                   Style style,
+                                   Interpolator angleInterpolator,
+                                   Interpolator sweepInterpolator) {
+    mSweepInterpolator = sweepInterpolator;
+    mAngleInterpolator = angleInterpolator;
     mBorderWidth = borderWidth;
     mCurrentIndexColor = 0;
     mColors = colors;
     mCurrentColor = mColors[0];
-    mSpeed = speed;
+    mSweepSpeed = sweepSpeed;
+    mRotationSpeed = rotationSpeed;
     mMinSweepAngle = minSweepAngle;
     mMaxSweepAngle = maxSweepAngle;
 
@@ -79,7 +88,7 @@ public class CircularProgressDrawable extends Drawable
 
   @Override
   public void draw(Canvas canvas) {
-    float startAngle = mCurrentGlobalAngle - mCurrentGlobalAngleOffset;
+    float startAngle = mCurrentRotationAngle - mCurrentRotationAngleOffset;
     float sweepAngle = mCurrentSweepAngle;
     if (!mModeAppearing) {
       startAngle = startAngle + (360 - sweepAngle);
@@ -114,42 +123,42 @@ public class CircularProgressDrawable extends Drawable
 
   private void setAppearing() {
     mModeAppearing = true;
-    mCurrentGlobalAngleOffset += mMinSweepAngle;
+    mCurrentRotationAngleOffset += mMinSweepAngle;
   }
 
   private void setDisappearing() {
     mModeAppearing = false;
-    mCurrentGlobalAngleOffset = mCurrentGlobalAngleOffset + (360 - mMaxSweepAngle);
+    mCurrentRotationAngleOffset = mCurrentRotationAngleOffset + (360 - mMaxSweepAngle);
   }
 
   //////////////////////////////////////////////////////////////////////////////
   ////////////////            Animation
 
   private void setupAnimations() {
-    mObjectAnimatorAngle = ValueAnimator.ofFloat(0f, 360f);
-    mObjectAnimatorAngle.setInterpolator(ANGLE_INTERPOLATOR);
-    mObjectAnimatorAngle.setDuration(ANGLE_ANIMATOR_DURATION);
-    mObjectAnimatorAngle.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    mRotationAnimator = ValueAnimator.ofFloat(0f, 360f);
+    mRotationAnimator.setInterpolator(mAngleInterpolator);
+    mRotationAnimator.setDuration((long) (ROTATION_ANIMATOR_DURATION / mRotationSpeed));
+    mRotationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
         float angle = animation.getAnimatedFraction() * 360f;
-        setCurrentGlobalAngle(angle);
+        setCurrentRotationAngle(angle);
       }
     });
-    mObjectAnimatorAngle.setRepeatCount(ValueAnimator.INFINITE);
-    mObjectAnimatorAngle.setRepeatMode(ValueAnimator.RESTART);
+    mRotationAnimator.setRepeatCount(ValueAnimator.INFINITE);
+    mRotationAnimator.setRepeatMode(ValueAnimator.RESTART);
 
-    mObjectAnimatorSweepAppearing = ValueAnimator.ofFloat(mMinSweepAngle, mMaxSweepAngle);
-    mObjectAnimatorSweepAppearing.setInterpolator(SWEEP_INTERPOLATOR);
-    mObjectAnimatorSweepAppearing.setDuration((long) (SWEEP_ANIMATOR_DURATION / mSpeed));
-    mObjectAnimatorSweepAppearing.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    mSweepAppearingAnimator = ValueAnimator.ofFloat(mMinSweepAngle, mMaxSweepAngle);
+    mSweepAppearingAnimator.setInterpolator(mSweepInterpolator);
+    mSweepAppearingAnimator.setDuration((long) (SWEEP_ANIMATOR_DURATION / mSweepSpeed));
+    mSweepAppearingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
         float animatedFraction = animation.getAnimatedFraction();
         setCurrentSweepAngle(mMinSweepAngle + animatedFraction * (mMaxSweepAngle - mMinSweepAngle));
       }
     });
-    mObjectAnimatorSweepAppearing.addListener(new Animator.AnimatorListener() {
+    mSweepAppearingAnimator.addListener(new Animator.AnimatorListener() {
       boolean cancelled = false;
 
       @Override
@@ -162,7 +171,7 @@ public class CircularProgressDrawable extends Drawable
       public void onAnimationEnd(Animator animation) {
         if (!cancelled) {
           setDisappearing();
-          mObjectAnimatorSweepDisappearing.start();
+          mSweepDisappearingAnimator.start();
         }
       }
 
@@ -176,10 +185,10 @@ public class CircularProgressDrawable extends Drawable
       }
     });
 
-    mObjectAnimatorSweepDisappearing = ValueAnimator.ofFloat(mMaxSweepAngle, mMinSweepAngle);
-    mObjectAnimatorSweepDisappearing.setInterpolator(SWEEP_INTERPOLATOR);
-    mObjectAnimatorSweepDisappearing.setDuration((long) (SWEEP_ANIMATOR_DURATION / mSpeed));
-    mObjectAnimatorSweepDisappearing.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    mSweepDisappearingAnimator = ValueAnimator.ofFloat(mMaxSweepAngle, mMinSweepAngle);
+    mSweepDisappearingAnimator.setInterpolator(mSweepInterpolator);
+    mSweepDisappearingAnimator.setDuration((long) (SWEEP_ANIMATOR_DURATION / mSweepSpeed));
+    mSweepDisappearingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
         float animatedFraction = animation.getAnimatedFraction();
@@ -196,7 +205,7 @@ public class CircularProgressDrawable extends Drawable
         }
       }
     });
-    mObjectAnimatorSweepDisappearing.addListener(new Animator.AnimatorListener() {
+    mSweepDisappearingAnimator.addListener(new Animator.AnimatorListener() {
       boolean cancelled;
 
       @Override
@@ -211,7 +220,7 @@ public class CircularProgressDrawable extends Drawable
           mCurrentIndexColor = (mCurrentIndexColor + 1) % mColors.length;
           mCurrentColor = mColors[mCurrentIndexColor];
           mPaint.setColor(mCurrentColor);
-          mObjectAnimatorSweepAppearing.start();
+          mSweepAppearingAnimator.start();
         }
       }
 
@@ -232,8 +241,8 @@ public class CircularProgressDrawable extends Drawable
       return;
     }
     mRunning = true;
-    mObjectAnimatorAngle.start();
-    mObjectAnimatorSweepAppearing.start();
+    mRotationAnimator.start();
+    mSweepAppearingAnimator.start();
     invalidateSelf();
   }
 
@@ -243,9 +252,9 @@ public class CircularProgressDrawable extends Drawable
       return;
     }
     mRunning = false;
-    mObjectAnimatorAngle.cancel();
-    mObjectAnimatorSweepAppearing.cancel();
-    mObjectAnimatorSweepDisappearing.cancel();
+    mRotationAnimator.cancel();
+    mSweepAppearingAnimator.cancel();
+    mSweepDisappearingAnimator.cancel();
     invalidateSelf();
   }
 
@@ -254,8 +263,8 @@ public class CircularProgressDrawable extends Drawable
     return mRunning;
   }
 
-  public void setCurrentGlobalAngle(float currentGlobalAngle) {
-    mCurrentGlobalAngle = currentGlobalAngle;
+  public void setCurrentRotationAngle(float currentRotationAngle) {
+    mCurrentRotationAngle = currentRotationAngle;
     invalidateSelf();
   }
 
@@ -266,11 +275,14 @@ public class CircularProgressDrawable extends Drawable
 
   public static class Builder {
     private int[] mColors;
-    private float mSpeed;
+    private float mSweepSpeed;
+    private float mRotationSpeed;
     private float mStrokeWidth;
     private int   mMinSweepAngle;
     private int   mMaxSweepAngle;
     private Style mStyle;
+    private Interpolator mSweepInterpolator = DEFAULT_SWEEP_INTERPOLATOR;
+    private Interpolator mAngleInterpolator = DEFAULT_ROTATION_INTERPOLATOR;
 
     public Builder(Context context) {
       initValues(context);
@@ -278,7 +290,8 @@ public class CircularProgressDrawable extends Drawable
 
     private void initValues(Context context) {
       mStrokeWidth = context.getResources().getDimension(R.dimen.cpb_default_stroke_width);
-      mSpeed = 1f;
+      mSweepSpeed = 1f;
+      mRotationSpeed = 1f;
       mColors = new int[]{context.getResources().getColor(R.color.cpb_default_color)};
       mMinSweepAngle = context.getResources().getInteger(R.integer.cpb_default_min_sweep_angle);
       mMaxSweepAngle = context.getResources().getInteger(R.integer.cpb_default_max_sweep_angle);
@@ -296,9 +309,15 @@ public class CircularProgressDrawable extends Drawable
       return this;
     }
 
-    public Builder speed(float speed) {
-      checkSpeed(speed);
-      mSpeed = speed;
+    public Builder sweepSpeed(float sweepSpeed) {
+      checkSpeed(sweepSpeed);
+      mSweepSpeed = sweepSpeed;
+      return this;
+    }
+
+    public Builder rotationSpeed(float rotationSpeed) {
+      checkSpeed(rotationSpeed);
+      mRotationSpeed = rotationSpeed;
       return this;
     }
 
@@ -326,8 +345,28 @@ public class CircularProgressDrawable extends Drawable
       return this;
     }
 
+    public Builder sweepInterpolator(Interpolator interpolator) {
+      checkNotNull(interpolator, "Sweep interpolator");
+      mSweepInterpolator = interpolator;
+      return this;
+    }
+
+    public Builder angleInterpolator(Interpolator interpolator) {
+      checkNotNull(interpolator, "Angle interpolator");
+      mAngleInterpolator = interpolator;
+      return this;
+    }
+
     public CircularProgressDrawable build() {
-      return new CircularProgressDrawable(mColors, mStrokeWidth, mSpeed, mMinSweepAngle, mMaxSweepAngle, mStyle);
+      return new CircularProgressDrawable(mColors,
+          mStrokeWidth,
+          mSweepSpeed,
+          mRotationSpeed,
+          mMinSweepAngle,
+          mMaxSweepAngle,
+          mStyle,
+          mAngleInterpolator,
+          mSweepInterpolator);
     }
   }
 }

@@ -3,14 +3,8 @@ package fr.castorflex.android.smoothprogressbar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
-import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
 import android.widget.ProgressBar;
 
 /**
@@ -54,7 +48,7 @@ public class CircularProgressBar extends ProgressBar {
 
     Drawable indeterminateDrawable;
     CircularProgressDrawable.Builder builder = new CircularProgressDrawable.Builder(context)
-        .speed(speed)
+        .sweepSpeed(speed)
         .strokeWidth(strokeWidth)
         .minSweepAngle(minSweepAngle)
         .maxSweepAngle(maxSweepAngle);
