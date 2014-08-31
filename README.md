@@ -5,9 +5,7 @@ Small library allowing you to make a smooth indeterminate progress bar. You can 
 ##Demo:
 Sample app available on the [Play Store]
 
-![SmoothProgressBar](screenshots/sample1.gif)    
-
-![SmoothProgressBar](screenshots/sample2.gif)
+![SmoothProgressBar](screenshots/SPB_sample.gif)    
 
 ##How does it work
 
