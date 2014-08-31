@@ -55,6 +55,7 @@ public class CircularProgressDrawable extends Drawable
   private float        mRotationSpeed;
   private int          mMinSweepAngle;
   private int          mMaxSweepAngle;
+  private boolean      mFirstSweepAnimation;
 
   private CircularProgressDrawable(int[] colors,
                                    float borderWidth,
@@ -155,7 +156,8 @@ public class CircularProgressDrawable extends Drawable
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
         float animatedFraction = animation.getAnimatedFraction();
-        setCurrentSweepAngle(mMinSweepAngle + animatedFraction * (mMaxSweepAngle - mMinSweepAngle));
+        setCurrentSweepAngle((mFirstSweepAnimation ? 0 : mMinSweepAngle)
+            + animatedFraction * (mMaxSweepAngle - mMinSweepAngle));
       }
     });
     mSweepAppearingAnimator.addListener(new Animator.AnimatorListener() {
@@ -169,6 +171,7 @@ public class CircularProgressDrawable extends Drawable
 
       @Override
       public void onAnimationEnd(Animator animation) {
+        mFirstSweepAnimation = false;
         if (!cancelled) {
           setDisappearing();
           mSweepDisappearingAnimator.start();
@@ -241,6 +244,7 @@ public class CircularProgressDrawable extends Drawable
       return;
     }
     mRunning = true;
+    mFirstSweepAnimation = true;
     mRotationAnimator.start();
     mSweepAppearingAnimator.start();
     invalidateSelf();
