@@ -2,6 +2,7 @@ package fr.castorflex.android.smoothprogressbar.sample;
 
 import android.app.Activity;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -78,6 +79,7 @@ public class MakeCustomActivity extends Activity {
       @Override
       public void onClick(View v) {
         mProgressBar.progressiveStart();
+        ((CircularProgressDrawable)mCircularProgressBar.getIndeterminateDrawable()).start();
       }
     });
 
@@ -85,6 +87,7 @@ public class MakeCustomActivity extends Activity {
       @Override
       public void onClick(View v) {
         mProgressBar.progressiveStop();
+        ((CircularProgressDrawable)mCircularProgressBar.getIndeterminateDrawable()).progressiveStop();
       }
     });
 
