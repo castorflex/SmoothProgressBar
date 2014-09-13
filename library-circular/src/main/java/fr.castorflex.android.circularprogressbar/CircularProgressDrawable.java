@@ -27,6 +27,10 @@ public class CircularProgressDrawable extends Drawable
 
   public enum Style {NORMAL, ROUNDED}
 
+  public interface OnEndListener {
+    public void onEnd(CircularProgressDrawable drawable);
+  }
+
   private static final ArgbEvaluator COLOR_EVALUATOR               = new ArgbEvaluator();
   public static final  Interpolator  END_INTERPOLATOR              = new LinearInterpolator();
   private static final Interpolator  DEFAULT_ROTATION_INTERPOLATOR = new LinearInterpolator();
@@ -34,12 +38,14 @@ public class CircularProgressDrawable extends Drawable
   private static final int           ROTATION_ANIMATOR_DURATION    = 2000;
   private static final int           SWEEP_ANIMATOR_DURATION       = 600;
   private static final int           END_ANIMATOR_DURATION         = 200;
-  private final        RectF         fBounds                       = new RectF();
+
+  private final RectF fBounds = new RectF();
 
   private ValueAnimator mSweepAppearingAnimator;
   private ValueAnimator mSweepDisappearingAnimator;
   private ValueAnimator mRotationAnimator;
   private ValueAnimator mEndAnimator;
+  private OnEndListener mOnEndListener;
   private boolean       mModeAppearing;
   private Paint         mPaint;
   private boolean       mRunning;
@@ -321,11 +327,38 @@ public class CircularProgressDrawable extends Drawable
     mEndAnimator.cancel();
   }
 
-  public void progressiveStop() {
+  public void progressiveStop(OnEndListener listener) {
     if (!isRunning() || mEndAnimator.isRunning()) {
       return;
     }
+    mOnEndListener = listener;
+    mEndAnimator.addListener(new Animator.AnimatorListener() {
+      @Override
+      public void onAnimationStart(Animator animation) {
+
+      }
+
+      @Override
+      public void onAnimationEnd(Animator animation) {
+        mEndAnimator.removeListener(this);
+        if (mOnEndListener != null) mOnEndListener.onEnd(CircularProgressDrawable.this);
+      }
+
+      @Override
+      public void onAnimationCancel(Animator animation) {
+
+      }
+
+      @Override
+      public void onAnimationRepeat(Animator animation) {
+
+      }
+    });
     mEndAnimator.start();
+  }
+
+  public void progressiveStop() {
+    progressiveStop(null);
   }
 
   @Override
