@@ -34,7 +34,8 @@ public class CircularProgressBar extends ProgressBar {
 
     final int color = a.getColor(R.styleable.CircularProgressBar_cpb_color, res.getColor(R.color.cpb_default_color));
     final float strokeWidth = a.getDimension(R.styleable.CircularProgressBar_cpb_stroke_width, res.getDimension(R.dimen.cpb_default_stroke_width));
-    final float speed = a.getFloat(R.styleable.CircularProgressBar_cpb_speed, Float.parseFloat(res.getString(R.string.cpb_default_speed)));
+    final float sweepSpeed = a.getFloat(R.styleable.CircularProgressBar_cpb_sweep_speed, Float.parseFloat(res.getString(R.string.cpb_default_sweep_speed)));
+    final float rotationSpeed = a.getFloat(R.styleable.CircularProgressBar_cpb_rotation_speed, Float.parseFloat(res.getString(R.string.cpb_default_rotation_speed)));
     final int colorsId = a.getResourceId(R.styleable.CircularProgressBar_cpb_colors, 0);
     final int minSweepAngle = a.getInteger(R.styleable.CircularProgressBar_cpb_min_sweep_angle, res.getInteger(R.integer.cpb_default_min_sweep_angle));
     final int maxSweepAngle = a.getInteger(R.styleable.CircularProgressBar_cpb_max_sweep_angle, res.getInteger(R.integer.cpb_default_max_sweep_angle));
@@ -48,7 +49,8 @@ public class CircularProgressBar extends ProgressBar {
 
     Drawable indeterminateDrawable;
     CircularProgressDrawable.Builder builder = new CircularProgressDrawable.Builder(context)
-        .sweepSpeed(speed)
+        .sweepSpeed(sweepSpeed)
+        .rotationSpeed(rotationSpeed)
         .strokeWidth(strokeWidth)
         .minSweepAngle(minSweepAngle)
         .maxSweepAngle(maxSweepAngle);

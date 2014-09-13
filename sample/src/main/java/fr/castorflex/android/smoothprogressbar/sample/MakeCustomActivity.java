@@ -266,6 +266,7 @@ public class MakeCustomActivity extends Activity {
         .Builder(this)
         .colors(getResources().getIntArray(R.array.gplus_colors))
         .sweepSpeed(mSpeed)
+        .rotationSpeed(mSpeed)
         .strokeWidth(dpToPx(mStrokeWidth))
         .style(CircularProgressDrawable.Style.ROUNDED);
     if (mCurrentInterpolator != null) {
