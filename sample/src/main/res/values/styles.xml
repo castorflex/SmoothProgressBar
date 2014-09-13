@@ -1,10 +1,11 @@
 <resources>
 
-    <style name="AppTheme">
+    <style name="AppTheme" parent="android:Theme.Holo">
         <item name="spbStyle">@style/SmoothProgressBar</item>
+        <item name="cpbStyle">@style/CircularProgressBar</item>
     </style>
 
-    <style name="ProgressBar.Horizontal" parent="@android:style/Widget.ProgressBar.Horizontal">
+    <style name="ProgressBar.Horizontal" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
     </style>
 
     <style name="GPlusProgressBar" parent="SmoothProgressBar">

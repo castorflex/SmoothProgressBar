@@ -1,2 +1,3 @@
 include ':sample'
 include ':library'
+include ':library-circular'

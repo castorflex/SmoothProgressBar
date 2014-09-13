@@ -15,6 +15,12 @@ import android.os.SystemClock;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkColors;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkNotNull;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkPositive;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkPositiveOrZero;
+import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkSpeed;
+
 /**
  * Created by castorflex on 11/10/13.
  */
@@ -26,37 +32,37 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     public void onStart();
   }
 
-  private static final long FRAME_DURATION = 1000 / 60;
+  private static final long  FRAME_DURATION   = 1000 / 60;
   private final static float OFFSET_PER_FRAME = 0.01f;
 
   private final Rect fBackgroundRect = new Rect();
-  private Callbacks mCallbacks;
+  private Callbacks    mCallbacks;
   private Interpolator mInterpolator;
-  private Rect mBounds;
-  private Paint mPaint;
-  private int[] mColors;
-  private int mColorsIndex;
-  private boolean mRunning;
-  private float mCurrentOffset;
-  private float mFinishingOffset;
-  private int mSeparatorLength;
-  private int mSectionsCount;
-  private float mSpeed;
-  private float mProgressiveStartSpeed;
-  private float mProgressiveStopSpeed;
-  private boolean mReversed;
-  private boolean mNewTurn;
-  private boolean mMirrorMode;
-  private float mMaxOffset;
-  private boolean mFinishing;
-  private boolean mProgressiveStartActivated;
-  private int mStartSection;
-  private int mCurrentSections;
-  private float mStrokeWidth;
-  private Drawable mBackgroundDrawable;
-  private boolean mUseGradients;
-  private int[] mLinearGradientColors;
-  private float[] mLinearGradientPositions;
+  private Rect         mBounds;
+  private Paint        mPaint;
+  private int[]        mColors;
+  private int          mColorsIndex;
+  private boolean      mRunning;
+  private float        mCurrentOffset;
+  private float        mFinishingOffset;
+  private int          mSeparatorLength;
+  private int          mSectionsCount;
+  private float        mSpeed;
+  private float        mProgressiveStartSpeed;
+  private float        mProgressiveStopSpeed;
+  private boolean      mReversed;
+  private boolean      mNewTurn;
+  private boolean      mMirrorMode;
+  private float        mMaxOffset;
+  private boolean      mFinishing;
+  private boolean      mProgressiveStartActivated;
+  private int          mStartSection;
+  private int          mCurrentSections;
+  private float        mStrokeWidth;
+  private Drawable     mBackgroundDrawable;
+  private boolean      mUseGradients;
+  private int[]        mLinearGradientColors;
+  private float[]      mLinearGradientPositions;
 
 
   private SmoothProgressDrawable(Interpolator interpolator,
@@ -603,19 +609,19 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
    */
   public static class Builder {
     private Interpolator mInterpolator;
-    private int mSectionsCount;
-    private int[] mColors;
-    private float mSpeed;
-    private float mProgressiveStartSpeed;
-    private float mProgressiveStopSpeed;
-    private boolean mReversed;
-    private boolean mMirrorMode;
-    private float mStrokeWidth;
-    private int mStrokeSeparatorLength;
-    private boolean mProgressiveStartActivated;
-    private boolean mGenerateBackgroundUsingColors;
-    private boolean mGradients;
-    private Drawable mBackgroundDrawableWhenHidden;
+    private int          mSectionsCount;
+    private int[]        mColors;
+    private float        mSpeed;
+    private float        mProgressiveStartSpeed;
+    private float        mProgressiveStopSpeed;
+    private boolean      mReversed;
+    private boolean      mMirrorMode;
+    private float        mStrokeWidth;
+    private int          mStrokeSeparatorLength;
+    private boolean      mProgressiveStartActivated;
+    private boolean      mGenerateBackgroundUsingColors;
+    private boolean      mGradients;
+    private Drawable     mBackgroundDrawableWhenHidden;
 
     private Callbacks mOnProgressiveStopEndedListener;
 
@@ -661,21 +667,19 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     }
 
     public Builder interpolator(Interpolator interpolator) {
-      if (interpolator == null)
-        throw new IllegalArgumentException("Interpolator can't be null");
+      checkNotNull(interpolator, "Interpolator");
       mInterpolator = interpolator;
       return this;
     }
 
     public Builder sectionsCount(int sectionsCount) {
-      if (sectionsCount <= 0) throw new IllegalArgumentException("SectionsCount must be > 0");
+      checkPositive(sectionsCount, "Sections count");
       mSectionsCount = sectionsCount;
       return this;
     }
 
     public Builder separatorLength(int separatorLength) {
-      if (separatorLength < 0)
-        throw new IllegalArgumentException("SeparatorLength must be >= 0");
+      checkPositiveOrZero(separatorLength, "Separator length");
       mStrokeSeparatorLength = separatorLength;
       return this;
     }
@@ -686,34 +690,31 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     }
 
     public Builder colors(int[] colors) {
-      if (colors == null || colors.length == 0)
-        throw new IllegalArgumentException("Your color array must not be empty");
+      checkColors(colors);
       mColors = colors;
       return this;
     }
 
     public Builder strokeWidth(float width) {
-      if (width < 0) throw new IllegalArgumentException("The width must be >= 0");
+      checkPositiveOrZero(width, "Width");
       mStrokeWidth = width;
       return this;
     }
 
     public Builder speed(float speed) {
-      if (speed < 0) throw new IllegalArgumentException("Speed must be >= 0");
+      checkSpeed(speed);
       mSpeed = speed;
       return this;
     }
 
     public Builder progressiveStartSpeed(float progressiveStartSpeed) {
-      if (progressiveStartSpeed < 0)
-        throw new IllegalArgumentException("progressiveStartSpeed must be >= 0");
+      checkSpeed(progressiveStartSpeed);
       mProgressiveStartSpeed = progressiveStartSpeed;
       return this;
     }
 
     public Builder progressiveStopSpeed(float progressiveStopSpeed) {
-      if (progressiveStopSpeed < 0)
-        throw new IllegalArgumentException("progressiveStopSpeed must be >= 0");
+      checkSpeed(progressiveStopSpeed);
       mProgressiveStopSpeed = progressiveStopSpeed;
       return this;
     }

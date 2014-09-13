@@ -1,5 +1,4 @@
-apply plugin: 'android-sdk-manager'
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 repositories {
     mavenCentral()
@@ -11,10 +10,14 @@ android {
 
     defaultConfig {
         minSdkVersion 7
-        targetSdkVersion 14
+        targetSdkVersion 20
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
+
+    lintOptions {
+        abortOnError false
+    }
 }
 
-// apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
+//apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'

@@ -13,7 +13,7 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressDrawable;
 
 public class MainActivity extends Activity {
 
-  private ProgressBar mProgressBar1;
+  private ProgressBar       mProgressBar1;
   private SmoothProgressBar mGoogleNow;
   private SmoothProgressBar mPocketBar;
 
