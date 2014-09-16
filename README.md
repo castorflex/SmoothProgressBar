@@ -77,7 +77,8 @@ If you really want (or have) to use Eclipse, please look at the forks.
     android:indeterminate="true"
     app:cpb_color="#FFee44"
     app:cpb_colors="@array/mycolors"
-    app:spb_speed="1.0"
+    app:cpb_rotation_speed="1.0"
+    app:cpb_sweep_speed="1.0"
     app:cpb_stroke_width="4dp"
     app:cpb_min_sweep_angle="10"
     app:cpb_max_sweep_angle="300"
@@ -110,7 +111,8 @@ Or use styles:
         <item name="cpb_stroke_width">@dimen/cpb_default_stroke_width</item>
         <item name="cpb_min_sweep_angle">@integer/cpb_default_min_sweep_angle</item>
         <item name="cpb_max_sweep_angle">@integer/cpb_default_max_sweep_angle</item>
-        <item name="cpb_speed">@string/cpb_default_speed</item>
+        <item name="cpb_sweep_speed">@string/cpb_default_sweep_speed</item>
+        <item name="cpb_rotation_speed">@string/cpb_default_rotation_speed</item>
 </style>
 ```
 
