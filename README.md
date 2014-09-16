@@ -75,7 +75,7 @@ If you really want (or have) to use Eclipse, please look at the forks.
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:indeterminate="true"
-    app:cpb_color="4"
+    app:cpb_color="#FFee44"
     app:cpb_colors="@array/mycolors"
     app:spb_speed="1.0"
     app:cpb_stroke_width="4dp"
