@@ -69,7 +69,7 @@ If you really want (or have) to use Eclipse, please look at the forks.
     app:spb_progressiveStop_speed="3.4"
     />
 
-<fr.castorflex.android.smoothprogressbar.CircularProgressBar
+<fr.castorflex.android.circularprogressbar.CircularProgressBar
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
