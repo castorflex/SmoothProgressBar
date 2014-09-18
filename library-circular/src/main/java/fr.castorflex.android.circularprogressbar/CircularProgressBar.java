@@ -63,4 +63,19 @@ public class CircularProgressBar extends ProgressBar {
     indeterminateDrawable = builder.build();
     setIndeterminateDrawable(indeterminateDrawable);
   }
+
+  private CircularProgressDrawable checkIndeterminateDrawable() {
+     Drawable ret = getIndeterminateDrawable();
+     if (ret == null || !(ret instanceof CircularProgressDrawable))
+        throw new RuntimeException("The drawable is not a CircularProgressDrawable");
+     return (CircularProgressDrawable) ret;
+  }
+
+  public void progressiveStop() {
+    checkIndeterminateDrawable().progressiveStop();
+  }
+
+  public void progressiveStop(CircularProgressDrawable.OnEndListener listener) {
+    checkIndeterminateDrawable().progressiveStop(listener);
+  }
 }
