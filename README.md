@@ -69,15 +69,16 @@ If you really want (or have) to use Eclipse, please look at the forks.
     app:spb_progressiveStop_speed="3.4"
     />
 
-<fr.castorflex.android.smoothprogressbar.CircularProgressBar
+<fr.castorflex.android.circularprogressbar.CircularProgressBar
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:indeterminate="true"
-    app:cpb_color="4"
+    app:cpb_color="#FFee44"
     app:cpb_colors="@array/mycolors"
-    app:spb_speed="1.0"
+    app:cpb_rotation_speed="1.0"
+    app:cpb_sweep_speed="1.0"
     app:cpb_stroke_width="4dp"
     app:cpb_min_sweep_angle="10"
     app:cpb_max_sweep_angle="300"
@@ -110,7 +111,8 @@ Or use styles:
         <item name="cpb_stroke_width">@dimen/cpb_default_stroke_width</item>
         <item name="cpb_min_sweep_angle">@integer/cpb_default_min_sweep_angle</item>
         <item name="cpb_max_sweep_angle">@integer/cpb_default_max_sweep_angle</item>
-        <item name="cpb_speed">@string/cpb_default_speed</item>
+        <item name="cpb_sweep_speed">@string/cpb_default_sweep_speed</item>
+        <item name="cpb_rotation_speed">@string/cpb_default_rotation_speed</item>
 </style>
 ```
 
@@ -180,6 +182,6 @@ Travis dev: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.
 
 [Play Store]: https://play.google.com/store/apps/details?id=fr.castorflex.android.smoothprogressbar.sample
 
-[Gradle Please]: http://gradleplease.appspot.com/
+[Gradle Please]: http://gradleplease.appspot.com/#smoothprogressbar
 
 [Sample Themes]: https://github.com/castorflex/SmoothProgressBar/blob/master/sample/src/main/res/values/styles.xml

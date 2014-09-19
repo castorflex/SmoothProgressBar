@@ -1,3 +1,7 @@
+##1.0.0
+
+-   Added CircularProgressDrawable (min API 14)
+
 ##0.5.1
 
 -   Fixed bug with gradients when reversed mode enabled and mirror mode disabled
