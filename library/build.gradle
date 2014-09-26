@@ -6,15 +6,13 @@ repositories {
 }
 
 android {
-    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
-    buildToolsVersion project.BUILD_TOOLS_VERSION
+    compileSdkVersion 19
+    buildToolsVersion '20.0.0'
 
     defaultConfig {
         minSdkVersion 7
         targetSdkVersion 14
-        versionName project.VERSION_NAME
-        versionCode Integer.parseInt(project.VERSION_CODE)
+        versionCode 1
+        versionName '1.0'
     }
 }
-
-// apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
