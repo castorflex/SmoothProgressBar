@@ -1,5 +1,9 @@
 package fr.castorflex.android.circularprogressbar;
 
+import android.animation.ValueAnimator;
+
+import static java.lang.Math.min;
+
 /**
  * Created by castorflex on 8/14/14.
  */
@@ -35,5 +39,14 @@ class CircularProgressBarUtils {
   static void checkNotNull(Object o, String name) {
     if (o == null)
       throw new IllegalArgumentException(String.format("%s must be not null", name));
+  }
+
+  static float getAnimatedFraction(ValueAnimator animator) {
+    float fraction = animator.getDuration() > 0 ? ((float) animator.getCurrentPlayTime()) / animator.getDuration() : 1f;
+
+    fraction %= 1f;
+    fraction = min(fraction, 1f);
+    fraction = animator.getInterpolator().getInterpolation(fraction);
+    return fraction;
   }
 }
