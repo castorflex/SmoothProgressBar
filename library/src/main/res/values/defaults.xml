@@ -5,7 +5,7 @@
     <dimen name="spb_default_stroke_width">4dp</dimen>
     <integer name="spb_default_sections_count">4</integer>
     <integer name="spb_default_interpolator">0</integer>
-    <item name="spb_default_speed" format="float" type="string">1.0</item>
+    <item name="spb_default_speed" format="float" type="string">1</item>
     <bool name="spb_default_reversed">false</bool>
     <bool name="spb_default_mirror_mode">false</bool>
     <bool name="spb_default_progressiveStart_activated">false</bool>
