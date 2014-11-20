@@ -329,6 +329,7 @@ public class CircularProgressDrawable extends Drawable
 
   public void progressiveStop(OnEndListener listener) {
     if (!isRunning() || mEndAnimator.isRunning()) {
+      if (listener != null) listener.onEnd(CircularProgressDrawable.this);
       return;
     }
     mOnEndListener = listener;
