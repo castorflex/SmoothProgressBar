@@ -12,6 +12,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
@@ -100,13 +101,12 @@ public class CircularProgressDrawable extends Drawable
 
   private void reinitValues() {
     mFirstSweepAnimation = true;
+    mCurrentEndRatio = 1f;
     mPaint.setColor(mCurrentColor);
   }
 
   @Override
   public void draw(Canvas canvas) {
-    if (!isRunning()) return;
-
     float startAngle = mCurrentRotationAngle - mCurrentRotationAngleOffset;
     float sweepAngle = mCurrentSweepAngle;
     if (!mModeAppearing) {
@@ -271,6 +271,7 @@ public class CircularProgressDrawable extends Drawable
       @Override
       public void onAnimationUpdate(ValueAnimator animation) {
         setEndRatio(1f - getAnimatedFraction(animation));
+
       }
     });
     mEndAnimator.addListener(new Animator.AnimatorListener() {
@@ -283,7 +284,7 @@ public class CircularProgressDrawable extends Drawable
 
       @Override
       public void onAnimationEnd(Animator animation) {
-        setEndRatio(1f);
+        setEndRatio(0f);
         if (!cancelled) stop();
       }
 
