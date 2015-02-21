@@ -5,6 +5,8 @@ repositories {
 }
 
 dependencies {
+//    compile 'com.github.castorflex.smoothprogressbar:library:+'
+//    compile 'com.github.castorflex.smoothprogressbar:library-circular:+'
     compile project(':library')
     compile project(':library-circular')
 }
