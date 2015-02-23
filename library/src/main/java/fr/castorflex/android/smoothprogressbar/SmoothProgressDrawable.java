@@ -626,7 +626,11 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
     private Callbacks mOnProgressiveStopEndedListener;
 
     public Builder(Context context) {
-      initValues(context);
+      this(context, false);
+    }
+
+    public Builder(Context context, boolean editMode) {
+      initValues(context, editMode);
     }
 
     public SmoothProgressDrawable build() {
@@ -651,18 +655,28 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
       return ret;
     }
 
-    private void initValues(Context context) {
+    private void initValues(Context context, boolean editMode) {
       Resources res = context.getResources();
       mInterpolator = new AccelerateInterpolator();
-      mSectionsCount = res.getInteger(R.integer.spb_default_sections_count);
-      mColors = new int[]{res.getColor(R.color.spb_default_color)};
-      mSpeed = Float.parseFloat(res.getString(R.string.spb_default_speed));
+      if (!editMode) {
+        mSectionsCount = res.getInteger(R.integer.spb_default_sections_count);
+        mSpeed = Float.parseFloat(res.getString(R.string.spb_default_speed));
+        mReversed = res.getBoolean(R.bool.spb_default_reversed);
+        mProgressiveStartActivated = res.getBoolean(R.bool.spb_default_progressiveStart_activated);
+        mColors = new int[]{res.getColor(R.color.spb_default_color)};
+        mStrokeSeparatorLength = res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length);
+        mStrokeWidth = res.getDimensionPixelOffset(R.dimen.spb_default_stroke_width);
+      } else {
+        mSectionsCount = 4;
+        mSpeed = 1f;
+        mReversed = false;
+        mProgressiveStartActivated = false;
+        mColors = new int[]{0xff33b5e5};
+        mStrokeSeparatorLength = 4;
+        mStrokeWidth = 4;
+      }
       mProgressiveStartSpeed = mSpeed;
       mProgressiveStopSpeed = mSpeed;
-      mReversed = res.getBoolean(R.bool.spb_default_reversed);
-      mStrokeSeparatorLength = res.getDimensionPixelSize(R.dimen.spb_default_stroke_separator_length);
-      mStrokeWidth = res.getDimensionPixelOffset(R.dimen.spb_default_stroke_width);
-      mProgressiveStartActivated = res.getBoolean(R.bool.spb_default_progressiveStart_activated);
       mGradients = false;
     }
 
