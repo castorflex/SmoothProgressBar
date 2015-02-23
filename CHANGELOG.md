@@ -3,6 +3,7 @@
 -   Fixed Circular bugs (flashes)
 -   Added material themes (mainly for determinate support)
 -   Fixed exception bug in preview mode
+-   **/!\\** Removed a weird 48dp height in the SmoothProgressBar style
 
 ##1.0.0
 
