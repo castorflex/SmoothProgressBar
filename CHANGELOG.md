@@ -1,3 +1,9 @@
+##1.1.0
+
+-   Fixed Circular bugs (flashes)
+-   Added material themes (mainly for determinate support)
+-   Fixed exception bug in preview mode
+
 ##1.0.0
 
 -   Added CircularProgressDrawable (min API 14)

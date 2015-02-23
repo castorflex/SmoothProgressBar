@@ -2,11 +2,10 @@ apply plugin: 'com.android.application'
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
-//    compile 'com.github.castorflex.smoothprogressbar:library:+'
-//    compile 'com.github.castorflex.smoothprogressbar:library-circular:+'
     compile project(':library')
     compile project(':library-circular')
 }
