@@ -129,7 +129,7 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
     .strokeWidth(8f)            //You should use Resources#getDimension
     .speed(2f)                 //2 times faster
     .progressiveStartSpeed(2)
-    .progressiveStopSpeed(3.4)
+    .progressiveStopSpeed(3.4f)
     .reversed(false)
     .mirrorMode(false)
     .progressiveStart(true)
