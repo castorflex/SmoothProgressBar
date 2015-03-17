@@ -35,7 +35,7 @@ public class SmoothProgressBar extends ProgressBar {
     super(context, attrs, defStyle);
 
     if (isInEditMode()) {
-      setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context).build());
+      setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context, true).build());
       return;
     }
 

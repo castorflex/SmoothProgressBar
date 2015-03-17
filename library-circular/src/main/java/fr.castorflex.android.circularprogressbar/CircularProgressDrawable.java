@@ -5,6 +5,7 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
@@ -12,17 +13,16 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
 import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkAngle;
-import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.getAnimatedFraction;
 import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkColors;
 import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkNotNull;
 import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkPositiveOrZero;
 import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkSpeed;
+import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.getAnimatedFraction;
 
 public class CircularProgressDrawable extends Drawable
     implements Animatable {
@@ -395,16 +395,26 @@ public class CircularProgressDrawable extends Drawable
     private Interpolator mAngleInterpolator = DEFAULT_ROTATION_INTERPOLATOR;
 
     public Builder(Context context) {
-      initValues(context);
+      this(context, false);
     }
 
-    private void initValues(Context context) {
+    public Builder(Context context, boolean editMode) {
+      initValues(context, editMode);
+    }
+
+    private void initValues(Context context, boolean editMode) {
       mStrokeWidth = context.getResources().getDimension(R.dimen.cpb_default_stroke_width);
       mSweepSpeed = 1f;
       mRotationSpeed = 1f;
-      mColors = new int[]{context.getResources().getColor(R.color.cpb_default_color)};
-      mMinSweepAngle = context.getResources().getInteger(R.integer.cpb_default_min_sweep_angle);
-      mMaxSweepAngle = context.getResources().getInteger(R.integer.cpb_default_max_sweep_angle);
+      if (editMode) {
+        mColors = new int[]{Color.BLUE};
+        mMinSweepAngle = 20;
+        mMaxSweepAngle = 300;
+      } else {
+        mColors = new int[]{context.getResources().getColor(R.color.cpb_default_color)};
+        mMinSweepAngle = context.getResources().getInteger(R.integer.cpb_default_min_sweep_angle);
+        mMaxSweepAngle = context.getResources().getInteger(R.integer.cpb_default_max_sweep_angle);
+      }
       mStyle = Style.ROUNDED;
     }
 

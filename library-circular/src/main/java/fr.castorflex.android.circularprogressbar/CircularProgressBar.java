@@ -24,7 +24,7 @@ public class CircularProgressBar extends ProgressBar {
     super(context, attrs, defStyle);
 
     if (isInEditMode()) {
-      setIndeterminateDrawable(new CircularProgressDrawable.Builder(context).build());
+      setIndeterminateDrawable(new CircularProgressDrawable.Builder(context, true).build());
       return;
     }
 

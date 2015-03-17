@@ -1,6 +1,6 @@
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Holo">
+    <style name="AppTheme" parent="BaseTheme">
         <item name="spbStyle">@style/SmoothProgressBar</item>
         <item name="cpbStyle">@style/CircularProgressBar</item>
     </style>
@@ -47,6 +47,9 @@
         <item name="spb_colors">@array/pocket_bar_colors</item>
         <item name="spb_progressiveStart_activated">true</item>
         <item name="spb_generate_background_with_colors">false</item>
+    </style>
+
+    <style name="BaseTheme" parent="android:Theme.Holo">
     </style>
 
 </resources>

@@ -19,7 +19,8 @@
 
         <activity
             android:name=".MakeCustomActivity"
-            android:label="Make your own"/>
+            android:label="Make your own"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

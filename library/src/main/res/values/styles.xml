@@ -4,8 +4,9 @@
     <style name="Theme.SmoothProgressBarDefaults" parent="android:Theme">
         <item name="spbStyle">@style/SmoothProgressBar</item>
     </style>
-
-    <style name="SmoothProgressBar" parent="android:Widget.ProgressBar.Horizontal">
+    <style name="SPB" parent="android:Widget.ProgressBar.Horizontal">
+    </style>
+    <style name="SmoothProgressBar" parent="SPB">
         <item name="spb_color">@color/spb_default_color</item>
         <item name="spb_sections_count">@integer/spb_default_sections_count</item>
         <item name="spb_speed">@string/spb_default_speed</item>
@@ -14,7 +15,5 @@
         <item name="spb_reversed">@bool/spb_default_reversed</item>
         <item name="spb_mirror_mode">@bool/spb_default_mirror_mode</item>
         <item name="spb_interpolator">@integer/spb_default_interpolator</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="android:maxHeight">48dp</item>
     </style>
 </resources>
