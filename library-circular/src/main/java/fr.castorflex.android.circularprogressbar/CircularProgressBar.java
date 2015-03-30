@@ -3,6 +3,7 @@ package fr.castorflex.android.circularprogressbar;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
+import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
@@ -77,5 +78,11 @@ public class CircularProgressBar extends ProgressBar {
 
   public void progressiveStop(CircularProgressDrawable.OnEndListener listener) {
     checkIndeterminateDrawable().progressiveStop(listener);
+  }
+
+  /** Sets a matrix object to apply on the drawable */
+  public void setMatrix(Matrix matrix) {
+    CircularProgressDrawable drawable = (CircularProgressDrawable) getIndeterminateDrawable();
+    drawable.setMatrix(matrix);
   }
 }

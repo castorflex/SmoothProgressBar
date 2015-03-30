@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
@@ -69,6 +70,9 @@ public class CircularProgressDrawable extends Drawable
   private int          mMaxSweepAngle;
   private boolean      mFirstSweepAnimation;
 
+  /** The matrix object to apply on the canvas */
+  private Matrix mMatrix;
+
   private CircularProgressDrawable(int[] colors,
                                    float borderWidth,
                                    float sweepSpeed,
@@ -117,6 +121,9 @@ public class CircularProgressDrawable extends Drawable
       float newSweepAngle = sweepAngle * mCurrentEndRatio;
       startAngle = (startAngle + (sweepAngle - newSweepAngle)) % 360;
       sweepAngle = newSweepAngle;
+    }
+    if(mMatrix != null) {
+      canvas.concat(mMatrix);
     }
     canvas.drawArc(fBounds, startAngle, sweepAngle, false, mPaint);
   }
@@ -381,6 +388,22 @@ public class CircularProgressDrawable extends Drawable
   private void setEndRatio(float ratio) {
     mCurrentEndRatio = ratio;
     invalidateSelf();
+  }
+
+  /**
+   * Returns a matrix object that associated with the canvas
+   * @return
+   */
+  public Matrix getMatrix() {
+    return mMatrix;
+  }
+
+  /**
+   * Sets a matrix object that associated with the canvas
+   * @param matrix
+   */
+  public void setMatrix(Matrix matrix) {
+    this.mMatrix = matrix;
   }
 
   public static class Builder {
