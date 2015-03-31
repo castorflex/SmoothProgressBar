@@ -19,7 +19,7 @@ I wrote a [blog post] about that.
 
 The lib is now on Maven Central. All you have to do is add it on your gradle build:
 
-```xml
+```groovy
 dependencies {
     // of course, do not write x.x.x but the version number
     compile 'com.github.castorflex.smoothprogressbar:library:x.x.x'
@@ -32,7 +32,7 @@ You can find the last stable version on [Gradle Please]
 
 Or you can try the latest snapshots:
 
-```xml
+```groovy
 repositories {
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
@@ -129,7 +129,7 @@ mProgressBar.setIndeterminateDrawable(new SmoothProgressDrawable.Builder(context
     .strokeWidth(8f)            //You should use Resources#getDimension
     .speed(2f)                 //2 times faster
     .progressiveStartSpeed(2)
-    .progressiveStopSpeed(3.4)
+    .progressiveStopSpeed(3.4f)
     .reversed(false)
     .mirrorMode(false)
     .progressiveStart(true)
