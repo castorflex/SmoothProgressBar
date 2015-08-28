@@ -1,15 +1,17 @@
 package fr.castorflex.android.circularprogressbar;
 
 import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.os.Build;
+import android.os.PowerManager;
+import android.support.annotation.NonNull;
 
 import static java.lang.Math.min;
 
-/**
- * Created by castorflex on 8/14/14.
- */
-class CircularProgressBarUtils {
+class Utils {
 
-  private CircularProgressBarUtils() {
+  private Utils() {
   }
 
   static void checkSpeed(float speed) {
@@ -24,12 +26,12 @@ class CircularProgressBarUtils {
 
   static void checkAngle(int angle) {
     if (angle < 0 || angle > 360)
-      throw new IllegalArgumentException(String.format("Illegal angle %d: must be >=0 and <= 360", angle));
+      throw new IllegalArgumentException(String.format("Illegal angle %d: must be >=0 and <=360", angle));
   }
 
   static void checkPositiveOrZero(float number, String name) {
     if (number < 0)
-      throw new IllegalArgumentException(String.format("%s %d must be positive", name, number));
+      throw new IllegalArgumentException(String.format("%s %f must be positive", name, number));
   }
 
   static void checkPositive(int number, String name) {
@@ -48,5 +50,17 @@ class CircularProgressBarUtils {
     fraction = min(fraction, 1f);
     fraction = animator.getInterpolator().getInterpolation(fraction);
     return fraction;
+  }
+
+  @TargetApi(21)
+  public static boolean isPowerSaveModeEnabled(@NonNull Context context) {
+    if (Build.VERSION.SDK_INT < 21) return false;
+
+    try {
+      PowerManager mgr = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
+      return mgr.isPowerSaveMode();
+    } catch (Exception e) {
+      return false;
+    }
   }
 }

@@ -2,7 +2,6 @@ package fr.castorflex.android.smoothprogressbar.sample;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
+import fr.castorflex.android.circularprogressbar.OptionsBuilder;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
 /**
@@ -28,29 +28,29 @@ import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
  */
 public class MakeCustomActivity extends Activity {
 
-  private SmoothProgressBar   mProgressBar;
+  private SmoothProgressBar mProgressBar;
   private CircularProgressBar mCircularProgressBar;
-  private CheckBox            mCheckBoxMirror;
-  private CheckBox            mCheckBoxReversed;
-  private CheckBox            mCheckBoxGradients;
-  private Spinner             mSpinnerInterpolators;
-  private SeekBar             mSeekBarSectionsCount;
-  private SeekBar             mSeekBarStrokeWidth;
-  private SeekBar             mSeekBarSeparatorLength;
-  private SeekBar             mSeekBarSpeed;
-  private SeekBar             mSeekBarFactor;
-  private TextView            mTextViewFactor;
-  private TextView            mTextViewSpeed;
-  private TextView            mTextViewStrokeWidth;
-  private TextView            mTextViewSeparatorLength;
-  private TextView            mTextViewSectionsCount;
+  private CheckBox mCheckBoxMirror;
+  private CheckBox mCheckBoxReversed;
+  private CheckBox mCheckBoxGradients;
+  private Spinner mSpinnerInterpolators;
+  private SeekBar mSeekBarSectionsCount;
+  private SeekBar mSeekBarStrokeWidth;
+  private SeekBar mSeekBarSeparatorLength;
+  private SeekBar mSeekBarSpeed;
+  private SeekBar mSeekBarFactor;
+  private TextView mTextViewFactor;
+  private TextView mTextViewSpeed;
+  private TextView mTextViewStrokeWidth;
+  private TextView mTextViewSeparatorLength;
+  private TextView mTextViewSectionsCount;
 
   private Interpolator mCurrentInterpolator;
   private int mStrokeWidth = 4;
   private int mSeparatorLength;
   private int mSectionsCount;
   private float mFactor = 1f;
-  private float mSpeed  = 1f;
+  private float mSpeed = 1f;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class MakeCustomActivity extends Activity {
       @Override
       public void onClick(View v) {
         mProgressBar.progressiveStart();
-        ((CircularProgressDrawable)mCircularProgressBar.getIndeterminateDrawable()).start();
+        ((CircularProgressDrawable) mCircularProgressBar.getIndeterminateDrawable()).start();
       }
     });
 
@@ -87,7 +87,7 @@ public class MakeCustomActivity extends Activity {
       @Override
       public void onClick(View v) {
         mProgressBar.progressiveStop();
-        ((CircularProgressDrawable)mCircularProgressBar.getIndeterminateDrawable()).progressiveStop();
+        ((CircularProgressDrawable) mCircularProgressBar.getIndeterminateDrawable()).progressiveStop();
       }
     });
 
@@ -262,17 +262,16 @@ public class MakeCustomActivity extends Activity {
 
   private void updateValues() {
     CircularProgressDrawable circularProgressDrawable;
-    CircularProgressDrawable.Builder b = new CircularProgressDrawable
-        .Builder(this)
+    OptionsBuilder b = new OptionsBuilder(this)
         .colors(getResources().getIntArray(R.array.gplus_colors))
         .sweepSpeed(mSpeed)
         .rotationSpeed(mSpeed)
         .strokeWidth(dpToPx(mStrokeWidth))
-        .style(CircularProgressDrawable.Style.ROUNDED);
+        .style(CircularProgressDrawable.STYLE_ROUNDED);
     if (mCurrentInterpolator != null) {
       b.sweepInterpolator(mCurrentInterpolator);
     }
-    mCircularProgressBar.setIndeterminateDrawable(circularProgressDrawable = b.build());
+    mCircularProgressBar.setIndeterminateDrawable(circularProgressDrawable = new CircularProgressDrawable(b.build()));
 
     // /!\ Terrible hack, do not do this at home!
     circularProgressDrawable.setBounds(0,
