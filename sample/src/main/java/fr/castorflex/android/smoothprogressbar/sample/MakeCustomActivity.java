@@ -20,12 +20,8 @@ import android.widget.TextView;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
-import fr.castorflex.android.circularprogressbar.OptionsBuilder;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
-/**
- * Created by castorflex on 12/1/13.
- */
 public class MakeCustomActivity extends Activity {
 
   private SmoothProgressBar mProgressBar;
@@ -230,7 +226,7 @@ public class MakeCustomActivity extends Activity {
 
       }
     });
-    mSpinnerInterpolators.setSelection(0);
+    mSpinnerInterpolators.setSelection(4);
     updateValues();
   }
 
@@ -248,6 +244,10 @@ public class MakeCustomActivity extends Activity {
         mCurrentInterpolator = new DecelerateInterpolator(mFactor);
         mSeekBarFactor.setEnabled(true);
         break;
+      case 4:
+        mCurrentInterpolator = new FastOutSlowInInterpolator();
+        mSeekBarFactor.setEnabled(true);
+        break;
       case 0:
       default:
         mCurrentInterpolator = new AccelerateInterpolator(mFactor);
@@ -262,7 +262,7 @@ public class MakeCustomActivity extends Activity {
 
   private void updateValues() {
     CircularProgressDrawable circularProgressDrawable;
-    OptionsBuilder b = new OptionsBuilder(this)
+    CircularProgressDrawable.Builder b = new CircularProgressDrawable.Builder(this)
         .colors(getResources().getIntArray(R.array.gplus_colors))
         .sweepSpeed(mSpeed)
         .rotationSpeed(mSpeed)
@@ -271,7 +271,7 @@ public class MakeCustomActivity extends Activity {
     if (mCurrentInterpolator != null) {
       b.sweepInterpolator(mCurrentInterpolator);
     }
-    mCircularProgressBar.setIndeterminateDrawable(circularProgressDrawable = new CircularProgressDrawable(b.build()));
+    mCircularProgressBar.setIndeterminateDrawable(circularProgressDrawable = b.build());
 
     // /!\ Terrible hack, do not do this at home!
     circularProgressDrawable.setBounds(0,

@@ -149,7 +149,7 @@ public class CircularProgressDrawable
 
   public static class Builder {
     private static final Interpolator DEFAULT_ROTATION_INTERPOLATOR = new LinearInterpolator();
-    private static final Interpolator DEFAULT_SWEEP_INTERPOLATOR = new DecelerateInterpolator();
+    private static final Interpolator DEFAULT_SWEEP_INTERPOLATOR = new FastOutSlowInInterpolator();
 
     private Interpolator mSweepInterpolator = DEFAULT_SWEEP_INTERPOLATOR;
     private Interpolator mAngleInterpolator = DEFAULT_ROTATION_INTERPOLATOR;
