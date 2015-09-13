@@ -10,9 +10,9 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
+import android.os.PowerManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
@@ -44,6 +44,7 @@ public class CircularProgressDrawable
 
   private final RectF mBounds = new RectF();
 
+  private PowerManager mPowerManager;
   private Options mOptions;
   private Paint mPaint;
   private boolean mRunning;
@@ -52,7 +53,7 @@ public class CircularProgressDrawable
   /**
    * Private method, use #Builder instead
    */
-  private CircularProgressDrawable(Options options) {
+  private CircularProgressDrawable(PowerManager powerManager, Options options) {
     mOptions = options;
 
     mPaint = new Paint();
@@ -61,15 +62,14 @@ public class CircularProgressDrawable
     mPaint.setStrokeWidth(options.borderWidth);
     mPaint.setStrokeCap(options.style == STYLE_ROUNDED ? Paint.Cap.ROUND : Paint.Cap.BUTT);
     mPaint.setColor(options.colors[0]);
+    mPowerManager = powerManager;
 
-    mPBDelegate = options.isPowerSaveMode ?
-        new PowerSaveModeDelegate(this) :
-        new DefaultDelegate(this, options);
+    initDelegate();
   }
 
   @Override
   public void draw(Canvas canvas) {
-    mPBDelegate.draw(canvas, mPaint);
+    if (isRunning()) mPBDelegate.draw(canvas, mPaint);
   }
 
   @Override
@@ -100,12 +100,28 @@ public class CircularProgressDrawable
 
   @Override
   public void start() {
-    if (isRunning()) {
-      return;
-    }
-    mRunning = true;
+    initDelegate();
     mPBDelegate.start();
+    mRunning = true;
     invalidateSelf();
+  }
+
+  /**
+   * Inits the delegate. Create one if the delegate is null or not the right mode
+   */
+  private void initDelegate() {
+    boolean powerSaveMode = Utils.isPowerSaveModeEnabled(mPowerManager);
+    if (powerSaveMode) {
+      if (mPBDelegate == null || !(mPBDelegate instanceof PowerSaveModeDelegate)) {
+        if (mPBDelegate != null) mPBDelegate.stop();
+        mPBDelegate = new PowerSaveModeDelegate(this);
+      }
+    } else {
+      if (mPBDelegate == null || (mPBDelegate instanceof PowerSaveModeDelegate)) {
+        if (mPBDelegate != null) mPBDelegate.stop();
+        mPBDelegate = new DefaultDelegate(this, mOptions);
+      }
+    }
   }
 
   @Override
@@ -160,7 +176,7 @@ public class CircularProgressDrawable
     private int mMinSweepAngle;
     private int mMaxSweepAngle;
     @CircularProgressDrawable.Style int mStyle;
-    private boolean mPowerSaveMode;
+    private PowerManager mPowerManager;
 
     public Builder(@NonNull Context context) {
       this(context, false);
@@ -184,7 +200,7 @@ public class CircularProgressDrawable
         mMaxSweepAngle = context.getResources().getInteger(R.integer.cpb_default_max_sweep_angle);
       }
       mStyle = CircularProgressDrawable.STYLE_ROUNDED;
-      mPowerSaveMode = Utils.isPowerSaveModeEnabled(context);
+      mPowerManager = Utils.powerManager(context);
     }
 
     public Builder color(int color) {
@@ -246,16 +262,17 @@ public class CircularProgressDrawable
     }
 
     public CircularProgressDrawable build() {
-      return new CircularProgressDrawable(new Options(mAngleInterpolator,
-          mSweepInterpolator,
-          mBorderWidth,
-          mColors,
-          mSweepSpeed,
-          mRotationSpeed,
-          mMinSweepAngle,
-          mMaxSweepAngle,
-          mStyle,
-          mPowerSaveMode));
+      return new CircularProgressDrawable(
+          mPowerManager,
+          new Options(mAngleInterpolator,
+              mSweepInterpolator,
+              mBorderWidth,
+              mColors,
+              mSweepSpeed,
+              mRotationSpeed,
+              mMinSweepAngle,
+              mMaxSweepAngle,
+              mStyle));
     }
   }
 }

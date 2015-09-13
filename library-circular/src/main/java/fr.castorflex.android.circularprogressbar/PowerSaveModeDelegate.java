@@ -39,7 +39,7 @@ public class PowerSaveModeDelegate implements PBDelegate {
 
   @Override
   public void progressiveStop(CircularProgressDrawable.OnEndListener listener) {
-    stop();
+    mParent.stop();
   }
 
   private final Runnable mRunnable = new Runnable() {

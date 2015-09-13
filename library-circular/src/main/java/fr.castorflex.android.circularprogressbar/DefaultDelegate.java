@@ -85,6 +85,7 @@ class DefaultDelegate implements PBDelegate {
 
   @Override
   public void start() {
+    mEndAnimator.cancel();
     reinitValues();
     mRotationAnimator.start();
     mSweepAppearingAnimator.start();
@@ -96,10 +97,10 @@ class DefaultDelegate implements PBDelegate {
   }
 
   private void stopAnimators() {
-    if (mRotationAnimator.isRunning()) mRotationAnimator.cancel();
-    if (mSweepAppearingAnimator.isRunning()) mSweepAppearingAnimator.cancel();
-    if (mSweepDisappearingAnimator.isRunning()) mSweepDisappearingAnimator.cancel();
-    if (mEndAnimator.isRunning()) mEndAnimator.cancel();
+    mRotationAnimator.cancel();
+    mSweepAppearingAnimator.cancel();
+    mSweepDisappearingAnimator.cancel();
+    mEndAnimator.cancel();
   }
 
   private void setAppearing() {
@@ -131,7 +132,6 @@ class DefaultDelegate implements PBDelegate {
   ////////////////            Animation
 
   private void setupAnimations() {
-    final String rand = mParent.toString();
     mRotationAnimator = ValueAnimator.ofFloat(0f, 360f);
     mRotationAnimator.setInterpolator(mAngleInterpolator);
     mRotationAnimator.setDuration((long) (ROTATION_ANIMATOR_DURATION / mRotationSpeed));
@@ -220,15 +220,6 @@ class DefaultDelegate implements PBDelegate {
 
       }
     });
-    mEndAnimator.addListener(new SimpleAnimatorListener() {
-      @Override
-      protected void onPreAnimationEnd(Animator animation) {
-        setEndRatio(0f);
-        if (isStartedAndNotCancelled()) {
-          stop();
-        }
-      }
-    });
   }
 
   /////////////////////////////////////////////////////////
@@ -248,9 +239,13 @@ class DefaultDelegate implements PBDelegate {
         mEndAnimator.removeListener(this);
         CircularProgressDrawable.OnEndListener endListener = mOnEndListener;
         mOnEndListener = null;
-        mParent.stop();
-        if (endListener != null) {
-          endListener.onEnd(mParent);
+
+        if(isStartedAndNotCancelled()) {
+          setEndRatio(0f);
+          mParent.stop();
+          if (endListener != null) {
+            endListener.onEnd(mParent);
+          }
         }
       }
     });

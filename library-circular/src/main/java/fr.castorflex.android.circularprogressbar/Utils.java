@@ -53,14 +53,17 @@ class Utils {
   }
 
   @TargetApi(21)
-  public static boolean isPowerSaveModeEnabled(@NonNull Context context) {
+  public static boolean isPowerSaveModeEnabled(@NonNull PowerManager powerManager) {
     if (Build.VERSION.SDK_INT < 21) return false;
 
     try {
-      PowerManager mgr = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-      return mgr.isPowerSaveMode();
+      return powerManager.isPowerSaveMode();
     } catch (Exception e) {
       return false;
     }
+  }
+
+  public static PowerManager powerManager(Context context) {
+    return (PowerManager) context.getSystemService(Context.POWER_SERVICE);
   }
 }
