@@ -1,3 +1,9 @@
+##1.2.0
+
+- Added new `FastOutSlowInInterpolator`, enabled by default
+- Fixed power save mode on circular progressbar
+- Fixed animators stop on circular progressbar
+
 ##1.1.0
 
 -   Fixed Circular bugs (flashes)
