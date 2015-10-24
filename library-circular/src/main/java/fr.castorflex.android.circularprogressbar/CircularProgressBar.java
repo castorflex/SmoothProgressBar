@@ -7,9 +7,6 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ProgressBar;
 
-/**
- * Created by castorflex on 11/10/13.
- */
 public class CircularProgressBar extends ProgressBar {
 
   public CircularProgressBar(Context context) {

@@ -4,9 +4,12 @@ android:
   components:
     - platform-tools
     - tools
+    - extra-android-m2repository
 
-    - build-tools-20.0.0
-    - android-20
+    - build-tools-23.0.1
+    - android-23
+
+sudo: false
     
     
 script: ./gradlew build

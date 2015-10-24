@@ -2,7 +2,6 @@ package fr.castorflex.android.smoothprogressbar.sample;
 
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -23,34 +22,31 @@ import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
 
-/**
- * Created by castorflex on 12/1/13.
- */
 public class MakeCustomActivity extends Activity {
 
-  private SmoothProgressBar   mProgressBar;
+  private SmoothProgressBar mProgressBar;
   private CircularProgressBar mCircularProgressBar;
-  private CheckBox            mCheckBoxMirror;
-  private CheckBox            mCheckBoxReversed;
-  private CheckBox            mCheckBoxGradients;
-  private Spinner             mSpinnerInterpolators;
-  private SeekBar             mSeekBarSectionsCount;
-  private SeekBar             mSeekBarStrokeWidth;
-  private SeekBar             mSeekBarSeparatorLength;
-  private SeekBar             mSeekBarSpeed;
-  private SeekBar             mSeekBarFactor;
-  private TextView            mTextViewFactor;
-  private TextView            mTextViewSpeed;
-  private TextView            mTextViewStrokeWidth;
-  private TextView            mTextViewSeparatorLength;
-  private TextView            mTextViewSectionsCount;
+  private CheckBox mCheckBoxMirror;
+  private CheckBox mCheckBoxReversed;
+  private CheckBox mCheckBoxGradients;
+  private Spinner mSpinnerInterpolators;
+  private SeekBar mSeekBarSectionsCount;
+  private SeekBar mSeekBarStrokeWidth;
+  private SeekBar mSeekBarSeparatorLength;
+  private SeekBar mSeekBarSpeed;
+  private SeekBar mSeekBarFactor;
+  private TextView mTextViewFactor;
+  private TextView mTextViewSpeed;
+  private TextView mTextViewStrokeWidth;
+  private TextView mTextViewSeparatorLength;
+  private TextView mTextViewSectionsCount;
 
   private Interpolator mCurrentInterpolator;
   private int mStrokeWidth = 4;
   private int mSeparatorLength;
   private int mSectionsCount;
   private float mFactor = 1f;
-  private float mSpeed  = 1f;
+  private float mSpeed = 1f;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +75,7 @@ public class MakeCustomActivity extends Activity {
       @Override
       public void onClick(View v) {
         mProgressBar.progressiveStart();
-        ((CircularProgressDrawable)mCircularProgressBar.getIndeterminateDrawable()).start();
+        ((CircularProgressDrawable) mCircularProgressBar.getIndeterminateDrawable()).start();
       }
     });
 
@@ -87,7 +83,7 @@ public class MakeCustomActivity extends Activity {
       @Override
       public void onClick(View v) {
         mProgressBar.progressiveStop();
-        ((CircularProgressDrawable)mCircularProgressBar.getIndeterminateDrawable()).progressiveStop();
+        ((CircularProgressDrawable) mCircularProgressBar.getIndeterminateDrawable()).progressiveStop();
       }
     });
 
@@ -230,7 +226,7 @@ public class MakeCustomActivity extends Activity {
 
       }
     });
-    mSpinnerInterpolators.setSelection(0);
+    mSpinnerInterpolators.setSelection(4);
     updateValues();
   }
 
@@ -248,6 +244,10 @@ public class MakeCustomActivity extends Activity {
         mCurrentInterpolator = new DecelerateInterpolator(mFactor);
         mSeekBarFactor.setEnabled(true);
         break;
+      case 4:
+        mCurrentInterpolator = new FastOutSlowInInterpolator();
+        mSeekBarFactor.setEnabled(true);
+        break;
       case 0:
       default:
         mCurrentInterpolator = new AccelerateInterpolator(mFactor);
@@ -262,13 +262,12 @@ public class MakeCustomActivity extends Activity {
 
   private void updateValues() {
     CircularProgressDrawable circularProgressDrawable;
-    CircularProgressDrawable.Builder b = new CircularProgressDrawable
-        .Builder(this)
+    CircularProgressDrawable.Builder b = new CircularProgressDrawable.Builder(this)
         .colors(getResources().getIntArray(R.array.gplus_colors))
         .sweepSpeed(mSpeed)
         .rotationSpeed(mSpeed)
         .strokeWidth(dpToPx(mStrokeWidth))
-        .style(CircularProgressDrawable.Style.ROUNDED);
+        .style(CircularProgressDrawable.STYLE_ROUNDED);
     if (mCurrentInterpolator != null) {
       b.sweepInterpolator(mCurrentInterpolator);
     }

@@ -8,6 +8,7 @@
         <item>Linear</item>
         <item>AccelerateDecelerate</item>
         <item>Decelerate</item>
+        <item>FastOutSlowIn</item>
     </string-array>
 
 </resources>

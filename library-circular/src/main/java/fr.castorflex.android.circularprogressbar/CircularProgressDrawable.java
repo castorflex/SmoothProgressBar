@@ -1,8 +1,5 @@
 package fr.castorflex.android.circularprogressbar;
 
-import android.animation.Animator;
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -13,112 +10,66 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
-import android.view.animation.DecelerateInterpolator;
+import android.os.PowerManager;
+import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
-import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkAngle;
-import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkColors;
-import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkNotNull;
-import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkPositiveOrZero;
-import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.checkSpeed;
-import static fr.castorflex.android.circularprogressbar.CircularProgressBarUtils.getAnimatedFraction;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
-public class CircularProgressDrawable extends Drawable
+import static fr.castorflex.android.circularprogressbar.Utils.checkAngle;
+import static fr.castorflex.android.circularprogressbar.Utils.checkColors;
+import static fr.castorflex.android.circularprogressbar.Utils.checkNotNull;
+import static fr.castorflex.android.circularprogressbar.Utils.checkPositiveOrZero;
+import static fr.castorflex.android.circularprogressbar.Utils.checkSpeed;
+
+public class CircularProgressDrawable
+    extends Drawable
     implements Animatable {
 
-  public enum Style {NORMAL, ROUNDED}
-
   public interface OnEndListener {
-    public void onEnd(CircularProgressDrawable drawable);
+    void onEnd(CircularProgressDrawable drawable);
   }
 
-  private static final ArgbEvaluator COLOR_EVALUATOR               = new ArgbEvaluator();
-  public static final  Interpolator  END_INTERPOLATOR              = new LinearInterpolator();
-  private static final Interpolator  DEFAULT_ROTATION_INTERPOLATOR = new LinearInterpolator();
-  private static final Interpolator  DEFAULT_SWEEP_INTERPOLATOR    = new DecelerateInterpolator();
-  private static final int           ROTATION_ANIMATOR_DURATION    = 2000;
-  private static final int           SWEEP_ANIMATOR_DURATION       = 600;
-  private static final int           END_ANIMATOR_DURATION         = 200;
+  public static final int STYLE_NORMAL = 0;
+  public static final int STYLE_ROUNDED = 1;
 
-  private final RectF fBounds = new RectF();
+  @Retention(RetentionPolicy.SOURCE)
+  @IntDef({STYLE_NORMAL, STYLE_ROUNDED})
+  public @interface Style {
 
-  private ValueAnimator mSweepAppearingAnimator;
-  private ValueAnimator mSweepDisappearingAnimator;
-  private ValueAnimator mRotationAnimator;
-  private ValueAnimator mEndAnimator;
-  private OnEndListener mOnEndListener;
-  private boolean       mModeAppearing;
-  private Paint         mPaint;
-  private boolean       mRunning;
-  private int           mCurrentColor;
-  private int           mCurrentIndexColor;
-  private float         mCurrentSweepAngle;
-  private float mCurrentRotationAngleOffset = 0;
-  private float mCurrentRotationAngle       = 0;
-  private float mCurrentEndRatio            = 1f;
+  }
 
-  //params
-  private Interpolator mAngleInterpolator;
-  private Interpolator mSweepInterpolator;
-  private float        mBorderWidth;
-  private int[]        mColors;
-  private float        mSweepSpeed;
-  private float        mRotationSpeed;
-  private int          mMinSweepAngle;
-  private int          mMaxSweepAngle;
-  private boolean      mFirstSweepAnimation;
+  private final RectF mBounds = new RectF();
 
-  private CircularProgressDrawable(int[] colors,
-                                   float borderWidth,
-                                   float sweepSpeed,
-                                   float rotationSpeed,
-                                   int minSweepAngle,
-                                   int maxSweepAngle,
-                                   Style style,
-                                   Interpolator angleInterpolator,
-                                   Interpolator sweepInterpolator) {
-    mSweepInterpolator = sweepInterpolator;
-    mAngleInterpolator = angleInterpolator;
-    mBorderWidth = borderWidth;
-    mCurrentIndexColor = 0;
-    mColors = colors;
-    mCurrentColor = mColors[0];
-    mSweepSpeed = sweepSpeed;
-    mRotationSpeed = rotationSpeed;
-    mMinSweepAngle = minSweepAngle;
-    mMaxSweepAngle = maxSweepAngle;
+  private PowerManager mPowerManager;
+  private Options mOptions;
+  private Paint mPaint;
+  private boolean mRunning;
+  private PBDelegate mPBDelegate;
+
+  /**
+   * Private method, use #Builder instead
+   */
+  private CircularProgressDrawable(PowerManager powerManager, Options options) {
+    mOptions = options;
 
     mPaint = new Paint();
     mPaint.setAntiAlias(true);
     mPaint.setStyle(Paint.Style.STROKE);
-    mPaint.setStrokeWidth(borderWidth);
-    mPaint.setStrokeCap(style == Style.ROUNDED ? Paint.Cap.ROUND : Paint.Cap.BUTT);
-    mPaint.setColor(mColors[0]);
+    mPaint.setStrokeWidth(options.borderWidth);
+    mPaint.setStrokeCap(options.style == STYLE_ROUNDED ? Paint.Cap.ROUND : Paint.Cap.BUTT);
+    mPaint.setColor(options.colors[0]);
+    mPowerManager = powerManager;
 
-    setupAnimations();
-  }
-
-  private void reinitValues() {
-    mFirstSweepAnimation = true;
-    mCurrentEndRatio = 1f;
-    mPaint.setColor(mCurrentColor);
+    initDelegate();
   }
 
   @Override
   public void draw(Canvas canvas) {
-    float startAngle = mCurrentRotationAngle - mCurrentRotationAngleOffset;
-    float sweepAngle = mCurrentSweepAngle;
-    if (!mModeAppearing) {
-      startAngle = startAngle + (360 - sweepAngle);
-    }
-    startAngle %= 360;
-    if (mCurrentEndRatio < 1f) {
-      float newSweepAngle = sweepAngle * mCurrentEndRatio;
-      startAngle = (startAngle + (sweepAngle - newSweepAngle)) % 360;
-      sweepAngle = newSweepAngle;
-    }
-    canvas.drawArc(fBounds, startAngle, sweepAngle, false, mPaint);
+    if (isRunning()) mPBDelegate.draw(canvas, mPaint);
   }
 
   @Override
@@ -139,228 +90,52 @@ public class CircularProgressDrawable extends Drawable
   @Override
   protected void onBoundsChange(Rect bounds) {
     super.onBoundsChange(bounds);
-    fBounds.left = bounds.left + mBorderWidth / 2f + .5f;
-    fBounds.right = bounds.right - mBorderWidth / 2f - .5f;
-    fBounds.top = bounds.top + mBorderWidth / 2f + .5f;
-    fBounds.bottom = bounds.bottom - mBorderWidth / 2f - .5f;
+    float border = mOptions.borderWidth;
+    mBounds.left = bounds.left + border / 2f + .5f;
+    mBounds.right = bounds.right - border / 2f - .5f;
+    mBounds.top = bounds.top + border / 2f + .5f;
+    mBounds.bottom = bounds.bottom - border / 2f - .5f;
   }
 
-  private void setAppearing() {
-    mModeAppearing = true;
-    mCurrentRotationAngleOffset += mMinSweepAngle;
-  }
-
-  private void setDisappearing() {
-    mModeAppearing = false;
-    mCurrentRotationAngleOffset = mCurrentRotationAngleOffset + (360 - mMaxSweepAngle);
-  }
-
-  //////////////////////////////////////////////////////////////////////////////
-  ////////////////            Animation
-
-  private void setupAnimations() {
-    mRotationAnimator = ValueAnimator.ofFloat(0f, 360f);
-    mRotationAnimator.setInterpolator(mAngleInterpolator);
-    mRotationAnimator.setDuration((long) (ROTATION_ANIMATOR_DURATION / mRotationSpeed));
-    mRotationAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-      @Override
-      public void onAnimationUpdate(ValueAnimator animation) {
-        float angle = getAnimatedFraction(animation) * 360f;
-        setCurrentRotationAngle(angle);
-      }
-    });
-    mRotationAnimator.setRepeatCount(ValueAnimator.INFINITE);
-    mRotationAnimator.setRepeatMode(ValueAnimator.RESTART);
-
-    mSweepAppearingAnimator = ValueAnimator.ofFloat(mMinSweepAngle, mMaxSweepAngle);
-    mSweepAppearingAnimator.setInterpolator(mSweepInterpolator);
-    mSweepAppearingAnimator.setDuration((long) (SWEEP_ANIMATOR_DURATION / mSweepSpeed));
-    mSweepAppearingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-      @Override
-      public void onAnimationUpdate(ValueAnimator animation) {
-        float animatedFraction = getAnimatedFraction(animation);
-        float angle;
-        if (mFirstSweepAnimation) {
-          angle = animatedFraction * mMaxSweepAngle;
-        } else {
-          angle = mMinSweepAngle + animatedFraction * (mMaxSweepAngle - mMinSweepAngle);
-        }
-        setCurrentSweepAngle(angle);
-      }
-    });
-    mSweepAppearingAnimator.addListener(new Animator.AnimatorListener() {
-      boolean cancelled = false;
-
-      @Override
-      public void onAnimationStart(Animator animation) {
-        cancelled = false;
-        mModeAppearing = true;
-      }
-
-      @Override
-      public void onAnimationEnd(Animator animation) {
-        if (!cancelled) {
-          mFirstSweepAnimation = false;
-          setDisappearing();
-          mSweepDisappearingAnimator.start();
-        }
-      }
-
-      @Override
-      public void onAnimationCancel(Animator animation) {
-        cancelled = true;
-      }
-
-      @Override
-      public void onAnimationRepeat(Animator animation) {
-      }
-    });
-
-    mSweepDisappearingAnimator = ValueAnimator.ofFloat(mMaxSweepAngle, mMinSweepAngle);
-    mSweepDisappearingAnimator.setInterpolator(mSweepInterpolator);
-    mSweepDisappearingAnimator.setDuration((long) (SWEEP_ANIMATOR_DURATION / mSweepSpeed));
-    mSweepDisappearingAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-      @Override
-      public void onAnimationUpdate(ValueAnimator animation) {
-        float animatedFraction = getAnimatedFraction(animation);
-        setCurrentSweepAngle(mMaxSweepAngle - animatedFraction * (mMaxSweepAngle - mMinSweepAngle));
-
-        long duration = animation.getDuration();
-        long played = animation.getCurrentPlayTime();
-        float fraction = (float) played / duration;
-        if (mColors.length > 1 && fraction > .7f) { //because
-          int prevColor = mCurrentColor;
-          int nextColor = mColors[(mCurrentIndexColor + 1) % mColors.length];
-          int newColor = (Integer) COLOR_EVALUATOR.evaluate((fraction - .7f) / (1 - .7f), prevColor, nextColor);
-          mPaint.setColor(newColor);
-        }
-      }
-    });
-    mSweepDisappearingAnimator.addListener(new Animator.AnimatorListener() {
-      boolean cancelled;
-
-      @Override
-      public void onAnimationStart(Animator animation) {
-        cancelled = false;
-      }
-
-      @Override
-      public void onAnimationEnd(Animator animation) {
-        if (!cancelled) {
-          setAppearing();
-          mCurrentIndexColor = (mCurrentIndexColor + 1) % mColors.length;
-          mCurrentColor = mColors[mCurrentIndexColor];
-          mPaint.setColor(mCurrentColor);
-          mSweepAppearingAnimator.start();
-        }
-      }
-
-      @Override
-      public void onAnimationCancel(Animator animation) {
-        cancelled = true;
-      }
-
-      @Override
-      public void onAnimationRepeat(Animator animation) {
-      }
-    });
-    mEndAnimator = ValueAnimator.ofFloat(1f, 0f);
-    mEndAnimator.setInterpolator(END_INTERPOLATOR);
-    mEndAnimator.setDuration(END_ANIMATOR_DURATION);
-    mEndAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-      @Override
-      public void onAnimationUpdate(ValueAnimator animation) {
-        setEndRatio(1f - getAnimatedFraction(animation));
-
-      }
-    });
-    mEndAnimator.addListener(new Animator.AnimatorListener() {
-      private boolean cancelled;
-
-      @Override
-      public void onAnimationStart(Animator animation) {
-        cancelled = false;
-      }
-
-      @Override
-      public void onAnimationEnd(Animator animation) {
-        setEndRatio(0f);
-        if (!cancelled) stop();
-      }
-
-      @Override
-      public void onAnimationCancel(Animator animation) {
-        cancelled = true;
-      }
-
-      @Override
-      public void onAnimationRepeat(Animator animation) {
-
-      }
-    });
-  }
 
   @Override
   public void start() {
-    if (isRunning()) {
-      return;
-    }
+    initDelegate();
+    mPBDelegate.start();
     mRunning = true;
-    reinitValues();
-    mRotationAnimator.start();
-    mSweepAppearingAnimator.start();
     invalidateSelf();
+  }
+
+  /**
+   * Inits the delegate. Create one if the delegate is null or not the right mode
+   */
+  private void initDelegate() {
+    boolean powerSaveMode = Utils.isPowerSaveModeEnabled(mPowerManager);
+    if (powerSaveMode) {
+      if (mPBDelegate == null || !(mPBDelegate instanceof PowerSaveModeDelegate)) {
+        if (mPBDelegate != null) mPBDelegate.stop();
+        mPBDelegate = new PowerSaveModeDelegate(this);
+      }
+    } else {
+      if (mPBDelegate == null || (mPBDelegate instanceof PowerSaveModeDelegate)) {
+        if (mPBDelegate != null) mPBDelegate.stop();
+        mPBDelegate = new DefaultDelegate(this, mOptions);
+      }
+    }
   }
 
   @Override
   public void stop() {
-    if (!isRunning()) {
-      return;
-    }
     mRunning = false;
-    stopAnimators();
+    mPBDelegate.stop();
     invalidateSelf();
   }
 
-  private void stopAnimators() {
-    mRotationAnimator.cancel();
-    mSweepAppearingAnimator.cancel();
-    mSweepDisappearingAnimator.cancel();
-    mEndAnimator.cancel();
-  }
-
-  public void progressiveStop(OnEndListener listener) {
-    if (!isRunning() || mEndAnimator.isRunning()) {
-      return;
+  public void invalidate() {
+    if (getCallback() == null) {
+      stop(); // we don't want these animator to keep running...
     }
-    mOnEndListener = listener;
-    mEndAnimator.addListener(new Animator.AnimatorListener() {
-      @Override
-      public void onAnimationStart(Animator animation) {
-
-      }
-
-      @Override
-      public void onAnimationEnd(Animator animation) {
-        mEndAnimator.removeListener(this);
-        if (mOnEndListener != null) mOnEndListener.onEnd(CircularProgressDrawable.this);
-      }
-
-      @Override
-      public void onAnimationCancel(Animator animation) {
-
-      }
-
-      @Override
-      public void onAnimationRepeat(Animator animation) {
-
-      }
-    });
-    mEndAnimator.start();
-  }
-
-  public void progressiveStop() {
-    progressiveStop(null);
+    invalidateSelf();
   }
 
   @Override
@@ -368,42 +143,51 @@ public class CircularProgressDrawable extends Drawable
     return mRunning;
   }
 
-  public void setCurrentRotationAngle(float currentRotationAngle) {
-    mCurrentRotationAngle = currentRotationAngle;
-    invalidateSelf();
+  public Paint getCurrentPaint() {
+    return mPaint;
   }
 
-  public void setCurrentSweepAngle(float currentSweepAngle) {
-    mCurrentSweepAngle = currentSweepAngle;
-    invalidateSelf();
+  public RectF getDrawableBounds() {
+    return mBounds;
   }
 
-  private void setEndRatio(float ratio) {
-    mCurrentEndRatio = ratio;
-    invalidateSelf();
+  ////////////////////////////////////////////////////////////////////
+  //Progressive stop
+  ////////////////////////////////////////////////////////////////////
+
+  public void progressiveStop(CircularProgressDrawable.OnEndListener listener) {
+    mPBDelegate.progressiveStop(listener);
+  }
+
+  public void progressiveStop() {
+    progressiveStop(null);
   }
 
   public static class Builder {
+    private static final Interpolator DEFAULT_ROTATION_INTERPOLATOR = new LinearInterpolator();
+    private static final Interpolator DEFAULT_SWEEP_INTERPOLATOR = new FastOutSlowInInterpolator();
+
+    private Interpolator mSweepInterpolator = DEFAULT_SWEEP_INTERPOLATOR;
+    private Interpolator mAngleInterpolator = DEFAULT_ROTATION_INTERPOLATOR;
+    private float mBorderWidth;
     private int[] mColors;
     private float mSweepSpeed;
     private float mRotationSpeed;
-    private float mStrokeWidth;
-    private int   mMinSweepAngle;
-    private int   mMaxSweepAngle;
-    private Style mStyle;
-    private Interpolator mSweepInterpolator = DEFAULT_SWEEP_INTERPOLATOR;
-    private Interpolator mAngleInterpolator = DEFAULT_ROTATION_INTERPOLATOR;
+    private int mMinSweepAngle;
+    private int mMaxSweepAngle;
+    @CircularProgressDrawable.Style int mStyle;
+    private PowerManager mPowerManager;
 
-    public Builder(Context context) {
+    public Builder(@NonNull Context context) {
       this(context, false);
     }
 
-    public Builder(Context context, boolean editMode) {
+    public Builder(@NonNull Context context, boolean editMode) {
       initValues(context, editMode);
     }
 
-    private void initValues(Context context, boolean editMode) {
-      mStrokeWidth = context.getResources().getDimension(R.dimen.cpb_default_stroke_width);
+    private void initValues(@NonNull Context context, boolean editMode) {
+      mBorderWidth = context.getResources().getDimension(R.dimen.cpb_default_stroke_width);
       mSweepSpeed = 1f;
       mRotationSpeed = 1f;
       if (editMode) {
@@ -415,7 +199,8 @@ public class CircularProgressDrawable extends Drawable
         mMinSweepAngle = context.getResources().getInteger(R.integer.cpb_default_min_sweep_angle);
         mMaxSweepAngle = context.getResources().getInteger(R.integer.cpb_default_max_sweep_angle);
       }
-      mStyle = Style.ROUNDED;
+      mStyle = CircularProgressDrawable.STYLE_ROUNDED;
+      mPowerManager = Utils.powerManager(context);
     }
 
     public Builder color(int color) {
@@ -455,12 +240,11 @@ public class CircularProgressDrawable extends Drawable
 
     public Builder strokeWidth(float strokeWidth) {
       checkPositiveOrZero(strokeWidth, "StrokeWidth");
-      mStrokeWidth = strokeWidth;
+      mBorderWidth = strokeWidth;
       return this;
     }
 
-    public Builder style(Style style) {
-      checkNotNull(style, "Style");
+    public Builder style(@CircularProgressDrawable.Style int style) {
       mStyle = style;
       return this;
     }
@@ -478,15 +262,17 @@ public class CircularProgressDrawable extends Drawable
     }
 
     public CircularProgressDrawable build() {
-      return new CircularProgressDrawable(mColors,
-          mStrokeWidth,
-          mSweepSpeed,
-          mRotationSpeed,
-          mMinSweepAngle,
-          mMaxSweepAngle,
-          mStyle,
-          mAngleInterpolator,
-          mSweepInterpolator);
+      return new CircularProgressDrawable(
+          mPowerManager,
+          new Options(mAngleInterpolator,
+              mSweepInterpolator,
+              mBorderWidth,
+              mColors,
+              mSweepSpeed,
+              mRotationSpeed,
+              mMinSweepAngle,
+              mMaxSweepAngle,
+              mStyle));
     }
   }
 }
