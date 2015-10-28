@@ -1,39 +1,21 @@
-# Eclipse
-.project
-.classpath
-.settings
-.checkstyle
+# Gradle files
+.gradle/
+build/
 
-# IntelliJ IDEA
-.idea
-*.iml
-*.ipr
-*.iws
-classes
-gen-external-apklibs
-
-# Gradle
-.gradle
-build
-
-# Maven
-target
-release.properties
-pom.xml.*
-
-# Ant
-bin
-gen
-build.xml
-ant.properties
+# Local configuration file (sdk path, etc)
 local.properties
-proguard-project.txt
 
-#Crashlytics
-.crashlytics_data
+# IntelliJ project files
+*.iml
+.idea/
+
+# Crashlytics
 com_crashlytics_export_strings.xml
+crashlytics-build.properties
+crashlytics.properties
+.crashlytics_data
 
-# Other
-out/
+# Misc
 .DS_Store
 tmp
+.checkstyle
