@@ -2,14 +2,10 @@ language: android
 
 android:
   components:
-    - platform-tools
     - tools
+    - build-tools-23.0.2
+    - android-23
+    - platform-tools
     - extra-android-m2repository
 
-    - build-tools-23.0.1
-    - android-23
-
-sudo: false
-    
-    
 script: ./gradlew build
