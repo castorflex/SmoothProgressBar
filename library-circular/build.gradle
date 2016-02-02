@@ -14,10 +14,6 @@ android {
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
-
-    lintOptions {
-        abortOnError false
-    }
 }
 
 dependencies {

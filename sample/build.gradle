@@ -32,11 +32,6 @@ android {
             signingConfig project.hasProperty('KEYSTORE_STORE_FILE') ? signingConfigs.release : signingConfigs.debug
         }
     }
-
-    lintOptions {
-        abortOnError false
-    }
-
 }
 if (project.hasProperty('KEYSTORE_STORE_FILE')) {
     android.signingConfigs.release.storeFile = file(KEYSTORE_STORE_FILE)
