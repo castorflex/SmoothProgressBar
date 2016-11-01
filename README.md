@@ -1,4 +1,12 @@
 ##Description
+Fork of castorflex smooth progress bar lib with the addition of a GRADIENT option that I have created for the the indeterminate circular progress bar. This is something I have seen people ask about on stack overflow but I could not find a solution posted anywhere online.
+
+Video:  https://www.youtube.com/watch?v=z6bYy9BLe8o&feature=youtu.be
+Feature Commit: https://github.com/mochi-logic/SmoothProgressBar/commit/44241884cc5b97120bb9308a3e00ae0d85c2f8a0
+
+
+
+Castorflex original description:
 
 Small library allowing you to make a smooth indeterminate progress bar. You can either user your progress bars and set this drawable or use directly the `SmoothProgressBarView`.
 
