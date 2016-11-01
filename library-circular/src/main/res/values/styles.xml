@@ -15,6 +15,7 @@
         <item name="cpb_max_sweep_angle">@integer/cpb_default_max_sweep_angle</item>
         <item name="cpb_sweep_speed">@string/cpb_default_sweep_speed</item>
         <item name="cpb_rotation_speed">@string/cpb_default_rotation_speed</item>
+        <item name="cpb_use_gradient">@string/cpb_default_use_gradient</item>
     </style>
 
 </resources>

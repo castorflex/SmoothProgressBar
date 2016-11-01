@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.SweepGradient;
 import android.support.annotation.NonNull;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
@@ -41,6 +43,7 @@ class DefaultDelegate implements PBDelegate {
   private float mRotationSpeed;
   private int mMinSweepAngle;
   private int mMaxSweepAngle;
+  private boolean mUseGradient;
 
   private CircularProgressDrawable mParent;
   private CircularProgressDrawable.OnEndListener mOnEndListener;
@@ -57,6 +60,7 @@ class DefaultDelegate implements PBDelegate {
     mRotationSpeed = options.rotationSpeed;
     mMinSweepAngle = options.minSweepAngle;
     mMaxSweepAngle = options.maxSweepAngle;
+    mUseGradient = options.useGradient;
 
     setupAnimations();
   }
@@ -80,7 +84,26 @@ class DefaultDelegate implements PBDelegate {
       startAngle = (startAngle + (sweepAngle - newSweepAngle)) % 360;
       sweepAngle = newSweepAngle;
     }
-    canvas.drawArc(mParent.getDrawableBounds(), startAngle, sweepAngle, false, paint);
+    if(mUseGradient)
+    {
+      canvas.rotate(startAngle, mParent.getDrawableBounds().centerX(),
+              mParent.getDrawableBounds().centerY());
+      int leadingColor;
+      if(mColors.length > 1)
+        leadingColor = mColors[1];
+      else
+        leadingColor = Color.BLACK;
+      int[] gradientColors = {mColors[0], leadingColor};
+      float[] positions = {0, sweepAngle / 360f};
+      SweepGradient gradient = new SweepGradient(mParent.getDrawableBounds().centerX(),
+              mParent.getDrawableBounds().centerY(), gradientColors, positions);
+      paint.setShader(gradient);
+      paint.setStrokeCap(Paint.Cap.ROUND);
+      canvas.drawArc(mParent.getDrawableBounds(), 6, sweepAngle, false, paint);
+    }
+    else {
+      canvas.drawArc(mParent.getDrawableBounds(), startAngle, sweepAngle, false, paint);
+    }
   }
 
   @Override
