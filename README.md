@@ -68,7 +68,9 @@ If you really want (or have) to use Eclipse, please look at the forks.
     app:spb_progressiveStart_speed="1.5"
     app:spb_progressiveStop_speed="3.4"
     />
+```
 
+```xml
 <fr.castorflex.android.circularprogressbar.CircularProgressBar
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -83,6 +85,15 @@ If you really want (or have) to use Eclipse, please look at the forks.
     app:cpb_min_sweep_angle="10"
     app:cpb_max_sweep_angle="300"
     />
+```
+
+Ps: You should add one or both of the following items, according to your needs, to your base theme/style:
+```xml
+<!-- Base application theme. -->
+<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="cpbStyle">@style/CircularProgressBar</item>
+</style>
 ```
 
 Or use styles:
