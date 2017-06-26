@@ -45,10 +45,15 @@ class Utils {
   }
 
   static float getAnimatedFraction(ValueAnimator animator) {
-    float fraction = animator.getDuration() > 0 ? ((float) animator.getCurrentPlayTime()) / animator.getDuration() : 0f;
+    float fraction;
+    if (Build.VERSION.SDK_INT >= 23) {
+      fraction = animator.getAnimatedFraction();
+    } else {
+      fraction = animator.getDuration() > 0 ? ((float) animator.getCurrentPlayTime()) / animator.getDuration() : 0f;
+      fraction = min(fraction, 1f);
+      fraction = animator.getInterpolator().getInterpolation(fraction);
+    }
 
-    fraction = min(fraction, 1f);
-    fraction = animator.getInterpolator().getInterpolation(fraction);
     return fraction;
   }
 
