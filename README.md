@@ -1,17 +1,17 @@
-##Description
+## Description
 
 Small library allowing you to make a smooth indeterminate progress bar. You can either user your progress bars and set this drawable or use directly the `SmoothProgressBarView`.
 
-##Demo:
+## Demo:
 Sample app available on the [Play Store]
 
 ![SmoothProgressBar](screenshots/SPB_sample.gif)    
 
-##How does it work
+## How does it work
 
 I wrote a [blog post] about that.
 
-##Integration     
+## Integration     
 
 **SmoothProgressBar** (min API 7): [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library/badge.svg?style=flat)](https://maven-badges.herokuapp.com/maven-central/com.github.castorflex.smoothprogressbar/library)
 
@@ -46,7 +46,7 @@ dependencies {
 
 If you really want (or have) to use Eclipse, please look at the forks.
 
-##Usage
+## Usage
 
 -	Use directly SmoothProgressBar:
 
@@ -153,7 +153,7 @@ You can also set many colors for one bar (see G+ app)
 -   programmatically (use `SmoothProgressDrawable.Builder#colors(int[])` method).
 
 
-##License
+## License
 
 ```
 Copyright 2014 Antoine Merle
@@ -171,7 +171,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-####Badges
+#### Badges
 
 Travis master: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.svg?branch=master)](https://travis-ci.org/castorflex/SmoothProgressBar)
 
