@@ -10,13 +10,13 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by castorflex on 9/12/15.
  */
-public class PowerSaveModeDelegate implements PBDelegate {
+class PowerSaveModeDelegate implements PBDelegate {
   private static final long REFRESH_RATE = TimeUnit.SECONDS.toMillis(1L);
 
   private final CircularProgressDrawable mParent;
   private int mCurrentRotation;
 
-  public PowerSaveModeDelegate(@NonNull CircularProgressDrawable parent) {
+  PowerSaveModeDelegate(@NonNull CircularProgressDrawable parent) {
     mParent = parent;
   }
 

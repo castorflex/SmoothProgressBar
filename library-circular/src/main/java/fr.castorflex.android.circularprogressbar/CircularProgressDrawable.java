@@ -68,7 +68,7 @@ public class CircularProgressDrawable
   }
 
   @Override
-  public void draw(Canvas canvas) {
+  public void draw(@NonNull Canvas canvas) {
     if (isRunning()) mPBDelegate.draw(canvas, mPaint);
   }
 
@@ -143,11 +143,11 @@ public class CircularProgressDrawable
     return mRunning;
   }
 
-  public Paint getCurrentPaint() {
+  Paint getCurrentPaint() {
     return mPaint;
   }
 
-  public RectF getDrawableBounds() {
+  RectF getDrawableBounds() {
     return mBounds;
   }
 

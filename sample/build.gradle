@@ -1,10 +1,5 @@
 apply plugin: 'com.android.application'
 
-dependencies {
-    implementation project(':library')
-    implementation project(':library-circular')
-}
-
 android {
     compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
     buildToolsVersion project.BUILD_TOOLS_VERSION
@@ -32,6 +27,13 @@ android {
     }
 
 }
+
+dependencies {
+    implementation project(':library')
+    implementation project(':library-circular')
+}
+
+
 if (project.hasProperty('KEYSTORE_STORE_FILE')) {
     android.signingConfigs.release.storeFile = file(KEYSTORE_STORE_FILE)
 }

@@ -36,7 +36,7 @@ class FastOutSlowInInterpolator extends LookupTableInterpolator {
       0.9984f, 0.9986f, 0.9989f, 0.9991f, 0.9993f, 0.9995f, 0.9997f,
       0.9998f, 0.9999f, 0.9999f, 1.0000f, 1.0000f
   };
-  public FastOutSlowInInterpolator() {
+  FastOutSlowInInterpolator() {
     super(VALUES);
   }
 }

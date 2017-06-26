@@ -45,7 +45,7 @@ class DefaultDelegate implements PBDelegate {
   private CircularProgressDrawable mParent;
   private CircularProgressDrawable.OnEndListener mOnEndListener;
 
-  public DefaultDelegate(@NonNull CircularProgressDrawable parent,
+  DefaultDelegate(@NonNull CircularProgressDrawable parent,
                          @NonNull Options options) {
     mParent = parent;
     mSweepInterpolator = options.sweepInterpolator;
@@ -113,12 +113,12 @@ class DefaultDelegate implements PBDelegate {
     mCurrentRotationAngleOffset = mCurrentRotationAngleOffset + (360 - mMaxSweepAngle);
   }
 
-  public void setCurrentRotationAngle(float currentRotationAngle) {
+  private void setCurrentRotationAngle(float currentRotationAngle) {
     mCurrentRotationAngle = currentRotationAngle;
     mParent.invalidate();
   }
 
-  public void setCurrentSweepAngle(float currentSweepAngle) {
+  private void setCurrentSweepAngle(float currentSweepAngle) {
     mCurrentSweepAngle = currentSweepAngle;
     mParent.invalidate();
   }

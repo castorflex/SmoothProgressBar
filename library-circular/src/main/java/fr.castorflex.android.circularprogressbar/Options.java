@@ -15,7 +15,7 @@ class Options {
   final int maxSweepAngle;
   @CircularProgressDrawable.Style final int style;
 
-  public Options(Interpolator angleInterpolator,
+  Options(Interpolator angleInterpolator,
                  Interpolator sweepInterpolator,
                  float borderWidth,
                  int[] colors,
