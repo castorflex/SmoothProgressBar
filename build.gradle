@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        jcenter()
         mavenCentral()
         mavenLocal()
         maven { url 'https://maven.google.com' }
@@ -14,6 +15,7 @@ allprojects {
     group = GROUP
 
     repositories {
+        jcenter()
         mavenCentral()
         mavenLocal()
         maven { url 'https://maven.google.com' }
