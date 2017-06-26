@@ -1,13 +1,8 @@
 apply plugin: 'com.android.application'
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-}
-
 dependencies {
-    compile project(':library')
-    compile project(':library-circular')
+    implementation project(':library')
+    implementation project(':library-circular')
 }
 
 android {
@@ -16,7 +11,7 @@ android {
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 25
         versionName project.VERSION_NAME
         versionCode Integer.parseInt(project.VERSION_CODE)
     }
@@ -25,9 +20,8 @@ android {
         release
     }
     buildTypes {
-        debug {
+        debug {}
 
-        }
         release {
             signingConfig project.hasProperty('KEYSTORE_STORE_FILE') ? signingConfigs.release : signingConfigs.debug
         }
