@@ -34,19 +34,19 @@ class DefaultDelegate implements PBDelegate {
   private boolean mFirstSweepAnimation;
 
   //params
-  private Interpolator mAngleInterpolator;
-  private Interpolator mSweepInterpolator;
-  private int[] mColors;
-  private float mSweepSpeed;
-  private float mRotationSpeed;
-  private int mMinSweepAngle;
-  private int mMaxSweepAngle;
+  private final Interpolator mAngleInterpolator;
+  private final Interpolator mSweepInterpolator;
+  private final int[] mColors;
+  private final float mSweepSpeed;
+  private final float mRotationSpeed;
+  private final int mMinSweepAngle;
+  private final int mMaxSweepAngle;
 
-  private CircularProgressDrawable mParent;
+  private final CircularProgressDrawable mParent;
   private CircularProgressDrawable.OnEndListener mOnEndListener;
 
   DefaultDelegate(@NonNull CircularProgressDrawable parent,
-                         @NonNull Options options) {
+                  @NonNull Options options) {
     mParent = parent;
     mSweepInterpolator = options.sweepInterpolator;
     mAngleInterpolator = options.angleInterpolator;
@@ -240,7 +240,7 @@ class DefaultDelegate implements PBDelegate {
         CircularProgressDrawable.OnEndListener endListener = mOnEndListener;
         mOnEndListener = null;
 
-        if(isStartedAndNotCancelled()) {
+        if (isStartedAndNotCancelled()) {
           setEndRatio(0f);
           mParent.stop();
           if (endListener != null) {

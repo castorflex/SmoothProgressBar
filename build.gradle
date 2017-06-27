@@ -22,4 +22,10 @@ allprojects {
     }
 }
 
+ext {
+    libraries = [
+            annotations: "com.android.support:support-annotations:25.4.0"
+    ]
+}
+
 apply plugin: 'android-reporting'
