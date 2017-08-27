@@ -6,7 +6,7 @@ buildscript {
         maven { url 'https://maven.google.com' }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha4'
+        classpath 'com.android.tools.build:gradle:3.0.0-beta3'
     }
 }
 
@@ -24,7 +24,7 @@ allprojects {
 
 ext {
     libraries = [
-            annotations: "com.android.support:support-annotations:25.4.0"
+            annotations: "com.android.support:support-annotations:26.0.1"
     ]
 }
 

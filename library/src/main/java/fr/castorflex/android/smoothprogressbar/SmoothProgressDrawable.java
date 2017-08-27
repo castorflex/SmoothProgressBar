@@ -16,6 +16,8 @@ import android.support.annotation.UiThread;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import java.util.Locale;
+
 import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkColors;
 import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkNotNull;
 import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkPositive;
@@ -624,7 +626,7 @@ public class SmoothProgressDrawable extends Drawable implements Animatable {
 
   private void checkColorIndex(int index) {
     if (index < 0 || index >= mColors.length) {
-      throw new IllegalArgumentException(String.format("Index %d not valid", index));
+      throw new IllegalArgumentException(String.format(Locale.US, "Index %d not valid", index));
     }
   }
 

@@ -3,6 +3,8 @@ package fr.castorflex.android.smoothprogressbar;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 
+import java.util.Locale;
+
 /**
  * Created by castorflex on 3/5/14.
  */
@@ -28,21 +30,21 @@ public final class SmoothProgressBarUtils {
 
   static void checkAngle(int angle) {
     if (angle < 0 || angle > 360)
-      throw new IllegalArgumentException(String.format("Illegal angle %d: must be >=0 and <= 360", angle));
+      throw new IllegalArgumentException(String.format(Locale.US, "Illegal angle %d: must be >=0 and <= 360", angle));
   }
 
   static void checkPositiveOrZero(float number, String name) {
     if (number < 0)
-      throw new IllegalArgumentException(String.format("%s %d must be positive", name, number));
+      throw new IllegalArgumentException(String.format(Locale.US, "%s %d must be positive", name, number));
   }
 
   static void checkPositive(int number, String name){
     if(number <= 0)
-      throw new IllegalArgumentException(String.format("%s must not be null", name));
+      throw new IllegalArgumentException(String.format(Locale.US, "%s must not be null", name));
   }
 
   static void checkNotNull(Object o, String name) {
     if (o == null)
-      throw new IllegalArgumentException(String.format("%s must be not null", name));
+      throw new IllegalArgumentException(String.format(Locale.US, "%s must be not null", name));
   }
 }

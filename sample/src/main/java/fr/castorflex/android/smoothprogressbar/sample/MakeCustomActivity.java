@@ -18,6 +18,8 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
 import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
 import fr.castorflex.android.smoothprogressbar.SmoothProgressBar;
@@ -151,7 +153,7 @@ public class MakeCustomActivity extends Activity {
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mSeparatorLength = progress;
-        mTextViewSeparatorLength.setText(String.format("Separator length: %ddp", mSeparatorLength));
+        mTextViewSeparatorLength.setText(String.format(Locale.US, "Separator length: %ddp", mSeparatorLength));
         mProgressBar.setSmoothProgressDrawableSeparatorLength(dpToPx(mSeparatorLength));
       }
 
@@ -170,7 +172,7 @@ public class MakeCustomActivity extends Activity {
       @Override
       public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         mStrokeWidth = progress;
-        mTextViewStrokeWidth.setText(String.format("Stroke width: %ddp", mStrokeWidth));
+        mTextViewStrokeWidth.setText(String.format(Locale.US, "Stroke width: %ddp", mStrokeWidth));
         mProgressBar.setSmoothProgressDrawableStrokeWidth(dpToPx(mStrokeWidth));
         updateValues();
       }
