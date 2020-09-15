@@ -12,11 +12,12 @@ import android.graphics.Shader;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
-import android.support.annotation.UiThread;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import java.util.Locale;
+
+import androidx.annotation.UiThread;
 
 import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkColors;
 import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkNotNull;

@@ -11,14 +11,15 @@ import android.graphics.RectF;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.PowerManager;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.UiThread;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 
 import static fr.castorflex.android.circularprogressbar.Utils.checkAngle;
 import static fr.castorflex.android.circularprogressbar.Utils.checkColors;

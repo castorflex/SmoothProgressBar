@@ -5,9 +5,10 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.support.annotation.NonNull;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
+
+import androidx.annotation.NonNull;
 
 import static fr.castorflex.android.circularprogressbar.Utils.getAnimatedFraction;
 
