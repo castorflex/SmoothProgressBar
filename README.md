@@ -22,9 +22,9 @@ The lib is now on Maven Central. All you have to do is add it on your gradle bui
 ```groovy
 dependencies {
     // of course, do not write x.x.x but the version number
-    compile 'com.github.castorflex.smoothprogressbar:library:x.x.x'
+    implementation 'com.github.castorflex.smoothprogressbar:library:x.x.x'
     // or
-    compile 'com.github.castorflex.smoothprogressbar:library-circular:x.x.x'
+    implementation 'com.github.castorflex.smoothprogressbar:library-circular:x.x.x'
 }
 ```
 You can find the last stable version on [Gradle Please]
@@ -38,8 +38,8 @@ repositories {
 }
 
 dependencies {
-    compile 'com.github.castorflex.smoothprogressbar:library:1.0.1-SNAPSHOT@aar'
-    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.0.1-SNAPSHOT@aar'
+    implementation 'com.github.castorflex.smoothprogressbar:library:1.0.1-SNAPSHOT@aar'
+    implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.0.1-SNAPSHOT@aar'
 }
 ```
 
