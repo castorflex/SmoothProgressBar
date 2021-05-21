@@ -2,9 +2,11 @@ buildscript {
     repositories {
         mavenCentral()
         google()
+        mavenLocal()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.2.0'
+        classpath 'com.android.tools.build:gradle:4.2.1'
+        classpath 'com.vanniktech:gradle-maven-publish-plugin:0.15.1'
     }
 }
 
@@ -15,6 +17,8 @@ allprojects {
     repositories {
         mavenCentral()
         google()
+        mavenLocal()
+        maven {url "https://oss.sonatype.org/content/repositories/snapshots"}
     }
 }
 
@@ -23,5 +27,3 @@ ext {
             annotations: "androidx.annotation:annotation:1.1.0"
     ]
 }
-
-//apply plugin: 'android-reporting'

@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: "com.vanniktech.maven.publish"
 
 android {
     compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
@@ -18,5 +19,3 @@ android {
 dependencies {
     implementation libraries.annotations
 }
-
-//apply from: 'https://raw.github.com/chrisbanes/gradle-mvn-push/master/gradle-mvn-push.gradle'
