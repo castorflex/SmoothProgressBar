@@ -30,7 +30,7 @@ dependencies {
 You can find the last stable version on [Gradle Please]
 
 
-Or you can try the latest snapshots:
+Or you can try the latest snapshots: ![](https://img.shields.io/nexus/s/com.github.castorflex.smoothprogressbar/library?label=smoothprogressbar&server=https%3A%2F%2Foss.sonatype.org) ![](https://img.shields.io/nexus/s/com.github.castorflex.smoothprogressbar/library-circular?label=circular&server=https%3A%2F%2Foss.sonatype.org)
 
 ```groovy
 repositories {
@@ -38,8 +38,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.castorflex.smoothprogressbar:library:1.0.1-SNAPSHOT@aar'
-    implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.0.1-SNAPSHOT@aar'
+    implementation 'com.github.castorflex.smoothprogressbar:library:1.4.0-SNAPSHOT'
+    implementation 'com.github.castorflex.smoothprogressbar:library-circular:1.4.0-SNAPSHOT'
 }
 ```
 
