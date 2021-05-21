@@ -12,7 +12,6 @@ import android.graphics.Shader;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
-import android.support.annotation.UiThread;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
@@ -23,6 +22,8 @@ import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.che
 import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkPositive;
 import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkPositiveOrZero;
 import static fr.castorflex.android.smoothprogressbar.SmoothProgressBarUtils.checkSpeed;
+
+import androidx.annotation.UiThread;
 
 /**
  * Created by castorflex on 11/10/13.

@@ -1,7 +1,8 @@
 package fr.castorflex.android.circularprogressbar;
 
 import android.animation.Animator;
-import android.support.annotation.CallSuper;
+
+import androidx.annotation.CallSuper;
 
 abstract class SimpleAnimatorListener implements Animator.AnimatorListener{
   private boolean mStarted = false;

@@ -3,7 +3,8 @@ package fr.castorflex.android.circularprogressbar;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.SystemClock;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import java.util.concurrent.TimeUnit;
 

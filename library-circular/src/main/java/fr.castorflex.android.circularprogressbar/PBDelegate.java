@@ -3,7 +3,8 @@ package fr.castorflex.android.circularprogressbar;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.UiThread;
+
+import androidx.annotation.UiThread;
 
 interface PBDelegate {
 
