@@ -173,9 +173,9 @@ limitations under the License.
 
 #### Badges
 
-Travis master: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.svg?branch=master)](https://travis-ci.org/castorflex/SmoothProgressBar)
+CI master: ![](https://github.com/castorflex/smoothprogressbar/actions/workflows/build.yml/badge.svg?branch=master)
 
-Travis dev: [![Build Status](https://travis-ci.org/castorflex/SmoothProgressBar.svg?branch=dev)](https://travis-ci.org/castorflex/SmoothProgressBar?branch=dev)
+CI dev: ![](https://github.com/castorflex/smoothprogressbar/actions/workflows/build.yml/badge.svg?branch=dev)
 
 
 [blog post]: http://antoine-merle.com/blog/2013/11/12/make-your-progressbar-more-smooth/
